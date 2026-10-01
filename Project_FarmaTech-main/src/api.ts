@@ -60,7 +60,7 @@ export async function checkMedicines(
   try {
     const res = await request<CheckResponse>('/api/check', {
       method: 'POST',
-      body: JSON.stringify({ medicines, view, language }),
+      body: JSON.stringify({ medicines, view, language, patient }),
     })
     // Enrich with client-side patient/food checks if available
     const local = analyzeLocally(medicines, view, language, patient)
@@ -81,11 +81,12 @@ export async function simulateMedicine(
   newMedicine: string,
   view: ViewMode = 'doctor',
   language: Language = 'en',
+  patient?: PatientProfile,
 ): Promise<SimulateResponse> {
   try {
     return await request<SimulateResponse>('/api/simulate', {
       method: 'POST',
-      body: JSON.stringify({ medicines, view, language, new_medicine: newMedicine }),
+      body: JSON.stringify({ medicines, view, language, new_medicine: newMedicine, patient }),
     })
   } catch {
     return simulateLocally(medicines, newMedicine, view, language)
