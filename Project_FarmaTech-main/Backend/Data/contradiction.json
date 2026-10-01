@@ -1,0 +1,296 @@
+[
+  {
+    "id": "warfarin-pregnancy",
+    "drug": "warfarin sodium",
+    "condition": "pregnancy",
+    "type": "patient-condition",
+    "rule": "contraindicated except in the specific mechanical-heart-valve exception described in the label"
+  },
+  {
+    "id": "clopidogrel-active-bleeding",
+    "drug": "clopidogrel",
+    "condition": "active pathological bleeding",
+    "type": "patient-condition",
+    "rule": "contraindicated; examples in the label include peptic ulcer or intracranial hemorrhage"
+  },
+  {
+    "id": "simvastatin-strong-cyp3a4-inhibitors",
+    "drug": "simvastatin",
+    "condition": "concomitant use of strong CYP3A4 inhibitors",
+    "type": "drug-class",
+    "rule": "contraindicated in the cited label"
+  },
+  {
+    "id": "digoxin-ventricular-fibrillation",
+    "drug": "digoxin",
+    "condition": "ventricular fibrillation",
+    "type": "patient-condition",
+    "rule": "contraindicated"
+  },
+  {
+    "id": "amiodarone-av-block",
+    "drug": "amiodarone hydrochloride",
+    "condition": "sick sinus syndrome or second/third-degree AV block without a functioning pacemaker",
+    "type": "patient-condition",
+    "rule": "contraindicated"
+  },
+  {
+    "id": "fluconazole-qtc-cyp3a4",
+    "drug": "fluconazole",
+    "condition": "concomitant use of certain QT-prolonging CYP3A4-metabolized drugs such as erythromycin, pimozide or quinidine",
+    "type": "drug-class",
+    "rule": "contraindicated in the cited label"
+  },
+  {
+    "id": "clarithromycin-pimozide",
+    "drug": "clarithromycin",
+    "condition": "concomitant pimozide",
+    "type": "drug-drug",
+    "rule": "contraindicated"
+  },
+  {
+    "id": "sertraline-maoi",
+    "drug": "sertraline hydrochloride",
+    "condition": "concomitant MAOI use or use within 14 days of stopping an MAOI",
+    "type": "drug-class",
+    "rule": "contraindicated because of increased serotonin-syndrome risk"
+  },
+  {
+    "id": "tramadol-respiratory-depression",
+    "drug": "tramadol hydrochloride",
+    "condition": "significant respiratory depression",
+    "type": "patient-condition",
+    "rule": "contraindicated"
+  },
+  {
+    "id": "metformin-severe-renal-impairment",
+    "drug": "metformin hydrochloride extended-release",
+    "condition": "severe renal impairment (eGFR below 30 mL/min/1.73 m²)",
+    "type": "patient-condition",
+    "rule": "contraindicated"
+  },
+  {
+    "id": "atorvastatin-liver-failure",
+    "drug": "atorvastatin calcium",
+    "condition": "acute liver failure or decompensated cirrhosis",
+    "type": "patient-condition",
+    "rule": "contraindicated"
+  },
+  {
+    "id": "omeprazole-rilpivirine",
+    "drug": "omeprazole",
+    "condition": "concomitant use of rilpivirine-containing products",
+    "type": "drug-drug",
+    "rule": "contraindicated because proton pump inhibitors substantially decrease rilpivirine absorption"
+  },
+  {
+    "id": "lisinopril-angioedema-history",
+    "drug": "lisinopril",
+    "condition": "history of angioedema related to previous ACE-inhibitor treatment, or hereditary/idiopathic angioedema",
+    "type": "patient-condition",
+    "rule": "contraindicated"
+  },
+  {
+    "id": "lisinopril-neprilysin-inhibitor",
+    "drug": "lisinopril",
+    "condition": "concomitant use of a neprilysin inhibitor (e.g., sacubitril), or within 36 hours of switching to/from sacubitril/valsartan",
+    "type": "drug-class",
+    "rule": "contraindicated in the cited label"
+  },
+  {
+    "id": "azithromycin-macrolide-hypersensitivity",
+    "drug": "azithromycin",
+    "condition": "known hypersensitivity to azithromycin, erythromycin, or any macrolide/ketolide drug",
+    "type": "patient-condition",
+    "rule": "contraindicated"
+  },
+  {
+    "id": "ciprofloxacin-tizanidine",
+    "drug": "ciprofloxacin",
+    "condition": "concomitant tizanidine",
+    "type": "drug-drug",
+    "rule": "contraindicated due to potentiation of tizanidine's hypotensive and sedative effects"
+  },
+  {
+    "id": "rivaroxaban-active-bleeding",
+    "drug": "rivaroxaban",
+    "condition": "active pathological bleeding",
+    "type": "patient-condition",
+    "rule": "contraindicated"
+  },
+  {
+    "id": "levothyroxine-adrenal-insufficiency",
+    "drug": "levothyroxine sodium",
+    "condition": "uncorrected adrenal insufficiency",
+    "type": "patient-condition",
+    "rule": "contraindicated"
+  },
+  {
+    "id": "amoxicillin-betalactam-hypersensitivity",
+    "drug": "amoxicillin",
+    "condition": "history of a serious hypersensitivity reaction to amoxicillin or other beta-lactam antibiotics",
+    "type": "patient-condition",
+    "rule": "contraindicated"
+  },
+  {
+    "id": "aspirin-reye-syndrome",
+    "drug": "aspirin",
+    "condition": "children or teenagers with, or recovering from, chicken pox or flu-like viral symptoms",
+    "type": "patient-condition",
+    "rule": "should not be used because of the risk of Reye's syndrome"
+  },
+  {
+    "id": "ibuprofen-cabg",
+    "drug": "ibuprofen",
+    "condition": "coronary artery bypass graft surgery setting",
+    "type": "clinical-situation",
+    "rule": "Contraindicated in the setting of CABG surgery."
+  },
+  {
+    "id": "naproxen-nsaid-hypersensitivity",
+    "drug": "naproxen sodium",
+    "condition": "history of asthma, urticaria, or allergic-type reaction after aspirin or another NSAID",
+    "type": "patient-condition",
+    "rule": "Contraindicated in patients with this aspirin/NSAID hypersensitivity history."
+  },
+  {
+    "id": "diclofenac-nsaid-hypersensitivity",
+    "drug": "diclofenac sodium",
+    "condition": "history of asthma, urticaria, or allergic-type reaction after aspirin or another NSAID",
+    "type": "patient-condition",
+    "rule": "Contraindicated in patients with this aspirin/NSAID hypersensitivity history."
+  },
+  {
+    "id": "diclofenac-cabg",
+    "drug": "diclofenac sodium",
+    "condition": "coronary artery bypass graft surgery setting",
+    "type": "clinical-situation",
+    "rule": "Contraindicated in the setting of CABG surgery."
+  },
+  {
+    "id": "bupropion-seizure-disorder",
+    "drug": "bupropion hydrochloride",
+    "condition": "seizure disorder",
+    "type": "patient-condition",
+    "rule": "Contraindicated in patients with a seizure disorder."
+  },
+  {
+    "id": "escitalopram-maoi",
+    "drug": "escitalopram oxalate",
+    "condition": "concomitant MAOI use or MAOI use within 14 days",
+    "type": "drug-condition",
+    "rule": "Contraindicated because of the increased risk of serotonin syndrome."
+  },
+  {
+    "id": "pregabalin-hypersensitivity",
+    "drug": "pregabalin",
+    "condition": "known hypersensitivity to pregabalin or its components",
+    "type": "patient-condition",
+    "rule": "Contraindicated in patients with known hypersensitivity to pregabalin or any component."
+  },
+  {
+    "id": "prednisone-systemic-fungal-infection",
+    "drug": "prednisone",
+    "condition": "systemic fungal infection",
+    "type": "patient-condition",
+    "rule": "Contraindicated in patients with systemic fungal infections."
+  },
+  {
+    "id": "ciprofloxacin-quinolone-hypersensitivity",
+    "drug": "ciprofloxacin",
+    "condition": "hypersensitivity to ciprofloxacin or another quinolone",
+    "type": "patient-condition",
+    "rule": "Contraindicated in patients with a history of hypersensitivity to ciprofloxacin, another quinolone, or product components."
+  },
+  {
+    "id": "ondansetron-apomorphine",
+    "drug": "ondansetron hydrochloride",
+    "condition": "concomitant apomorphine use",
+    "type": "drug-condition",
+    "rule": "Contraindicated because of the risk of profound hypotension and loss of consciousness."
+  },
+  {
+    "id": "ondansetron-hypersensitivity",
+    "drug": "ondansetron hydrochloride",
+    "condition": "hypersensitivity to ondansetron or formulation components",
+    "type": "patient-condition",
+    "rule": "Contraindicated in patients with known hypersensitivity to ondansetron or its components."
+  },
+  {
+    "id": "furosemide-anuria",
+    "drug": "furosemide",
+    "condition": "anuria",
+    "type": "patient-condition",
+    "rule": "Contraindicated in patients with anuria."
+  },
+  {
+    "id": "furosemide-hypersensitivity",
+    "drug": "furosemide",
+    "condition": "hypersensitivity to furosemide",
+    "type": "patient-condition",
+    "rule": "Contraindicated in patients with a history of hypersensitivity to furosemide."
+  },
+  {
+    "id": "rivaroxaban-hypersensitivity",
+    "drug": "rivaroxaban",
+    "condition": "severe hypersensitivity reaction to rivaroxaban",
+    "type": "patient-condition",
+    "rule": "Contraindicated in patients with severe hypersensitivity reactions such as anaphylaxis."
+  },
+  {
+    "id": "insulin-glargine-hypoglycemia",
+    "drug": "insulin glargine",
+    "condition": "episode of hypoglycemia",
+    "type": "patient-condition",
+    "rule": "Contraindicated during episodes of hypoglycemia."
+  },
+  {
+    "id": "insulin-glargine-hypersensitivity",
+    "drug": "insulin glargine",
+    "condition": "hypersensitivity to insulin glargine or excipients",
+    "type": "patient-condition",
+    "rule": "Contraindicated in patients with hypersensitivity to insulin glargine or its excipients."
+  },
+  {
+    "id": "glipizide-type1-diabetes",
+    "drug": "glipizide",
+    "condition": "type 1 diabetes mellitus",
+    "type": "patient-condition",
+    "rule": "Contraindicated in type 1 diabetes mellitus."
+  },
+  {
+    "id": "glipizide-diabetic-ketoacidosis",
+    "drug": "glipizide",
+    "condition": "diabetic ketoacidosis",
+    "type": "patient-condition",
+    "rule": "Contraindicated in diabetic ketoacidosis, with or without coma; insulin should be used for this condition."
+  },
+  {
+    "id": "glipizide-hypersensitivity",
+    "drug": "glipizide",
+    "condition": "hypersensitivity to glipizide",
+    "type": "patient-condition",
+    "rule": "Contraindicated in patients with known hypersensitivity to glipizide."
+  },
+  {
+    "id": "alprazolam-cyp3a-inhibitors",
+    "drug": "alprazolam",
+    "condition": "concomitant strong CYP3A inhibitor use",
+    "type": "drug-condition",
+    "rule": "Contraindicated with strong CYP3A inhibitors except the specific ritonavir exception described in the label."
+  },
+  {
+    "id": "alprazolam-benzodiazepine-hypersensitivity",
+    "drug": "alprazolam",
+    "condition": "hypersensitivity to alprazolam or other benzodiazepines",
+    "type": "patient-condition",
+    "rule": "Contraindicated in patients with known hypersensitivity to alprazolam or other benzodiazepines."
+  },
+  {
+    "id": "montelukast-hypersensitivity",
+    "drug": "montelukast sodium",
+    "condition": "hypersensitivity to any component",
+    "type": "patient-condition",
+    "rule": "Contraindicated in patients with hypersensitivity to any component of the product."
+  }
+]

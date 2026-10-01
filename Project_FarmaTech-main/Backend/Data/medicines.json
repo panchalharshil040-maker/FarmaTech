@@ -1,0 +1,731 @@
+[
+  {
+    "id": "warfarin",
+    "genericName": "warfarin sodium",
+    "brandNames": ["Warfarin Sodium"],
+    "rxcui": ["855318"],
+    "source": {
+      "setId": "bd6ea120-5d1c-4815-94f2-81e28dc6b7a9",
+      "splId": "58b1b2a2-c989-f37f-e063-6394a90a3972",
+      "effectiveTime": "2026-08-10"
+    }
+  },
+  {
+    "id": "metformin-er",
+    "genericName": "metformin hydrochloride extended-release",
+    "brandNames": ["Metformin ER 500 mg", "Metformin ER 750 mg"],
+    "rxcui": ["860975", "860981"],
+    "source": {
+      "setId": "b857eccf-b9ff-45ba-8241-f47f5caada2a",
+      "splId": "56cbdf81-acdf-940c-e063-6394a90ad166",
+      "effectiveTime": "2026-07-17"
+    }
+  },
+  {
+    "id": "clopidogrel",
+    "genericName": "clopidogrel bisulfate",
+    "brandNames": ["Clopidogrel"],
+    "rxcui": ["749196"],
+    "source": {
+      "setId": "4cd07a3c-9673-4aa0-b76a-d79df2399ee1",
+      "splId": "188c5658-7bc2-4331-a794-a2194863953c",
+      "effectiveTime": "2025-09-08"
+    }
+  },
+  {
+    "id": "simvastatin",
+    "genericName": "simvastatin",
+    "brandNames": ["Simvastatin"],
+    "rxcui": ["198211", "200345", "312961", "312962", "314231"],
+    "source": {
+      "setId": "751b79c6-bba8-4d29-b69c-a2ac6453fec8",
+      "splId": "1553d57f-414d-2c66-e063-6294a90af8e0",
+      "effectiveTime": "2024-04-05"
+    }
+  },
+  {
+    "id": "digoxin",
+    "genericName": "digoxin",
+    "brandNames": ["Digoxin"],
+    "rxcui": ["197606"],
+    "source": {
+      "setId": "dcf9b23b-5840-46ff-bb61-c57a02831a03",
+      "splId": "be6f84d6-d95b-4e39-8c32-26176f5c98ef",
+      "effectiveTime": "2026-03-18"
+    }
+  },
+  {
+    "id": "amiodarone",
+    "genericName": "amiodarone hydrochloride",
+    "brandNames": ["Amiodarone Hydrochloride"],
+    "rxcui": ["833528"],
+    "source": {
+      "setId": "7ae393d1-7469-432a-9f21-f5ebab1207d1",
+      "splId": "84ad18a0-1887-4b62-8ac1-94ace3433366",
+      "effectiveTime": "2026-02-12"
+    }
+  },
+  {
+    "id": "fluconazole",
+    "genericName": "fluconazole",
+    "brandNames": ["Fluconazole"],
+    "rxcui": ["197698", "197699", "197700", "197701"],
+    "source": {
+      "setId": "c2c7242d-d172-4733-e053-2995a90acb2e",
+      "splId": "4a80ede2-17c6-ce12-e063-6294a90a38cf",
+      "effectiveTime": "2026-02-10"
+    }
+  },
+  {
+    "id": "clarithromycin",
+    "genericName": "clarithromycin",
+    "brandNames": ["Clarithromycin"],
+    "rxcui": ["197517"],
+    "source": {
+      "setId": "fa69ea92-0b41-43fb-918f-ed80e0dedf04",
+      "splId": "4c34fe6f-2144-d0e9-e063-6294a90a3e8d",
+      "effectiveTime": "2026-03-04"
+    }
+  },
+  {
+    "id": "sertraline",
+    "genericName": "sertraline hydrochloride",
+    "brandNames": ["Sertraline HCl"],
+    "rxcui": ["251201", "410584"],
+    "source": {
+      "setId": "a6d0f35c-f4f4-456d-b8d9-d56297261ad6",
+      "splId": "593a87ef-14dc-60e8-e063-6394a90a4e8a",
+      "effectiveTime": "2026-08-17"
+    }
+  },
+  {
+    "id": "tramadol",
+    "genericName": "tramadol hydrochloride",
+    "brandNames": ["ConZip"],
+    "rxcui": ["1148478", "1148482", "1148485", "1148487", "1148489", "1148491"],
+    "source": {
+      "setId": "a65b4d05-3a1c-4aa1-848a-d20ac9aaf62f",
+      "splId": "50c36ee9-b6f1-4f50-a276-cfbfa49ba588",
+      "effectiveTime": "2025-12-29"
+    }
+  },
+  {
+    "id": "amlodipine",
+    "genericName": "amlodipine besylate",
+    "brandNames": ["Amlodipine Besylate"],
+    "rxcui": [],
+    "source": {
+      "setId": "b1151904-5085-49bd-94ec-cb2894f4eb10",
+      "splId": null,
+      "effectiveTime": "2024-08-22"
+    }
+  },
+  {
+    "id": "acetaminophen",
+    "genericName": "acetaminophen",
+    "brandNames": ["Acetaminophen"],
+    "rxcui": [],
+    "source": {
+      "setId": "1098d0e7-8202-4018-a2d2-b0c80ee58b56",
+      "splId": null,
+      "effectiveTime": "2026-08-19"
+    }
+  },
+  {
+    "id": "acetaminophen-codeine",
+    "genericName": "acetaminophen and codeine phosphate",
+    "brandNames": ["ACETAMINOPHEN AND CODEINE PHOSPHATE"],
+    "rxcui": [],
+    "source": {
+      "setId": "eadc80fa-13c3-471a-a22f-6fe7e1ab290f",
+      "splId": null,
+      "effectiveTime": "2026-06-12"
+    }
+  },
+  {
+    "id": "atorvastatin",
+    "genericName": "atorvastatin calcium",
+    "brandNames": ["Atorvastatin Calcium"],
+    "rxcui": ["617312"],
+    "source": {
+      "setId": "ac98cfd7-fd4c-4fe1-91f3-50a0e232364f",
+      "splId": "bb421bfa-9f89-41eb-a0b8-f235bec19554",
+      "effectiveTime": "2025-06-10"
+    }
+  },
+  {
+    "id": "omeprazole",
+    "genericName": "omeprazole",
+    "brandNames": ["Omeprazole"],
+    "rxcui": ["198051"],
+    "source": {
+      "setId": "3b19d724-821b-61dc-e063-6294a90aa4d3",
+      "splId": "3b19d244-3cd1-0813-e063-6394a90ac153",
+      "effectiveTime": "2025-07-29"
+    }
+  },
+  {
+    "id": "lisinopril",
+    "genericName": "lisinopril",
+    "brandNames": ["Lisinopril"],
+    "rxcui": ["311354"],
+    "source": {
+      "setId": "dac0c8f1-e3cf-11e6-e053-2a95a90adbcb",
+      "splId": "490f6c09-302b-c01e-e063-6294a90ab25c",
+      "effectiveTime": "2026-01-01"
+    }
+  },
+  {
+    "id": "azithromycin",
+    "genericName": "azithromycin",
+    "brandNames": ["Azithromycin"],
+    "rxcui": ["141963"],
+    "source": {
+      "setId": "405ab07f-7d1d-4552-ad3b-2a03be8e9949",
+      "splId": "52447b25-1d4a-4d01-a863-83d92bf33388",
+      "effectiveTime": "2026-02-17"
+    }
+  },
+  {
+    "id": "ciprofloxacin",
+    "genericName": "ciprofloxacin",
+    "brandNames": ["Ciprofloxacin"],
+    "rxcui": ["197511", "309309"],
+    "source": {
+      "setId": "6fd3da0b-7428-ac8f-e053-2a91aa0aed9f",
+      "splId": "47236eca-557e-1b27-e063-6394a90acd14",
+      "effectiveTime": "2025-12-29"
+    }
+  },
+  {
+    "id": "rivaroxaban",
+    "genericName": "rivaroxaban",
+    "brandNames": ["Rivaroxaban"],
+    "rxcui": ["1114198", "1232082", "1232086", "1549682", "2059015"],
+    "source": {
+      "setId": "5524f30f-789d-4f5c-8f7c-d03a475b6d34",
+      "splId": "4b61dc52-0593-4ef0-8246-a82ff6972842",
+      "effectiveTime": "2025-11-21"
+    }
+  },
+  {
+    "id": "levothyroxine",
+    "genericName": "levothyroxine sodium",
+    "brandNames": ["Levothyroxine Sodium"],
+    "rxcui": ["966221"],
+    "source": {
+      "setId": "70dddaf0-f495-495f-95de-36e9efa2e373",
+      "splId": "e20e1904-abd8-4c36-86f5-41d2c549a5c2",
+      "effectiveTime": "2025-05-30"
+    }
+  },
+  {
+    "id": "amoxicillin",
+    "genericName": "amoxicillin",
+    "brandNames": ["Amoxicillin"],
+    "rxcui": ["313797"],
+    "source": {
+      "setId": "6a9cfa97-3715-4b75-a1e3-932a34a942d4",
+      "splId": "59bdb6eb-6f58-457d-9d49-ade53d7b626d",
+      "effectiveTime": "2024-03-01"
+    }
+  },
+  {
+    "id": "ibuprofen",
+    "genericName": "ibuprofen",
+    "brandNames": ["Ibuprofen"],
+    "rxcui": ["310965"],
+    "source": {
+      "setId": "0fbe42d0-b5f2-0780-e063-6394a90a4ecb",
+      "splId": "15f79179-4066-b851-e063-6394a90af38e",
+      "effectiveTime": "2024-04-13"
+    }
+  },
+  {
+    "id": "aspirin",
+    "genericName": "aspirin",
+    "brandNames": ["Aspirin"],
+    "rxcui": ["308416"],
+    "source": {
+      "setId": "8977b821-2843-4436-bd3b-bb902a4b787e",
+      "splId": "5cc8bd8c-1d8c-180b-e053-2a91aa0ac490",
+      "effectiveTime": "2017-10-30"
+    }
+  },
+  {
+    "id": "metformin",
+    "genericName": "metformin hydrochloride",
+    "brandNames": ["METFORMIN HYDROCHLORIDE"],
+    "rxcui": ["860975"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "439bb230-94d8-4522-ad79-5cce5fad965b",
+      "splId": null,
+      "effectiveTime": "2021-04-27"
+    }
+  },
+  {
+    "id": "gabapentin",
+    "genericName": "gabapentin",
+    "brandNames": ["Gabapentin"],
+    "rxcui": ["310433", "310434"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "c78f528f-9192-4037-bfb9-ff5718ed26c5",
+      "splId": null,
+      "effectiveTime": "2019-10-01"
+    }
+  },
+  {
+    "id": "loratadine",
+    "genericName": "loratadine",
+    "brandNames": ["LORATADINE"],
+    "rxcui": ["311373"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "7ed2aec0-4da7-4edc-9998-b96c67c82738",
+      "splId": null,
+      "effectiveTime": "2024-01-02"
+    }
+  },
+  {
+    "id": "prednisone",
+    "genericName": "prednisone",
+    "brandNames": ["PredniSONE"],
+    "rxcui": ["312617"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "1289c6d2-2707-baca-e063-6294a90a750d",
+      "splId": null,
+      "effectiveTime": "2024-02-29"
+    }
+  },
+  {
+    "id": "diclofenac",
+    "genericName": "diclofenac sodium",
+    "brandNames": ["Diclofenac Sodium"],
+    "rxcui": ["857700"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "1c1ee94c-60d6-4cfc-bb66-1d4f6e630512",
+      "splId": null,
+      "effectiveTime": "2022-05-02"
+    }
+  },
+  {
+    "id": "hydrocortisone",
+    "genericName": "hydrocortisone",
+    "brandNames": ["FifthPulse Hydrocortisone 4oz"],
+    "rxcui": [],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "39fb29c8-6a28-e87e-e063-6294a90a78da",
+      "splId": "39fb29c8-6a29-e87e-e063-6294a90a78da",
+      "effectiveTime": "2025-07-15"
+    }
+  },
+  {
+    "id": "minoxidil",
+    "genericName": "minoxidil",
+    "brandNames": ["5% Minoxidil and 5% Rosemary for Hair Care"],
+    "rxcui": [],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "1bb386d2-70c6-c487-e063-6294a90a19da",
+      "splId": "3962a9c9-811f-424e-e063-6394a90af0af",
+      "effectiveTime": "2025-07-07"
+    }
+  },
+  {
+    "id": "diphenhydramine-hcl",
+    "genericName": "diphenhydramine hcl",
+    "brandNames": ["Allergy"],
+    "rxcui": ["1049630"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "c2823bad-540f-4662-8dcc-58e9f0d94efb",
+      "splId": "b53853c5-5f00-41ab-8d0d-eb40aba6e67b",
+      "effectiveTime": "2018-11-07"
+    }
+  },
+  {
+    "id": "famotidine",
+    "genericName": "famotidine",
+    "brandNames": ["famotidine"],
+    "rxcui": ["310274"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "0f34a3be-7554-4040-b808-5ba8bf064abc",
+      "splId": "12419fdc-7a4c-4762-806c-0d56b478ef9d",
+      "effectiveTime": "2022-09-17"
+    }
+  },
+  {
+    "id": "atorvastatin-calcium",
+    "genericName": "atorvastatin calcium",
+    "brandNames": ["Atorvastatin Calcium"],
+    "rxcui": ["259255"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "e52b4b11-9618-4787-ae67-44e4a3166dfb",
+      "splId": "9718196e-47d1-410e-8038-e5a8db1ebaaa",
+      "effectiveTime": "2024-04-10"
+    }
+  },
+  {
+    "id": "naproxen-sodium",
+    "genericName": "naproxen sodium",
+    "brandNames": ["Naproxen Sodium", "Naproxen"],
+    "rxcui": ["198012", "198013", "198014", "849398", "849431"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "6c5bb008-e66f-4ef0-bf84-aca7eb5983e9",
+      "splId": "16372549-a419-4920-a200-5128017570ed",
+      "effectiveTime": "2025-12-23"
+    }
+  },
+  {
+    "id": "clotrimazole",
+    "genericName": "clotrimazole",
+    "brandNames": ["Clotrimazole"],
+    "rxcui": [],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "5a5cfed9-0587-7bef-e063-6294a90a64bf",
+      "splId": "5a5cfee7-0051-57fe-e063-6394a90a113c",
+      "effectiveTime": "2026-08-31"
+    }
+  },
+  {
+    "id": "cetirizine-hydrochloride",
+    "genericName": "cetirizine hydrochloride",
+    "brandNames": ["All Day Allergy"],
+    "rxcui": ["1014673"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "6ce39876-47bf-4147-885d-4eb0aeb66fd0",
+      "splId": "659426e2-438c-40c1-8bb6-bb036168f8b6",
+      "effectiveTime": "2020-06-18"
+    }
+  },
+  {
+    "id": "levothyroxine-sodium",
+    "genericName": "levothyroxine sodium",
+    "brandNames": ["Levothyroxine Sodium"],
+    "rxcui": ["966225"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "3e77de84-6f59-40ac-a1a4-7bfe30387823",
+      "splId": "25169406-e7c1-42dd-85c0-93af09fe2e65",
+      "effectiveTime": "2023-12-12"
+    }
+  },
+  {
+    "id": "pregabalin",
+    "genericName": "pregabalin",
+    "brandNames": ["Pregabalin"],
+    "rxcui": ["483448"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "15ea709a-d502-41ea-e063-6394a90ad97d",
+      "splId": "15ea723e-8c08-7ccf-e063-6294a90aaf61",
+      "effectiveTime": "2024-04-12"
+    }
+  },
+  {
+    "id": "guaifenesin",
+    "genericName": "guaifenesin",
+    "brandNames": ["DG Health Mucus ER"],
+    "rxcui": ["636522"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "bf99fa83-c3be-4052-b5b6-ad91997cb034",
+      "splId": "bf99fa83-c3be-4052-b5b6-ad91997cb034",
+      "effectiveTime": "2023-04-06"
+    }
+  },
+  {
+    "id": "miconazole-nitrate",
+    "genericName": "miconazole nitrate",
+    "brandNames": ["Micotrin AP"],
+    "rxcui": [],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "cbe3d495-cdee-2343-e053-2a95a90a5b82",
+      "splId": "23737640-ab36-eddf-e063-6394a90a3bef",
+      "effectiveTime": "2024-10-01"
+    }
+  },
+  {
+    "id": "oxymetazoline-hydrochloride",
+    "genericName": "oxymetazoline hydrochloride",
+    "brandNames": ["Leader Nasal Decongestant"],
+    "rxcui": ["1000990"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "98bf8e84-b555-4b5a-90a0-7837a5560289",
+      "splId": "4d73b51d-ee4d-455f-ac98-f3c3797a9f5c",
+      "effectiveTime": "2024-04-03"
+    }
+  },
+  {
+    "id": "simethicone",
+    "genericName": "simethicone",
+    "brandNames": ["Foster and Thrive infants Gas relief"],
+    "rxcui": [],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "824c9dff-0a26-4710-a25b-39df631d6fa6",
+      "splId": "645d778a-a011-472d-9b82-14474191cddc",
+      "effectiveTime": "2024-12-13"
+    }
+  },
+  {
+    "id": "bupropion-hydrochloride",
+    "genericName": "bupropion hydrochloride",
+    "brandNames": ["BUPROPION HYDROCHLORIDE"],
+    "rxcui": ["993518"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "87dac2ee-732c-465b-8ffe-e5aeba421425",
+      "splId": "56dd9f39-2249-497c-a9e7-dc51cb479929",
+      "effectiveTime": "2024-05-31"
+    }
+  },
+  {
+    "id": "albuterol-sulfate",
+    "genericName": "albuterol sulfate",
+    "brandNames": ["Albuterol Sulfate"],
+    "rxcui": ["630208"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "6a4b4b95-d1d3-9051-e053-2a91aa0a52e8",
+      "splId": "fceb313f-3623-ea34-e053-6294a90ab46d",
+      "effectiveTime": "2023-05-30"
+    }
+  },
+  {
+    "id": "escitalopram-oxalate",
+    "genericName": "escitalopram oxalate",
+    "brandNames": ["Escitalopram"],
+    "rxcui": ["349332"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "2d0b4839-e4d1-4e0e-9dc0-ba821f266472",
+      "splId": "bfd7c6f5-24c7-4491-b4f8-d501a2393fec",
+      "effectiveTime": "2022-04-01"
+    }
+  },
+  {
+    "id": "sertraline-hydrochloride",
+    "genericName": "sertraline hydrochloride",
+    "brandNames": ["SERTRALINE HYDROCHLORIDE"],
+    "rxcui": ["312938"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "68c94fb4-3018-44af-b982-2b4b6d461e6f",
+      "splId": "a189f92d-a14a-45be-8f55-4b81fe2dce92",
+      "effectiveTime": "2022-06-24"
+    }
+  },
+  {
+    "id": "losartan",
+    "genericName": "losartan potassium",
+    "brandNames": ["Losartan Potassium"],
+    "rxcui": ["979485"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0005-of-0014.json.zip",
+      "setId": "435c5544-491b-476a-b950-712b2c18e334",
+      "splId": null,
+      "effectiveTime": "2020-12-01"
+    }
+  },
+  {
+    "id": "hydrochlorothiazide",
+    "genericName": "hydrochlorothiazide",
+    "brandNames": ["Hydrochlorothiazide"],
+    "rxcui": ["197770"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0005-of-0014.json.zip",
+      "setId": "48b4d633-ecfa-4748-80e8-6c0e3d8b067e",
+      "splId": null,
+      "effectiveTime": "2022-05-02"
+    }
+  },
+  {
+    "id": "pantoprazole",
+    "genericName": "pantoprazole sodium",
+    "brandNames": ["Pantoprazole Sodium"],
+    "rxcui": ["283669"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0005-of-0014.json.zip",
+      "setId": "1e102c44-232b-4aaf-b457-2a740c47193a",
+      "splId": null,
+      "effectiveTime": "2023-07-19"
+    }
+  },
+  {
+    "id": "furosemide",
+    "genericName": "furosemide",
+    "brandNames": ["Furosemide"],
+    "rxcui": ["310429"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0005-of-0014.json.zip",
+      "setId": "3ba730ab-90d4-478a-80b3-1ea3edb03e4d",
+      "splId": null,
+      "effectiveTime": "2025-07-15"
+    }
+  },
+  {
+    "id": "doxycycline",
+    "genericName": "doxycycline hyclate",
+    "brandNames": ["DOXYCYCLINE HYCLATE"],
+    "rxcui": ["1649425", "1650446"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0005-of-0014.json.zip",
+      "setId": "cec4368f-2852-443d-9d6f-7ba95807021b",
+      "splId": null,
+      "effectiveTime": "2025-04-16"
+    }
+  },
+  {
+    "id": "metoprolol",
+    "genericName": "metoprolol tartrate",
+    "brandNames": ["Metoprolol Tartrate"],
+    "rxcui": ["866514"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0005-of-0014.json.zip",
+      "setId": "813d0b50-26d6-f732-e053-2991aa0ae24a",
+      "splId": null,
+      "effectiveTime": "2024-06-14"
+    }
+  },
+  {
+    "id": "glipizide",
+    "genericName": "glipizide",
+    "brandNames": ["Glipizide"],
+    "rxcui": ["310488"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0005-of-0014.json.zip",
+      "setId": "62d569b8-bb34-0e06-e053-2a91aa0a2ae1",
+      "splId": null,
+      "effectiveTime": "2024-06-06"
+    }
+  },
+  {
+    "id": "insulin-glargine",
+    "genericName": "insulin glargine",
+    "brandNames": ["TOUJEO"],
+    "rxcui": ["1604539", "1604544"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0005-of-0014.json.zip",
+      "setId": "257ca17b-6ff7-4f2e-9037-4c185bac5768",
+      "splId": null,
+      "effectiveTime": "2023-04-27"
+    }
+  },
+  {
+    "id": "montelukast",
+    "genericName": "montelukast sodium",
+    "brandNames": ["SINGULAIR"],
+    "rxcui": ["153892", "153893", "200224", "242438", "261367", "311759", "351246", "404406"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0005-of-0014.json.zip",
+      "setId": "482dcc92-b47f-4ea6-854a-f5ac2aea7842",
+      "splId": null,
+      "effectiveTime": "2025-04-30"
+    }
+  },
+  {
+    "id": "rosuvastatin",
+    "genericName": "rosuvastatin calcium",
+    "brandNames": ["ROSUVASTATIN CALCIUM"],
+    "rxcui": ["859424"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0005-of-0014.json.zip",
+      "setId": "eaf91ddd-0d4f-4c77-9dba-a2a3abb86ea4",
+      "splId": null,
+      "effectiveTime": "2022-11-01"
+    }
+  },
+  {
+    "id": "clonazepam",
+    "genericName": "clonazepam",
+    "brandNames": ["Clonazepam"],
+    "rxcui": ["197527"],
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0005-of-0014.json.zip",
+      "setId": "6960e994-e9ea-4a4a-b674-7e6124d8b381",
+      "splId": null,
+      "effectiveTime": "2023-05-25"
+    }
+  }
+]
