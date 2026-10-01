@@ -1,0 +1,7 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./Project_FarmaTech-main/tsconfig.app.json" },
+    { "path": "./Project_FarmaTech-main/tsconfig.node.json" }
+  ]
+}
