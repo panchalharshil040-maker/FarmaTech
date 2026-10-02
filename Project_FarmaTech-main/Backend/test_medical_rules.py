@@ -1,6 +1,7 @@
 """Complete test suite for the four medical rule categories."""
 
 from fastapi.testclient import TestClient
+from database import CONTRAINDICATIONS_DB
 from main import app
 
 client = TestClient(app)
@@ -71,8 +72,14 @@ def test_3_patient_condition_contraindication():
     assert contra["id"] == "warfarin-pregnancy"
     assert contra["drugs"] == ["warfarin"]
     assert contra["condition"] == "pregnancy"
-    assert contra["mechanism"] == "contraindicated except in the specific mechanical-heart-valve exception described in the label"
+
+    # The database is the source of truth: the rule text must be passed through verbatim.
+    record = next(r for r in CONTRAINDICATIONS_DB if r["id"] == "warfarin-pregnancy")
+    assert contra["mechanism"] == record["rule"]
+    assert "mechanical-heart-valve" in contra["mechanism"]
     assert contra["verified_status"] == "verified"
+    assert contra["source"] == record["source"]
+    assert "organization" in contra["source"]
 
     # 2. Negative case: warfarin sodium WITHOUT pregnancy condition
     res_negative = client.post("/api/check", json={"medicines": ["warfarin sodium"]}).json()
