@@ -1,296 +1,738 @@
-[
-  {
-    "id": "warfarin-pregnancy",
-    "drug": "warfarin sodium",
-    "condition": "pregnancy",
-    "type": "patient-condition",
-    "rule": "contraindicated except in the specific mechanical-heart-valve exception described in the label"
+{
+  "metadata": {
+    "sourceOrganization": "U.S. Food and Drug Administration (FDA)",
+    "sourceDataset": "openFDA Drug Labeling",
+    "datasetParts": [
+      "drug-label-0001-of-0014.json.zip",
+      "drug-label-0002-of-0014.json.zip",
+      "drug-label-0003-of-0014.json.zip",
+      "drug-label-0004-of-0014.json.zip",
+      "drug-label-0005-of-0014.json.zip"
+    ],
+    "datasetLastUpdated": "2026-09-22",
+    "note": "Combined starter dataset from openFDA Drug Labeling download parts 1-5 of 14. Exact duplicate record IDs were removed. This is not a complete drug database and does not establish Indian brand-to-generic mappings."
   },
-  {
-    "id": "clopidogrel-active-bleeding",
-    "drug": "clopidogrel",
-    "condition": "active pathological bleeding",
-    "type": "patient-condition",
-    "rule": "contraindicated; examples in the label include peptic ulcer or intracranial hemorrhage"
-  },
-  {
-    "id": "simvastatin-strong-cyp3a4-inhibitors",
-    "drug": "simvastatin",
-    "condition": "concomitant use of strong CYP3A4 inhibitors",
-    "type": "drug-class",
-    "rule": "contraindicated in the cited label"
-  },
-  {
-    "id": "digoxin-ventricular-fibrillation",
-    "drug": "digoxin",
-    "condition": "ventricular fibrillation",
-    "type": "patient-condition",
-    "rule": "contraindicated"
-  },
-  {
-    "id": "amiodarone-av-block",
-    "drug": "amiodarone hydrochloride",
-    "condition": "sick sinus syndrome or second/third-degree AV block without a functioning pacemaker",
-    "type": "patient-condition",
-    "rule": "contraindicated"
-  },
-  {
-    "id": "fluconazole-qtc-cyp3a4",
-    "drug": "fluconazole",
-    "condition": "concomitant use of certain QT-prolonging CYP3A4-metabolized drugs such as erythromycin, pimozide or quinidine",
-    "type": "drug-class",
-    "rule": "contraindicated in the cited label"
-  },
-  {
-    "id": "clarithromycin-pimozide",
-    "drug": "clarithromycin",
-    "condition": "concomitant pimozide",
-    "type": "drug-drug",
-    "rule": "contraindicated"
-  },
-  {
-    "id": "sertraline-maoi",
-    "drug": "sertraline hydrochloride",
-    "condition": "concomitant MAOI use or use within 14 days of stopping an MAOI",
-    "type": "drug-class",
-    "rule": "contraindicated because of increased serotonin-syndrome risk"
-  },
-  {
-    "id": "tramadol-respiratory-depression",
-    "drug": "tramadol hydrochloride",
-    "condition": "significant respiratory depression",
-    "type": "patient-condition",
-    "rule": "contraindicated"
-  },
-  {
-    "id": "metformin-severe-renal-impairment",
-    "drug": "metformin hydrochloride extended-release",
-    "condition": "severe renal impairment (eGFR below 30 mL/min/1.73 m²)",
-    "type": "patient-condition",
-    "rule": "contraindicated"
-  },
-  {
-    "id": "atorvastatin-liver-failure",
-    "drug": "atorvastatin calcium",
-    "condition": "acute liver failure or decompensated cirrhosis",
-    "type": "patient-condition",
-    "rule": "contraindicated"
-  },
-  {
-    "id": "omeprazole-rilpivirine",
-    "drug": "omeprazole",
-    "condition": "concomitant use of rilpivirine-containing products",
-    "type": "drug-drug",
-    "rule": "contraindicated because proton pump inhibitors substantially decrease rilpivirine absorption"
-  },
-  {
-    "id": "lisinopril-angioedema-history",
-    "drug": "lisinopril",
-    "condition": "history of angioedema related to previous ACE-inhibitor treatment, or hereditary/idiopathic angioedema",
-    "type": "patient-condition",
-    "rule": "contraindicated"
-  },
-  {
-    "id": "lisinopril-neprilysin-inhibitor",
-    "drug": "lisinopril",
-    "condition": "concomitant use of a neprilysin inhibitor (e.g., sacubitril), or within 36 hours of switching to/from sacubitril/valsartan",
-    "type": "drug-class",
-    "rule": "contraindicated in the cited label"
-  },
-  {
-    "id": "azithromycin-macrolide-hypersensitivity",
-    "drug": "azithromycin",
-    "condition": "known hypersensitivity to azithromycin, erythromycin, or any macrolide/ketolide drug",
-    "type": "patient-condition",
-    "rule": "contraindicated"
-  },
-  {
-    "id": "ciprofloxacin-tizanidine",
-    "drug": "ciprofloxacin",
-    "condition": "concomitant tizanidine",
-    "type": "drug-drug",
-    "rule": "contraindicated due to potentiation of tizanidine's hypotensive and sedative effects"
-  },
-  {
-    "id": "rivaroxaban-active-bleeding",
-    "drug": "rivaroxaban",
-    "condition": "active pathological bleeding",
-    "type": "patient-condition",
-    "rule": "contraindicated"
-  },
-  {
-    "id": "levothyroxine-adrenal-insufficiency",
-    "drug": "levothyroxine sodium",
-    "condition": "uncorrected adrenal insufficiency",
-    "type": "patient-condition",
-    "rule": "contraindicated"
-  },
-  {
-    "id": "amoxicillin-betalactam-hypersensitivity",
-    "drug": "amoxicillin",
-    "condition": "history of a serious hypersensitivity reaction to amoxicillin or other beta-lactam antibiotics",
-    "type": "patient-condition",
-    "rule": "contraindicated"
-  },
-  {
-    "id": "aspirin-reye-syndrome",
-    "drug": "aspirin",
-    "condition": "children or teenagers with, or recovering from, chicken pox or flu-like viral symptoms",
-    "type": "patient-condition",
-    "rule": "should not be used because of the risk of Reye's syndrome"
-  },
-  {
-    "id": "ibuprofen-cabg",
-    "drug": "ibuprofen",
-    "condition": "coronary artery bypass graft surgery setting",
-    "type": "clinical-situation",
-    "rule": "Contraindicated in the setting of CABG surgery."
-  },
-  {
-    "id": "naproxen-nsaid-hypersensitivity",
-    "drug": "naproxen sodium",
-    "condition": "history of asthma, urticaria, or allergic-type reaction after aspirin or another NSAID",
-    "type": "patient-condition",
-    "rule": "Contraindicated in patients with this aspirin/NSAID hypersensitivity history."
-  },
-  {
-    "id": "diclofenac-nsaid-hypersensitivity",
-    "drug": "diclofenac sodium",
-    "condition": "history of asthma, urticaria, or allergic-type reaction after aspirin or another NSAID",
-    "type": "patient-condition",
-    "rule": "Contraindicated in patients with this aspirin/NSAID hypersensitivity history."
-  },
-  {
-    "id": "diclofenac-cabg",
-    "drug": "diclofenac sodium",
-    "condition": "coronary artery bypass graft surgery setting",
-    "type": "clinical-situation",
-    "rule": "Contraindicated in the setting of CABG surgery."
-  },
-  {
-    "id": "bupropion-seizure-disorder",
-    "drug": "bupropion hydrochloride",
-    "condition": "seizure disorder",
-    "type": "patient-condition",
-    "rule": "Contraindicated in patients with a seizure disorder."
-  },
-  {
-    "id": "escitalopram-maoi",
-    "drug": "escitalopram oxalate",
-    "condition": "concomitant MAOI use or MAOI use within 14 days",
-    "type": "drug-condition",
-    "rule": "Contraindicated because of the increased risk of serotonin syndrome."
-  },
-  {
-    "id": "pregabalin-hypersensitivity",
-    "drug": "pregabalin",
-    "condition": "known hypersensitivity to pregabalin or its components",
-    "type": "patient-condition",
-    "rule": "Contraindicated in patients with known hypersensitivity to pregabalin or any component."
-  },
-  {
-    "id": "prednisone-systemic-fungal-infection",
-    "drug": "prednisone",
-    "condition": "systemic fungal infection",
-    "type": "patient-condition",
-    "rule": "Contraindicated in patients with systemic fungal infections."
-  },
-  {
-    "id": "ciprofloxacin-quinolone-hypersensitivity",
-    "drug": "ciprofloxacin",
-    "condition": "hypersensitivity to ciprofloxacin or another quinolone",
-    "type": "patient-condition",
-    "rule": "Contraindicated in patients with a history of hypersensitivity to ciprofloxacin, another quinolone, or product components."
-  },
-  {
-    "id": "ondansetron-apomorphine",
-    "drug": "ondansetron hydrochloride",
-    "condition": "concomitant apomorphine use",
-    "type": "drug-condition",
-    "rule": "Contraindicated because of the risk of profound hypotension and loss of consciousness."
-  },
-  {
-    "id": "ondansetron-hypersensitivity",
-    "drug": "ondansetron hydrochloride",
-    "condition": "hypersensitivity to ondansetron or formulation components",
-    "type": "patient-condition",
-    "rule": "Contraindicated in patients with known hypersensitivity to ondansetron or its components."
-  },
-  {
-    "id": "furosemide-anuria",
-    "drug": "furosemide",
-    "condition": "anuria",
-    "type": "patient-condition",
-    "rule": "Contraindicated in patients with anuria."
-  },
-  {
-    "id": "furosemide-hypersensitivity",
-    "drug": "furosemide",
-    "condition": "hypersensitivity to furosemide",
-    "type": "patient-condition",
-    "rule": "Contraindicated in patients with a history of hypersensitivity to furosemide."
-  },
-  {
-    "id": "rivaroxaban-hypersensitivity",
-    "drug": "rivaroxaban",
-    "condition": "severe hypersensitivity reaction to rivaroxaban",
-    "type": "patient-condition",
-    "rule": "Contraindicated in patients with severe hypersensitivity reactions such as anaphylaxis."
-  },
-  {
-    "id": "insulin-glargine-hypoglycemia",
-    "drug": "insulin glargine",
-    "condition": "episode of hypoglycemia",
-    "type": "patient-condition",
-    "rule": "Contraindicated during episodes of hypoglycemia."
-  },
-  {
-    "id": "insulin-glargine-hypersensitivity",
-    "drug": "insulin glargine",
-    "condition": "hypersensitivity to insulin glargine or excipients",
-    "type": "patient-condition",
-    "rule": "Contraindicated in patients with hypersensitivity to insulin glargine or its excipients."
-  },
-  {
-    "id": "glipizide-type1-diabetes",
-    "drug": "glipizide",
-    "condition": "type 1 diabetes mellitus",
-    "type": "patient-condition",
-    "rule": "Contraindicated in type 1 diabetes mellitus."
-  },
-  {
-    "id": "glipizide-diabetic-ketoacidosis",
-    "drug": "glipizide",
-    "condition": "diabetic ketoacidosis",
-    "type": "patient-condition",
-    "rule": "Contraindicated in diabetic ketoacidosis, with or without coma; insulin should be used for this condition."
-  },
-  {
-    "id": "glipizide-hypersensitivity",
-    "drug": "glipizide",
-    "condition": "hypersensitivity to glipizide",
-    "type": "patient-condition",
-    "rule": "Contraindicated in patients with known hypersensitivity to glipizide."
-  },
-  {
-    "id": "alprazolam-cyp3a-inhibitors",
-    "drug": "alprazolam",
-    "condition": "concomitant strong CYP3A inhibitor use",
-    "type": "drug-condition",
-    "rule": "Contraindicated with strong CYP3A inhibitors except the specific ritonavir exception described in the label."
-  },
-  {
-    "id": "alprazolam-benzodiazepine-hypersensitivity",
-    "drug": "alprazolam",
-    "condition": "hypersensitivity to alprazolam or other benzodiazepines",
-    "type": "patient-condition",
-    "rule": "Contraindicated in patients with known hypersensitivity to alprazolam or other benzodiazepines."
-  },
-  {
-    "id": "montelukast-hypersensitivity",
-    "drug": "montelukast sodium",
-    "condition": "hypersensitivity to any component",
-    "type": "patient-condition",
-    "rule": "Contraindicated in patients with hypersensitivity to any component of the product."
-  }
-]
+  "records": [
+    {
+      "id": "warfarin-pregnancy",
+      "drug": "warfarin sodium",
+      "condition": "pregnancy",
+      "type": "patient-condition",
+      "rule": "Contraindicated during pregnancy except for the specific mechanical-heart-valve exception described in the label.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0004-of-0014.json.zip",
+        "setId": "53a6947e-ef3f-403b-9ccc-1740ae5efad0",
+        "effectiveTime": "2024-12-24",
+        "evidenceDrug": "warfarin sodium",
+        "splId": "b49cb9cd-efdd-4c66-9384-0353562b83e9"
+      }
+    },
+    {
+      "id": "clopidogrel-active-bleeding",
+      "drug": "clopidogrel bisulfate",
+      "condition": "active pathological bleeding",
+      "type": "patient-condition",
+      "rule": "Contraindicated in patients with active pathological bleeding such as peptic ulcer or intracranial hemorrhage.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0004-of-0014.json.zip",
+        "setId": "1447a095-c663-4f05-91d4-f09bfc0c3d42",
+        "effectiveTime": "2025-11-12",
+        "evidenceDrug": "clopidogrel bisulfate",
+        "splId": "0b4edca9-12af-4534-baad-4fa5c1cc9ac8"
+      }
+    },
+    {
+      "id": "ibuprofen-nsaid-hypersensitivity",
+      "drug": "ibuprofen",
+      "condition": "history of asthma, urticaria, or allergic-type reaction after aspirin or another NSAID",
+      "type": "patient-condition",
+      "rule": "Contraindicated in patients with this aspirin/NSAID hypersensitivity history.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0004-of-0014.json.zip",
+        "setId": "400faee1-f662-470e-bcd6-7711dfaf9ba2",
+        "effectiveTime": "2023-11-24",
+        "evidenceDrug": "ibuprofen",
+        "splId": "928aea26-2b55-4e1c-9a7d-9aeddfdb32a5"
+      }
+    },
+    {
+      "id": "ibuprofen-cabg",
+      "drug": "ibuprofen",
+      "condition": "coronary artery bypass graft surgery setting",
+      "type": "clinical-situation",
+      "rule": "Contraindicated in the setting of CABG surgery.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0004-of-0014.json.zip",
+        "setId": "400faee1-f662-470e-bcd6-7711dfaf9ba2",
+        "effectiveTime": "2023-11-24",
+        "evidenceDrug": "ibuprofen",
+        "splId": "928aea26-2b55-4e1c-9a7d-9aeddfdb32a5"
+      }
+    },
+    {
+      "id": "naproxen-nsaid-hypersensitivity",
+      "drug": "naproxen sodium",
+      "condition": "history of asthma, urticaria, or allergic-type reaction after aspirin or another NSAID",
+      "type": "patient-condition",
+      "rule": "Contraindicated in patients with this aspirin/NSAID hypersensitivity history.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0004-of-0014.json.zip",
+        "setId": "d0670241-f1f9-4fdf-83d4-547e7b800811",
+        "effectiveTime": "2022-11-01",
+        "evidenceDrug": "naproxen sodium",
+        "splId": "58d04fa7-f30f-4f9e-834c-f63b2c0431a9"
+      }
+    },
+    {
+      "id": "diclofenac-nsaid-hypersensitivity",
+      "drug": "diclofenac sodium",
+      "condition": "history of asthma, urticaria, or allergic-type reaction after aspirin or another NSAID",
+      "type": "patient-condition",
+      "rule": "Contraindicated in patients with this aspirin/NSAID hypersensitivity history.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0004-of-0014.json.zip",
+        "setId": "1c1ee94c-60d6-4cfc-bb66-1d4f6e630512",
+        "effectiveTime": "2022-05-02",
+        "evidenceDrug": "diclofenac sodium",
+        "splId": "840fbe22-2b9d-40c5-bf0c-30ed391273aa"
+      }
+    },
+    {
+      "id": "diclofenac-cabg",
+      "drug": "diclofenac sodium",
+      "condition": "coronary artery bypass graft surgery setting",
+      "type": "clinical-situation",
+      "rule": "Contraindicated in the setting of CABG surgery.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0004-of-0014.json.zip",
+        "setId": "1c1ee94c-60d6-4cfc-bb66-1d4f6e630512",
+        "effectiveTime": "2022-05-02",
+        "evidenceDrug": "diclofenac sodium",
+        "splId": "840fbe22-2b9d-40c5-bf0c-30ed391273aa"
+      }
+    },
+    {
+      "id": "metformin-severe-renal-impairment",
+      "drug": "metformin hydrochloride",
+      "condition": "severe renal impairment with eGFR below 30 mL/min/1.73 m²",
+      "type": "patient-condition",
+      "rule": "Contraindicated in severe renal impairment.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0004-of-0014.json.zip",
+        "setId": "439bb230-94d8-4522-ad79-5cce5fad965b",
+        "effectiveTime": "2021-04-27",
+        "evidenceDrug": "metformin hydrochloride",
+        "splId": "f2b2e161-6f49-4a65-970e-017b5c4dcd74"
+      }
+    },
+    {
+      "id": "levothyroxine-adrenal-insufficiency",
+      "drug": "levothyroxine sodium",
+      "condition": "uncorrected adrenal insufficiency",
+      "type": "patient-condition",
+      "rule": "Contraindicated in patients with uncorrected adrenal insufficiency.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0004-of-0014.json.zip",
+        "setId": "3e77de84-6f59-40ac-a1a4-7bfe30387823",
+        "effectiveTime": "2023-12-12",
+        "evidenceDrug": "levothyroxine sodium",
+        "splId": "25169406-e7c1-42dd-85c0-93af09fe2e65"
+      }
+    },
+    {
+      "id": "atorvastatin-acute-liver-disease",
+      "drug": "atorvastatin calcium",
+      "condition": "acute liver failure or decompensated cirrhosis",
+      "type": "patient-condition",
+      "rule": "Contraindicated in acute liver failure or decompensated cirrhosis.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0004-of-0014.json.zip",
+        "setId": "e52b4b11-9618-4787-ae67-44e4a3166dfb",
+        "effectiveTime": "2024-04-10",
+        "evidenceDrug": "atorvastatin calcium",
+        "splId": "9718196e-47d1-410e-8038-e5a8db1ebaaa"
+      }
+    },
+    {
+      "id": "bupropion-seizure-disorder",
+      "drug": "bupropion hydrochloride",
+      "condition": "seizure disorder",
+      "type": "patient-condition",
+      "rule": "Contraindicated in patients with a seizure disorder.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0004-of-0014.json.zip",
+        "setId": "87dac2ee-732c-465b-8ffe-e5aeba421425",
+        "effectiveTime": "2024-05-31",
+        "evidenceDrug": "bupropion hydrochloride",
+        "splId": "56dd9f39-2249-497c-a9e7-dc51cb479929"
+      }
+    },
+    {
+      "id": "sertraline-maoi",
+      "drug": "sertraline hydrochloride",
+      "condition": "concomitant MAOI use or MAOI use within 14 days",
+      "type": "drug-condition",
+      "rule": "Contraindicated because of the increased risk of serotonin syndrome.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0004-of-0014.json.zip",
+        "setId": "68c94fb4-3018-44af-b982-2b4b6d461e6f",
+        "effectiveTime": "2022-06-24",
+        "evidenceDrug": "sertraline hydrochloride",
+        "splId": "a189f92d-a14a-45be-8f55-4b81fe2dce92"
+      }
+    },
+    {
+      "id": "escitalopram-maoi",
+      "drug": "escitalopram oxalate",
+      "condition": "concomitant MAOI use or MAOI use within 14 days",
+      "type": "drug-condition",
+      "rule": "Contraindicated because of the increased risk of serotonin syndrome.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0004-of-0014.json.zip",
+        "setId": "2d0b4839-e4d1-4e0e-9dc0-ba821f266472",
+        "effectiveTime": "2022-04-01",
+        "evidenceDrug": "escitalopram oxalate",
+        "splId": "bfd7c6f5-24c7-4491-b4f8-d501a2393fec"
+      }
+    },
+    {
+      "id": "omeprazole-rilpivirine",
+      "drug": "omeprazole",
+      "condition": "use of rilpivirine-containing products",
+      "type": "drug-condition",
+      "rule": "Proton-pump inhibitors including omeprazole are contraindicated with rilpivirine-containing products.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0004-of-0014.json.zip",
+        "setId": "8f13fd38-dc73-4072-bdc9-9474704a4121",
+        "effectiveTime": "2023-11-22",
+        "evidenceDrug": "omeprazole",
+        "splId": "6c19a1df-221e-479c-bee0-f3c8cdabd210"
+      }
+    },
+    {
+      "id": "amoxicillin-beta-lactam-hypersensitivity",
+      "drug": "amoxicillin",
+      "condition": "serious hypersensitivity to amoxicillin or other beta-lactam antibiotics",
+      "type": "patient-condition",
+      "rule": "Contraindicated in patients with a history of serious hypersensitivity reactions such as anaphylaxis or Stevens-Johnson syndrome to amoxicillin or other beta-lactams.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0004-of-0014.json.zip",
+        "setId": "de792ac6-4b3d-4d34-8e50-030b5bd830d7",
+        "effectiveTime": "2022-06-01",
+        "evidenceDrug": "amoxicillin",
+        "splId": "336edd44-77fc-48f7-987c-3432ae79ffa1"
+      }
+    },
+    {
+      "id": "pregabalin-hypersensitivity",
+      "drug": "pregabalin",
+      "condition": "known hypersensitivity to pregabalin or its components",
+      "type": "patient-condition",
+      "rule": "Contraindicated in patients with known hypersensitivity to pregabalin or any component.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0004-of-0014.json.zip",
+        "setId": "15ea709a-d502-41ea-e063-6394a90ad97d",
+        "effectiveTime": "2024-04-12",
+        "evidenceDrug": "pregabalin",
+        "splId": "15ea723e-8c08-7ccf-e063-6294a90aaf61"
+      }
+    },
+    {
+      "id": "prednisone-systemic-fungal-infection",
+      "drug": "prednisone",
+      "condition": "systemic fungal infection",
+      "type": "patient-condition",
+      "rule": "Contraindicated in patients with systemic fungal infections.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0004-of-0014.json.zip",
+        "setId": "1289c6d2-2707-baca-e063-6294a90a750d",
+        "effectiveTime": "2024-02-29",
+        "evidenceDrug": "prednisone",
+        "splId": "1289ccc0-8def-ceab-e063-6294a90ac106"
+      }
+    },
+    {
+      "id": "ciprofloxacin-tizanidine",
+      "drug": "ciprofloxacin",
+      "condition": "concomitant tizanidine use",
+      "type": "drug-condition",
+      "rule": "Contraindicated because ciprofloxacin can potentiate the hypotensive and sedative effects of tizanidine.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0005-of-0014.json.zip",
+        "setId": "ef468722-68cd-440b-afd7-2285029db41f",
+        "effectiveTime": "2025-07-18",
+        "evidenceDrug": "ciprofloxacin",
+        "splId": null
+      }
+    },
+    {
+      "id": "ciprofloxacin-quinolone-hypersensitivity",
+      "drug": "ciprofloxacin",
+      "condition": "hypersensitivity to ciprofloxacin or another quinolone",
+      "type": "patient-condition",
+      "rule": "Contraindicated in patients with a history of hypersensitivity to ciprofloxacin, another quinolone, or product components.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0005-of-0014.json.zip",
+        "setId": "ef468722-68cd-440b-afd7-2285029db41f",
+        "effectiveTime": "2025-07-18",
+        "evidenceDrug": "ciprofloxacin",
+        "splId": null
+      }
+    },
+    {
+      "id": "ondansetron-apomorphine",
+      "drug": "ondansetron hydrochloride",
+      "condition": "concomitant apomorphine use",
+      "type": "drug-condition",
+      "rule": "Contraindicated because of the risk of profound hypotension and loss of consciousness.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0005-of-0014.json.zip",
+        "setId": "3a76bae2-04c2-ee2d-e063-6394a90ad4c8",
+        "effectiveTime": "2025-07-21",
+        "evidenceDrug": "ondansetron hydrochloride",
+        "splId": null
+      }
+    },
+    {
+      "id": "ondansetron-hypersensitivity",
+      "drug": "ondansetron hydrochloride",
+      "condition": "hypersensitivity to ondansetron or formulation components",
+      "type": "patient-condition",
+      "rule": "Contraindicated in patients with known hypersensitivity to ondansetron or its components.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0005-of-0014.json.zip",
+        "setId": "3a76bae2-04c2-ee2d-e063-6394a90ad4c8",
+        "effectiveTime": "2025-07-21",
+        "evidenceDrug": "ondansetron hydrochloride",
+        "splId": null
+      }
+    },
+    {
+      "id": "furosemide-anuria",
+      "drug": "furosemide",
+      "condition": "anuria",
+      "type": "patient-condition",
+      "rule": "Contraindicated in patients with anuria.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0005-of-0014.json.zip",
+        "setId": "3ba730ab-90d4-478a-80b3-1ea3edb03e4d",
+        "effectiveTime": "2025-07-15",
+        "evidenceDrug": "furosemide",
+        "splId": null
+      }
+    },
+    {
+      "id": "furosemide-hypersensitivity",
+      "drug": "furosemide",
+      "condition": "hypersensitivity to furosemide",
+      "type": "patient-condition",
+      "rule": "Contraindicated in patients with a history of hypersensitivity to furosemide.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0005-of-0014.json.zip",
+        "setId": "3ba730ab-90d4-478a-80b3-1ea3edb03e4d",
+        "effectiveTime": "2025-07-15",
+        "evidenceDrug": "furosemide",
+        "splId": null
+      }
+    },
+    {
+      "id": "rivaroxaban-active-bleeding",
+      "drug": "rivaroxaban",
+      "condition": "active pathological bleeding",
+      "type": "patient-condition",
+      "rule": "Contraindicated in patients with active pathological bleeding.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0005-of-0014.json.zip",
+        "setId": "3e95389b-0a93-4560-98c5-02637fb2600f",
+        "effectiveTime": "2023-11-10",
+        "evidenceDrug": "rivaroxaban",
+        "splId": null
+      }
+    },
+    {
+      "id": "rivaroxaban-hypersensitivity",
+      "drug": "rivaroxaban",
+      "condition": "severe hypersensitivity reaction to rivaroxaban",
+      "type": "patient-condition",
+      "rule": "Contraindicated in patients with severe hypersensitivity reactions such as anaphylaxis.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0005-of-0014.json.zip",
+        "setId": "3e95389b-0a93-4560-98c5-02637fb2600f",
+        "effectiveTime": "2023-11-10",
+        "evidenceDrug": "rivaroxaban",
+        "splId": null
+      }
+    },
+    {
+      "id": "insulin-glargine-hypoglycemia",
+      "drug": "insulin glargine",
+      "condition": "episode of hypoglycemia",
+      "type": "patient-condition",
+      "rule": "Contraindicated during episodes of hypoglycemia.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0005-of-0014.json.zip",
+        "setId": "257ca17b-6ff7-4f2e-9037-4c185bac5768",
+        "effectiveTime": "2023-04-27",
+        "evidenceDrug": "insulin glargine",
+        "splId": null
+      }
+    },
+    {
+      "id": "insulin-glargine-hypersensitivity",
+      "drug": "insulin glargine",
+      "condition": "hypersensitivity to insulin glargine or excipients",
+      "type": "patient-condition",
+      "rule": "Contraindicated in patients with hypersensitivity to insulin glargine or its excipients.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0005-of-0014.json.zip",
+        "setId": "257ca17b-6ff7-4f2e-9037-4c185bac5768",
+        "effectiveTime": "2023-04-27",
+        "evidenceDrug": "insulin glargine",
+        "splId": null
+      }
+    },
+    {
+      "id": "glipizide-type1-diabetes",
+      "drug": "glipizide",
+      "condition": "type 1 diabetes mellitus",
+      "type": "patient-condition",
+      "rule": "Contraindicated in type 1 diabetes mellitus.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0005-of-0014.json.zip",
+        "setId": "62d569b8-bb34-0e06-e053-2a91aa0a2ae1",
+        "effectiveTime": "2024-06-06",
+        "evidenceDrug": "glipizide",
+        "splId": null
+      }
+    },
+    {
+      "id": "glipizide-diabetic-ketoacidosis",
+      "drug": "glipizide",
+      "condition": "diabetic ketoacidosis",
+      "type": "patient-condition",
+      "rule": "Contraindicated in diabetic ketoacidosis, with or without coma; insulin should be used for this condition.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0005-of-0014.json.zip",
+        "setId": "62d569b8-bb34-0e06-e053-2a91aa0a2ae1",
+        "effectiveTime": "2024-06-06",
+        "evidenceDrug": "glipizide",
+        "splId": null
+      }
+    },
+    {
+      "id": "glipizide-hypersensitivity",
+      "drug": "glipizide",
+      "condition": "hypersensitivity to glipizide",
+      "type": "patient-condition",
+      "rule": "Contraindicated in patients with known hypersensitivity to glipizide.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0005-of-0014.json.zip",
+        "setId": "62d569b8-bb34-0e06-e053-2a91aa0a2ae1",
+        "effectiveTime": "2024-06-06",
+        "evidenceDrug": "glipizide",
+        "splId": null
+      }
+    },
+    {
+      "id": "alprazolam-cyp3a-inhibitors",
+      "drug": "alprazolam",
+      "condition": "concomitant strong CYP3A inhibitor use",
+      "type": "drug-condition",
+      "rule": "Contraindicated with strong CYP3A inhibitors except the specific ritonavir exception described in the label.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0005-of-0014.json.zip",
+        "setId": "f95f4030-e8e0-416f-951d-c4dac09f386a",
+        "effectiveTime": "2023-09-15",
+        "evidenceDrug": "alprazolam",
+        "splId": null
+      }
+    },
+    {
+      "id": "alprazolam-benzodiazepine-hypersensitivity",
+      "drug": "alprazolam",
+      "condition": "hypersensitivity to alprazolam or other benzodiazepines",
+      "type": "patient-condition",
+      "rule": "Contraindicated in patients with known hypersensitivity to alprazolam or other benzodiazepines.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0005-of-0014.json.zip",
+        "setId": "f95f4030-e8e0-416f-951d-c4dac09f386a",
+        "effectiveTime": "2023-09-15",
+        "evidenceDrug": "alprazolam",
+        "splId": null
+      }
+    },
+    {
+      "id": "montelukast-hypersensitivity",
+      "drug": "montelukast sodium",
+      "condition": "hypersensitivity to any component",
+      "type": "patient-condition",
+      "rule": "Contraindicated in patients with hypersensitivity to any component of the product.",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0005-of-0014.json.zip",
+        "setId": "482dcc92-b47f-4ea6-854a-f5ac2aea7842",
+        "effectiveTime": "2025-04-30",
+        "evidenceDrug": "montelukast sodium",
+        "splId": null
+      }
+    },
+    {
+      "id": "simvastatin-strong-cyp3a4-inhibitors",
+      "drug": "simvastatin",
+      "condition": "concomitant use of strong CYP3A4 inhibitors",
+      "type": "drug-class",
+      "rule": "contraindicated in the cited label",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0001-of-0014.json.zip",
+        "setId": "751b79c6-bba8-4d29-b69c-a2ac6453fec8",
+        "effectiveTime": "2024-04-05",
+        "evidenceDrug": "simvastatin",
+        "splId": "1553d57f-414d-2c66-e063-6294a90af8e0"
+      }
+    },
+    {
+      "id": "digoxin-ventricular-fibrillation",
+      "drug": "digoxin",
+      "condition": "ventricular fibrillation",
+      "type": "patient-condition",
+      "rule": "contraindicated",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0001-of-0014.json.zip",
+        "setId": "dcf9b23b-5840-46ff-bb61-c57a02831a03",
+        "effectiveTime": "2026-03-18",
+        "evidenceDrug": "digoxin",
+        "splId": "be6f84d6-d95b-4e39-8c32-26176f5c98ef"
+      }
+    },
+    {
+      "id": "amiodarone-av-block",
+      "drug": "amiodarone hydrochloride",
+      "condition": "sick sinus syndrome or second/third-degree AV block without a functioning pacemaker",
+      "type": "patient-condition",
+      "rule": "contraindicated",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0001-of-0014.json.zip",
+        "setId": "7ae393d1-7469-432a-9f21-f5ebab1207d1",
+        "effectiveTime": "2026-02-12",
+        "evidenceDrug": "amiodarone",
+        "splId": "84ad18a0-1887-4b62-8ac1-94ace3433366"
+      }
+    },
+    {
+      "id": "fluconazole-qtc-cyp3a4",
+      "drug": "fluconazole",
+      "condition": "concomitant use of certain QT-prolonging CYP3A4-metabolized drugs such as erythromycin, pimozide or quinidine",
+      "type": "drug-class",
+      "rule": "contraindicated in the cited label",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0001-of-0014.json.zip",
+        "setId": "c2c7242d-d172-4733-e053-2995a90acb2e",
+        "effectiveTime": "2026-02-10",
+        "evidenceDrug": "fluconazole",
+        "splId": "4a80ede2-17c6-ce12-e063-6294a90a38cf"
+      }
+    },
+    {
+      "id": "clarithromycin-pimozide",
+      "drug": "clarithromycin",
+      "condition": "concomitant pimozide",
+      "type": "drug-drug",
+      "rule": "contraindicated",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0001-of-0014.json.zip",
+        "setId": "fa69ea92-0b41-43fb-918f-ed80e0dedf04",
+        "effectiveTime": "2026-03-04",
+        "evidenceDrug": "clarithromycin",
+        "splId": "4c34fe6f-2144-d0e9-e063-6294a90a3e8d"
+      }
+    },
+    {
+      "id": "tramadol-respiratory-depression",
+      "drug": "tramadol hydrochloride",
+      "condition": "significant respiratory depression",
+      "type": "patient-condition",
+      "rule": "contraindicated",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0001-of-0014.json.zip",
+        "setId": "a65b4d05-3a1c-4aa1-848a-d20ac9aaf62f",
+        "effectiveTime": "2025-12-29",
+        "evidenceDrug": "tramadol",
+        "splId": "50c36ee9-b6f1-4f50-a276-cfbfa49ba588"
+      }
+    },
+    {
+      "id": "atorvastatin-liver-failure",
+      "drug": "atorvastatin calcium",
+      "condition": "acute liver failure or decompensated cirrhosis",
+      "type": "patient-condition",
+      "rule": "contraindicated",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0002-of-0014.json.zip",
+        "setId": "ac98cfd7-fd4c-4fe1-91f3-50a0e232364f",
+        "effectiveTime": "2025-06-10",
+        "evidenceDrug": "atorvastatin",
+        "splId": "bb421bfa-9f89-41eb-a0b8-f235bec19554"
+      }
+    },
+    {
+      "id": "lisinopril-angioedema-history",
+      "drug": "lisinopril",
+      "condition": "history of angioedema related to previous ACE-inhibitor treatment, or hereditary/idiopathic angioedema",
+      "type": "patient-condition",
+      "rule": "contraindicated",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0002-of-0014.json.zip",
+        "setId": "dac0c8f1-e3cf-11e6-e053-2a95a90adbcb",
+        "effectiveTime": "2026-01-01",
+        "evidenceDrug": "lisinopril",
+        "splId": "490f6c09-302b-c01e-e063-6294a90ab25c"
+      }
+    },
+    {
+      "id": "lisinopril-neprilysin-inhibitor",
+      "drug": "lisinopril",
+      "condition": "concomitant use of a neprilysin inhibitor (e.g., sacubitril), or within 36 hours of switching to/from sacubitril/valsartan",
+      "type": "drug-class",
+      "rule": "contraindicated in the cited label",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0002-of-0014.json.zip",
+        "setId": "dac0c8f1-e3cf-11e6-e053-2a95a90adbcb",
+        "effectiveTime": "2026-01-01",
+        "evidenceDrug": "lisinopril",
+        "splId": "490f6c09-302b-c01e-e063-6294a90ab25c"
+      }
+    },
+    {
+      "id": "azithromycin-macrolide-hypersensitivity",
+      "drug": "azithromycin",
+      "condition": "known hypersensitivity to azithromycin, erythromycin, or any macrolide/ketolide drug",
+      "type": "patient-condition",
+      "rule": "contraindicated",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0002-of-0014.json.zip",
+        "setId": "405ab07f-7d1d-4552-ad3b-2a03be8e9949",
+        "effectiveTime": "2026-02-17",
+        "evidenceDrug": "azithromycin",
+        "splId": "52447b25-1d4a-4d01-a863-83d92bf33388"
+      }
+    },
+    {
+      "id": "amoxicillin-betalactam-hypersensitivity",
+      "drug": "amoxicillin",
+      "condition": "history of a serious hypersensitivity reaction (e.g., anaphylaxis or Stevens-Johnson syndrome) to amoxicillin or other beta-lactam antibiotics (penicillins, cephalosporins)",
+      "type": "patient-condition",
+      "rule": "contraindicated",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0003-of-0014.json.zip",
+        "setId": "6a9cfa97-3715-4b75-a1e3-932a34a942d4",
+        "effectiveTime": "2024-03-01",
+        "evidenceDrug": "amoxicillin",
+        "splId": "59bdb6eb-6f58-457d-9d49-ade53d7b626d"
+      }
+    },
+    {
+      "id": "aspirin-reye-syndrome",
+      "drug": "aspirin",
+      "condition": "children or teenagers with, or recovering from, chicken pox or flu-like viral symptoms",
+      "type": "patient-condition",
+      "rule": "should not be used, because of the risk of Reye's syndrome",
+      "labelSection": "warnings (OTC Drug Facts label; this product's structured record has no formal CONTRAINDICATIONS section, so this rule is sourced from the label's Warnings text rather than the contraindications field used elsewhere in this dataset)",
+      "source": {
+        "organization": "U.S. Food and Drug Administration (FDA)",
+        "dataset": "openFDA Drug Labeling",
+        "datasetPart": "drug-label-0003-of-0014.json.zip",
+        "setId": "8977b821-2843-4436-bd3b-bb902a4b787e",
+        "effectiveTime": "2017-10-30",
+        "evidenceDrug": "aspirin",
+        "splId": "5cc8bd8c-1d8c-180b-e053-2a91aa0ac490"
+      }
+    }
+  ]
+}
