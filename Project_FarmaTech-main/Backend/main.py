@@ -16,6 +16,8 @@ from data import TEMPLATES
 from database import MEDICINES_DB, INTERACTIONS_DB, CONTRAINDICATIONS_DB, DUPLICATE_THERAPY_DB
 
 load_dotenv()
+load_dotenv(os.path.join(os.path.dirname(__file__), "Data", ".env"))
+load_dotenv("Data/.env")
 
 app = FastAPI(title="MediGuard API", version="0.1.0")
 app.add_middleware(CORSMiddleware, allow_origins=os.getenv("ALLOWED_ORIGINS", "*").split(","),
@@ -87,6 +89,8 @@ class QRReq(BaseModel):
     allergies: list[str] = []
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+AI_PROVIDER = os.getenv("AI_PROVIDER", "groq")
 
 GEMINI_SYSTEM_INSTRUCTION = """You are an explanation assistant for PharmaTech.
 
@@ -116,6 +120,51 @@ Your job is to explain verified findings in simple language, not to independentl
 Clearly distinguish database findings from AI-generated explanations.
 
 Do not claim that the explanation is a diagnosis or treatment decision."""
+
+GROQ_SYSTEM_INSTRUCTION = """You are an explanation assistant for PharmaTech.
+
+Use ONLY the verified findings supplied by the application.
+
+The supplied findings come from a verified medical database.
+
+Do not introduce facts that are not present in the supplied findings.
+
+Do not invent:
+- drug interactions
+- contraindications
+- duplicate therapies
+- medicines
+- diagnoses
+- treatment recommendations
+- severity levels
+
+Do not modify the meaning of any database rule.
+Do not alter severity.
+
+If a finding contains an action or recommendation, explain it without changing it.
+
+If no verified finding is supplied, state that no matching verified database finding was provided.
+If information is not present in the supplied finding, do not claim it.
+
+Your job is to explain verified findings in simple language, not to independently determine medical facts.
+
+Clearly distinguish database findings from AI-generated explanations.
+
+Do not claim that the explanation is a diagnosis or treatment decision.
+
+Respond with a JSON object strictly matching this schema:
+{
+  "summary": "Overall plain-language summary of the verified findings",
+  "explanations": [
+    {
+      "findingId": "The exact id of the finding",
+      "explanation": "Plain-language explanation of only this verified finding"
+    }
+  ],
+  "disclaimer": "Decision support only. Not a substitute for a doctor's or pharmacist's judgment."
+}"""
+
+GROQ_MODEL = os.getenv("GROQ_MODEL", "openai/gpt-oss-20b")
 
 def extract_patient_conditions(patient: PatientProfile | None) -> list[str]:
     if not patient:
@@ -360,25 +409,76 @@ def call_gemini(findings: list[dict], view: str, language: str) -> dict:
     content = data["candidates"][0]["content"]["parts"][0]["text"]
     return json.loads(content)
 
+
+def call_groq(findings: list[dict], view: str, language: str) -> dict:
+    if not GROQ_API_KEY:
+        raise ValueError("Missing GROQ_API_KEY")
+
+    url = "https://api.groq.com/openai/v1/chat/completions"
+
+    prompt = f"Explain these findings for a {view} in {language} language:\n{json.dumps(findings)}"
+
+    payload = {
+        "model": GROQ_MODEL,
+        "messages": [
+            {"role": "system", "content": GROQ_SYSTEM_INSTRUCTION},
+            {"role": "user", "content": prompt}
+        ],
+        "response_format": {"type": "json_object"},
+        "temperature": 0.1,
+        "max_tokens": 4096
+    }
+
+    headers = {
+        "Authorization": f"Bearer {GROQ_API_KEY}",
+        "Content-Type": "application/json"
+    }
+
+    response = httpx.post(url, json=payload, headers=headers, timeout=30.0)
+    response.raise_for_status()
+
+    data = response.json()
+    content = data["choices"][0]["message"]["content"].strip()
+    if content.startswith("```"):
+        content = re.sub(r"^```(?:json)?\s*", "", content)
+        content = re.sub(r"\s*```$", "", content)
+    parsed = json.loads(content)
+    if "summary" not in parsed or "explanations" not in parsed:
+        raise ValueError("Invalid response format from Groq")
+    if "disclaimer" not in parsed:
+        parsed["disclaimer"] = DISCLAIMER
+    return parsed
+
+
 @app.post("/api/explain", dependencies=[Depends(auth)])
 def explain_endpoint(req: ExplainReq):
-    try:
-        result = call_gemini(req.findings, req.view, req.language)
-        return {**result, "ai_used": True}
-    except Exception as e:
-        # Fallback to deterministic engine
-        explanations = []
-        for f in req.findings:
-            explanations.append({
-                "findingId": f.get("id", "unknown"),
-                "explanation": explain(f, req.view, req.language)
-            })
-        return {
-            "summary": "Deterministic findings summary (AI unavailable).",
-            "explanations": explanations,
-            "disclaimer": DISCLAIMER,
-            "ai_used": False
-        }
+    provider = (AI_PROVIDER or "groq").lower().strip()
+    if provider == "gemini":
+        try:
+            result = call_gemini(req.findings, req.view, req.language)
+            return {**result, "ai_used": True, "provider": "gemini"}
+        except Exception:
+            pass
+    else:
+        try:
+            result = call_groq(req.findings, req.view, req.language)
+            return {**result, "ai_used": True, "provider": "groq"}
+        except Exception:
+            pass
+
+    explanations = []
+    for f in req.findings:
+        explanations.append({
+            "findingId": f.get("id", "unknown"),
+            "explanation": explain(f, req.view, req.language)
+        })
+    return {
+        "summary": "Deterministic findings summary (AI unavailable).",
+        "explanations": explanations,
+        "disclaimer": DISCLAIMER,
+        "ai_used": False,
+        "provider": "deterministic"
+    }
 
 def _sig(b: bytes) -> bytes:
     """Compute a truncated HMAC-SHA256 signature."""

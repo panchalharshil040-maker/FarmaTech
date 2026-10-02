@@ -465,7 +465,7 @@ export default function ResultsPanel({ data, view, aiExplain, aiLoading }: Props
               }}
             >
               {aiExplain?.ai_used
-                ? 'POWERED BY GEMINI · NOT A DIAGNOSIS'
+                ? 'POWERED BY GROQ · NOT A DIAGNOSIS'
                 : 'AI UNAVAILABLE · DETERMINISTIC TEXT · NOT A DIAGNOSIS'}
             </span>
           </div>
