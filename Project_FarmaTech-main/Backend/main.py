@@ -1,6 +1,7 @@
 import base64
 import hashlib
 import hmac
+import httpx
 import json
 import os
 import re
@@ -9,9 +10,12 @@ from typing import Literal, List, Optional
 from fastapi import Depends, FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
+from dotenv import load_dotenv
 
 from data import TEMPLATES
 from database import MEDICINES_DB, INTERACTIONS_DB, CONTRAINDICATIONS_DB, DUPLICATE_THERAPY_DB
+
+load_dotenv()
 
 app = FastAPI(title="MediGuard API", version="0.1.0")
 app.add_middleware(CORSMiddleware, allow_origins=os.getenv("ALLOWED_ORIGINS", "*").split(","),
@@ -263,7 +267,7 @@ def report(meds: list[str], view: str, lang: str, patient: PatientProfile | None
         "risk_score": score,
         "risk_level": level,
         "disclaimer": DISCLAIMER,
-        "found": True
+        "found": bool(findings)
     }
 
 
@@ -286,10 +290,7 @@ def search(q: str):
 @app.post("/api/check", dependencies=[Depends(auth)])
 def check(r: CheckReq): 
     # Check if empty or duplicate logic handled in analyze
-    rep = report(r.medicines, r.view, r.language, r.patient)
-    if not rep["resolved"]:
-        rep["found"] = False
-    return rep
+    return report(r.medicines, r.view, r.language, r.patient)
 
 
 @app.post("/api/simulate", dependencies=[Depends(auth)])
@@ -315,7 +316,7 @@ def call_gemini(findings: list[dict], view: str, language: str) -> dict:
     if not GEMINI_API_KEY:
         raise ValueError("Missing GEMINI_API_KEY")
     
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_API_KEY}"
     
     prompt = f"Explain these findings for a {view} in {language} language:\n{json.dumps(findings)}"
     
@@ -362,7 +363,8 @@ def call_gemini(findings: list[dict], view: str, language: str) -> dict:
 @app.post("/api/explain", dependencies=[Depends(auth)])
 def explain_endpoint(req: ExplainReq):
     try:
-        return call_gemini(req.findings, req.view, req.language)
+        result = call_gemini(req.findings, req.view, req.language)
+        return {**result, "ai_used": True}
     except Exception as e:
         # Fallback to deterministic engine
         explanations = []
@@ -374,7 +376,8 @@ def explain_endpoint(req: ExplainReq):
         return {
             "summary": "Deterministic findings summary (AI unavailable).",
             "explanations": explanations,
-            "disclaimer": DISCLAIMER
+            "disclaimer": DISCLAIMER,
+            "ai_used": False
         }
 
 def _sig(b: bytes) -> bytes:

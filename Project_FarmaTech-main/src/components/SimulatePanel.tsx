@@ -2,8 +2,8 @@ import { useState } from 'react'
 import {
   AlertTriangle,
   ArrowRight,
-  CheckCircle,
   FlaskConical,
+  HelpCircle,
   Minus,
   Search,
   TrendingDown,
@@ -248,7 +248,7 @@ export default function SimulatePanel({ medicines, view, language }: Props) {
                   }}
                 >
                   {isRiskIncrease ? <TrendingUp size={18} /> : isRiskDecrease ? <TrendingDown size={18} /> : <Minus size={18} />}
-                  {result.delta > 0 ? `+${result.delta} Risk Delta` : result.delta < 0 ? `${result.delta} Risk Delta` : '0 Delta (No New Risk)'}
+                  {result.delta !== 0 ? `${result.delta > 0 ? '+' : ''}${result.delta} Risk Delta` : '0 Delta'}
                 </div>
               </div>
 
@@ -290,14 +290,17 @@ export default function SimulatePanel({ medicines, view, language }: Props) {
                     gap: '8px',
                     padding: '12px',
                     borderRadius: 'var(--radius-sm)',
-                    background: 'rgba(16, 185, 129, 0.1)',
-                    border: '1px solid rgba(16, 185, 129, 0.25)',
-                    color: '#6ee7b7',
+                    background: 'rgba(255, 255, 255, 0.03)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    color: 'var(--text-muted)',
                     fontSize: '0.82rem',
                   }}
                 >
-                  <CheckCircle size={16} />
-                  <span>Addition is pharmacologically compatible with zero new interactions detected.</span>
+                  <HelpCircle size={16} />
+                  <span>
+                    No new verified finding in the database for this addition. This does not
+                    guarantee compatibility — the database may not cover this medicine or pair.
+                  </span>
                 </div>
               )}
             </div>

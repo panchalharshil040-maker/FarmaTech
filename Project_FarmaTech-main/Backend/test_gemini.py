@@ -1,8 +1,10 @@
 import os
 from fastapi.testclient import TestClient
+import main as _main
 from main import app, GEMINI_API_KEY
 
 client = TestClient(app)
+_ORIGINAL_CALL_GEMINI = _main.call_gemini
 
 def test_explain_endpoint_accepts_verified_findings():
     # We will test the fallback mechanism since we shouldn't necessarily make real API calls in CI unless configured,
@@ -73,3 +75,61 @@ def test_api_key_not_exposed():
     response_text = res.text
     if GEMINI_API_KEY:
         assert GEMINI_API_KEY not in response_text
+
+
+def test_explain_fallback_flags_ai_used_false():
+    """The deterministic fallback must be labelled as non-AI."""
+    import main
+    original_key = main.GEMINI_API_KEY
+    main.GEMINI_API_KEY = None
+    try:
+        res = client.post(
+            "/api/explain",
+            json={"findings": [{"id": "test-id", "mechanism": "test mechanism"}]},
+        )
+        assert res.status_code == 200
+        assert res.json()["ai_used"] is False
+    finally:
+        main.GEMINI_API_KEY = original_key
+
+
+def test_explain_flags_ai_used_true_on_gemini_success(monkeypatch):
+    """When Gemini answers, the response is flagged as AI-generated."""
+    import main
+
+    def fake_call_gemini(findings, view, language):
+        return {
+            "summary": "plain-language summary",
+            "explanations": [
+                {"findingId": f.get("id", "unknown"), "explanation": "explanation text"}
+                for f in findings
+            ],
+            "disclaimer": "explanatory only",
+        }
+
+    monkeypatch.setattr(main, "call_gemini", fake_call_gemini)
+    res = client.post(
+        "/api/explain",
+        json={"findings": [{"id": "test-id", "mechanism": "test mechanism"}]},
+    )
+    assert res.status_code == 200
+    body = res.json()
+    assert body["ai_used"] is True
+    assert body["summary"] == "plain-language summary"
+    assert body["explanations"][0]["findingId"] == "test-id"
+    assert "mechanism" not in res.text
+
+
+def test_explain_never_invents_findings_for_empty_input():
+    """No verified finding supplied means no explanation is produced."""
+    import main
+
+    def explode(findings, view, language):
+        raise AssertionError("Gemini must not be called without verified findings")
+
+    main.call_gemini = explode
+    try:
+        res = client.post("/api/explain", json={"findings": []})
+        assert res.status_code == 422
+    finally:
+        main.call_gemini = _ORIGINAL_CALL_GEMINI

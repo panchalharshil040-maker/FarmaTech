@@ -1,25 +1,51 @@
-import { ShieldAlert, ShieldCheck, AlertTriangle } from 'lucide-react'
+import { ShieldAlert, ShieldCheck, AlertTriangle, HelpCircle } from 'lucide-react'
 import type { RiskLevel } from '../types'
 
 interface Props {
   score: number
   riskLevel: RiskLevel
+  hasFindings?: boolean
 }
 
-export default function RiskGauge({ score, riskLevel }: Props) {
+export default function RiskGauge({ score, riskLevel, hasFindings = true }: Props) {
   // Radial gauge computation (semi-circle 180 degrees)
   const radius = 70
   const circumference = Math.PI * radius
   const clampedScore = Math.min(100, Math.max(0, score))
   const strokeDashoffset = circumference - (clampedScore / 100) * circumference
 
+  const noVerifiedFinding = !hasFindings
   const isHigh = riskLevel === 'high' || clampedScore >= 60
   const isModerate = (riskLevel === 'moderate' || clampedScore >= 20) && !isHigh
 
-  const statusColor = isHigh ? '#f43f5e' : isModerate ? '#f59e0b' : '#10b981'
-  const statusGlow = isHigh ? 'rgba(244, 63, 94, 0.3)' : isModerate ? 'rgba(245, 158, 11, 0.3)' : 'rgba(16, 185, 129, 0.3)'
-  const statusLabel = isHigh ? 'High Risk' : isModerate ? 'Moderate Risk' : 'Low Risk'
-  const StatusIcon = isHigh ? ShieldAlert : isModerate ? AlertTriangle : ShieldCheck
+  const statusColor = noVerifiedFinding
+    ? 'var(--text-muted)'
+    : isHigh
+      ? '#f43f5e'
+      : isModerate
+        ? '#f59e0b'
+        : '#10b981'
+  const statusGlow = noVerifiedFinding
+    ? 'rgba(148, 163, 184, 0.25)'
+    : isHigh
+      ? 'rgba(244, 63, 94, 0.3)'
+      : isModerate
+        ? 'rgba(245, 158, 11, 0.3)'
+        : 'rgba(16, 185, 129, 0.3)'
+  const statusLabel = noVerifiedFinding
+    ? 'No Verified Finding'
+    : isHigh
+      ? 'High Risk'
+      : isModerate
+        ? 'Moderate Risk'
+        : 'Low Risk'
+  const StatusIcon = noVerifiedFinding
+    ? HelpCircle
+    : isHigh
+      ? ShieldAlert
+      : isModerate
+        ? AlertTriangle
+        : ShieldCheck
 
   return (
     <div
@@ -110,7 +136,9 @@ export default function RiskGauge({ score, riskLevel }: Props) {
           marginTop: '12px',
           padding: '6px 18px',
           borderRadius: '999px',
-          background: `rgba(${isHigh ? '244, 63, 94' : isModerate ? '245, 158, 11' : '16, 185, 129'}, 0.12)`,
+          background: noVerifiedFinding
+            ? 'rgba(148, 163, 184, 0.12)'
+            : `rgba(${isHigh ? '244, 63, 94' : isModerate ? '245, 158, 11' : '16, 185, 129'}, 0.12)`,
           border: `1px solid ${statusColor}`,
           color: statusColor,
           fontWeight: 700,

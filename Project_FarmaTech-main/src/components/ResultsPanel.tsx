@@ -2,7 +2,6 @@ import { useState } from 'react'
 import {
   AlertCircle,
   AlertTriangle,
-  CheckCircle2,
   ChevronDown,
   ChevronUp,
   Copy,
@@ -11,15 +10,19 @@ import {
   Pill,
   Shield,
   ShieldAlert,
+  Sparkles,
   Stethoscope,
 } from 'lucide-react'
 import type { CheckResponse, ViewMode } from '../types'
+import type { ExplainResponse } from '../api'
 import FoodAdvisory from './FoodAdvisory'
 import RiskGauge from './RiskGauge'
 
 interface Props {
   data: CheckResponse
   view: ViewMode
+  aiExplain?: ExplainResponse | null
+  aiLoading?: boolean
 }
 
 const severityConfig = {
@@ -73,7 +76,7 @@ const severityConfig = {
   },
 }
 
-export default function ResultsPanel({ data, view }: Props) {
+export default function ResultsPanel({ data, view, aiExplain, aiLoading }: Props) {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
 
   const toggleExpand = (idx: number) => {
@@ -98,7 +101,7 @@ export default function ResultsPanel({ data, view }: Props) {
       >
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '24px', alignItems: 'center' }}>
           {/* Radial Risk Meter */}
-          <RiskGauge score={data.risk_score} riskLevel={data.risk_level} />
+          <RiskGauge score={data.risk_score} riskLevel={data.risk_level} hasFindings={data.findings.length > 0} />
 
           {/* Quick Stats & Clinical Summary */}
           <div>
@@ -110,7 +113,7 @@ export default function ResultsPanel({ data, view }: Props) {
             </div>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '16px' }}>
               {data.findings.length === 0
-                ? 'No significant drug-drug interactions or duplicated active ingredients were detected among the prescribed medications.'
+                ? 'No matching verified finding was found in the current database. This does not guarantee safety — the checked medicines may not yet be covered.'
                 : `Detected ${data.findings.length} safety finding${data.findings.length > 1 ? 's' : ''} requiring attention.`}
             </p>
 
@@ -166,9 +169,9 @@ export default function ResultsPanel({ data, view }: Props) {
                   style={{
                     padding: '6px 12px',
                     borderRadius: 'var(--radius-sm)',
-                    background: 'rgba(16, 185, 129, 0.15)',
-                    border: '1px solid rgba(16, 185, 129, 0.3)',
-                    color: '#6ee7b7',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    color: 'var(--text-muted)',
                     fontSize: '0.78rem',
                     fontWeight: 700,
                     display: 'flex',
@@ -176,7 +179,7 @@ export default function ResultsPanel({ data, view }: Props) {
                     gap: '4px',
                   }}
                 >
-                  <CheckCircle2 size={14} /> Clear of Known Interactions
+                  <HelpCircle size={14} /> No Verified Finding in Database
                 </div>
               )}
             </div>
@@ -333,6 +336,39 @@ export default function ResultsPanel({ data, view }: Props) {
                           </p>
                         </div>
                       )}
+
+                      {/* Source Metadata — from verified database */}
+                      {f.source && typeof f.source === 'object' && (f.source as Record<string, string>).organization ? (
+                        <div style={{ gridColumn: '1 / -1', marginTop: '4px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                          <span style={{ fontSize: '0.68rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
+                            ✅ Verified Database Source:
+                          </span>
+                          <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '3px', lineHeight: 1.4 }}>
+                            {(f.source as Record<string, string>).organization}
+                            {(f.source as Record<string, string>).dataset ? ` · ${(f.source as Record<string, string>).dataset}` : ''}
+                            {(f.source as Record<string, string>).effectiveTime ? ` · Effective: ${(f.source as Record<string, string>).effectiveTime}` : ''}
+                          </p>
+                        </div>
+                      ) : (
+                        <div style={{ gridColumn: '1 / -1', marginTop: '4px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                          <span style={{ fontSize: '0.68rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
+                            Source metadata unavailable
+                          </span>
+                          <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '3px', lineHeight: 1.4 }}>
+                            This rule is stored in the verified database, but it carries no
+                            citation record. No provenance has been inferred.
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Finding ID */}
+                      {f.id && (
+                        <div style={{ gridColumn: '1 / -1' }}>
+                          <span style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.2)', fontFamily: 'monospace' }}>
+                            ID: {f.id} · verified_status: {f.verified_status ?? 'verified'}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
@@ -396,8 +432,98 @@ export default function ResultsPanel({ data, view }: Props) {
         >
           <HelpCircle size={16} />
           <span>
-            Unrecognized entries (not in local Formulary): <strong>{data.unresolved.join(', ')}</strong>. Please verify spelling.
+            These medicines were not found in the verified database: <strong>{data.unresolved.join(', ')}</strong>.
+            The check is incomplete for these entries — their interactions cannot be verified.
           </span>
+        </div>
+      )}
+
+      {/* AI Explanation Section — labelled clearly, only shows if findings exist */}
+      {(aiLoading || aiExplain) && (
+        <div
+          style={{
+            padding: '20px',
+            borderRadius: 'var(--radius-lg)',
+            background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(6, 182, 212, 0.05))',
+            border: '1px solid rgba(139, 92, 246, 0.25)',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
+            <Sparkles size={18} style={{ color: 'var(--accent-violet)' }} />
+            <span style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--accent-violet)' }}>
+              {aiExplain?.ai_used ? 'AI Explanation' : 'Explanation (AI unavailable)'}
+            </span>
+            <span
+              style={{
+                fontSize: '0.65rem',
+                padding: '2px 8px',
+                borderRadius: '999px',
+                background: 'rgba(139, 92, 246, 0.15)',
+                border: '1px solid rgba(139, 92, 246, 0.3)',
+                color: 'var(--accent-violet)',
+                fontWeight: 600,
+              }}
+            >
+              {aiExplain?.ai_used
+                ? 'POWERED BY GEMINI · NOT A DIAGNOSIS'
+                : 'AI UNAVAILABLE · DETERMINISTIC TEXT · NOT A DIAGNOSIS'}
+            </span>
+          </div>
+
+          {aiLoading && (
+            <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>
+              Generating AI explanation of verified findings…
+            </p>
+          )}
+
+          {aiExplain && !aiLoading && (
+            <>
+              {/* Important distinction notice */}
+              <div
+                style={{
+                  padding: '8px 12px',
+                  borderRadius: 'var(--radius-sm)',
+                  background: 'rgba(245, 158, 11, 0.08)',
+                  border: '1px solid rgba(245, 158, 11, 0.2)',
+                  fontSize: '0.72rem',
+                  color: '#fde68a',
+                  marginBottom: '14px',
+                }}
+              >
+                ⚠️ The findings above come from verified FDA-sourced databases. {aiExplain.ai_used
+                  ? 'The text below is an AI-generated explanation of those findings — it does not introduce new medical facts.'
+                  : 'The text below is the deterministic database text, not an AI explanation — it does not introduce new medical facts.'}
+              </div>
+
+              <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', marginBottom: '14px', lineHeight: 1.5 }}>
+                {aiExplain.summary}
+              </p>
+
+              {aiExplain.explanations.map((ex, i) => (
+                <div
+                  key={i}
+                  style={{
+                    padding: '10px 14px',
+                    borderRadius: 'var(--radius-sm)',
+                    background: 'rgba(255, 255, 255, 0.03)',
+                    border: '1px solid rgba(255,255,255,0.06)',
+                    marginBottom: '8px',
+                  }}
+                >
+                  <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', fontFamily: 'monospace', marginBottom: '4px' }}>
+                    {ex.findingId}
+                  </div>
+                  <p style={{ fontSize: '0.83rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.5 }}>
+                    {ex.explanation}
+                  </p>
+                </div>
+              ))}
+
+              <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '10px', fontStyle: 'italic' }}>
+                {aiExplain.disclaimer}
+              </p>
+            </>
+          )}
         </div>
       )}
 

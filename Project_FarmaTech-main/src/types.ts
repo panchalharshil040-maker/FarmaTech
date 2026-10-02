@@ -17,6 +17,7 @@ export interface ResolvedMedicine {
 }
 
 export interface Finding {
+  id?: string
   type: 'interaction' | 'duplicate_ingredient' | 'class_duplicate' | 'food_interaction' | 'contraindication'
   severity: FindingSeverity
   drugs: string[]
@@ -25,6 +26,9 @@ export interface Finding {
   watch: string
   explanation: string
   recommendation?: string
+  condition?: string
+  source?: Record<string, string>
+  verified_status?: string
 }
 
 export interface PatientProfile {
@@ -45,6 +49,8 @@ export interface CheckResponse {
   disclaimer: string
   food_warnings?: string[]
   patient_warnings?: string[]
+  advisories_source?: 'unverified-local-advisory'
+  found?: boolean
 }
 
 export interface SimulateResponse {

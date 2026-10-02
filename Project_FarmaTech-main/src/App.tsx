@@ -7,6 +7,7 @@ import {
   QrCode,
   ShieldCheck,
   Sparkles,
+  Zap,
 } from 'lucide-react'
 import Header from './components/Header'
 import PatientForm from './components/PatientForm'
@@ -14,53 +15,118 @@ import DrugInput from './components/DrugInput'
 import ResultsPanel from './components/ResultsPanel'
 import SimulatePanel from './components/SimulatePanel'
 import QRPanel from './components/QRPanel'
-import { checkMedicines } from './api'
+import { checkMedicines, explainFindings } from './api'
 import type { CheckResponse, Language, PatientProfile, ViewMode } from './types'
+import type { ExplainResponse } from './api'
+
+// ---------------------------------------------------------------------------
+// Demo cases — populated via the real /api/check endpoint, never faked
+// ---------------------------------------------------------------------------
+interface DemoCase {
+  label: string
+  description: string
+  medicines: string[]
+  patient: PatientProfile
+}
+
+const DEFAULT_PATIENT: PatientProfile = {
+  ageGroup: 'adult',
+  isPregnant: false,
+  hasRenalImpairment: false,
+  hasLiverDisease: false,
+  hasCardiacHistory: false,
+  allergies: [],
+}
+
+const DEMO_CASES: DemoCase[] = [
+  {
+    label: 'Drug-Drug Interaction',
+    description: 'Clopidogrel + Warfarin sodium → increased bleeding risk (FDA verified)',
+    medicines: ['clopidogrel', 'warfarin sodium'],
+    patient: DEFAULT_PATIENT,
+  },
+  {
+    label: 'Contraindication',
+    description: 'Warfarin sodium + Pregnancy → contraindicated (FDA label rule)',
+    medicines: ['warfarin sodium'],
+    patient: { ...DEFAULT_PATIENT, isPregnant: true },
+  },
+  {
+    label: 'Duplicate Therapy',
+    description: 'Acetaminophen + Acetaminophen-codeine → active-ingredient overlap',
+    medicines: ['acetaminophen', 'acetaminophen and codeine phosphate'],
+    patient: DEFAULT_PATIENT,
+  },
+  {
+    label: 'No Verified Match',
+    description: 'Metformin + Montelukast → no verified finding in current database',
+    medicines: ['metformin', 'montelukast'],
+    patient: DEFAULT_PATIENT,
+  },
+]
 
 export default function App() {
   const [medicines, setMedicines] = useState<string[]>([])
   const [view, setView] = useState<ViewMode>('doctor')
   const [language, setLanguage] = useState<Language>('en')
-  const [patient, setPatient] = useState<PatientProfile>({
-    ageGroup: 'adult',
-    isPregnant: false,
-    hasRenalImpairment: false,
-    hasLiverDisease: false,
-    hasCardiacHistory: false,
-    allergies: [],
-  })
+  const [patient, setPatient] = useState<PatientProfile>(DEFAULT_PATIENT)
   const [result, setResult] = useState<CheckResponse | null>(null)
+  const [aiExplain, setAiExplain] = useState<ExplainResponse | null>(null)
   const [loading, setLoading] = useState(false)
+  const [aiLoading, setAiLoading] = useState(false)
   const [error, setError] = useState('')
   const [activeTab, setActiveTab] = useState<'check' | 'simulate' | 'qr'>('check')
 
   const addMedicine = useCallback((name: string) => {
     setMedicines((prev) => (prev.includes(name) ? prev : [...prev, name]))
     setResult(null)
+    setAiExplain(null)
   }, [])
 
   const removeMedicine = useCallback((name: string) => {
     setMedicines((prev) => prev.filter((m) => m !== name))
     setResult(null)
+    setAiExplain(null)
   }, [])
 
   const clearAllMedicines = useCallback(() => {
     setMedicines([])
     setResult(null)
+    setAiExplain(null)
   }, [])
 
   const handleCheck = async () => {
     if (medicines.length === 0) return
     setLoading(true)
     setError('')
+    setResult(null)
+    setAiExplain(null)
     try {
       const data = await checkMedicines(medicines, view, language, patient)
       setResult(data)
+      // Only call /api/explain when there are verified findings — never for empty results
+      if (data.findings.length > 0) {
+        setAiLoading(true)
+        explainFindings(data.findings, view, language)
+          .then((exp) => setAiExplain(exp))
+          .finally(() => setAiLoading(false))
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Analysis check failed')
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleLoadDemo = (demo: DemoCase) => {
+    setMedicines(demo.medicines)
+    setPatient(demo.patient)
+    setResult(null)
+    setAiExplain(null)
+    setError('')
+    // Switch to check tab so user can hit the Analyze button
+    setActiveTab('check')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   return (
@@ -344,7 +410,67 @@ export default function App() {
             )}
 
             {/* Results Panel */}
-            {result && <ResultsPanel data={result} view={view} />}
+            {result && (
+              <ResultsPanel
+                data={result}
+                view={view}
+                aiExplain={aiExplain}
+                aiLoading={aiLoading}
+              />
+            )}
+
+            {/* Demo Cases */}
+            <div
+              style={{
+                marginTop: result ? '48px' : '0',
+                padding: '24px',
+                borderRadius: 'var(--radius-lg)',
+                background: 'rgba(255, 255, 255, 0.02)',
+                border: '1px solid var(--border-subtle)',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                <Zap size={18} style={{ color: 'var(--accent-amber)' }} />
+                <span style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                  Try Verified Demo Cases
+                </span>
+                <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>
+                  Each demo calls the real /api/check endpoint — no results are faked
+                </span>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '10px' }}>
+                {DEMO_CASES.map((demo) => (
+                  <button
+                    key={demo.label}
+                    onClick={() => handleLoadDemo(demo)}
+                    style={{
+                      padding: '12px 14px',
+                      borderRadius: 'var(--radius-md)',
+                      border: '1px solid var(--border-subtle)',
+                      background: 'rgba(6, 182, 212, 0.05)',
+                      cursor: 'pointer',
+                      textAlign: 'left',
+                      transition: 'all 0.2s',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = 'rgba(6, 182, 212, 0.4)'
+                      e.currentTarget.style.background = 'rgba(6, 182, 212, 0.1)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = 'var(--border-subtle)'
+                      e.currentTarget.style.background = 'rgba(6, 182, 212, 0.05)'
+                    }}
+                  >
+                    <div style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--accent-cyan)', marginBottom: '4px' }}>
+                      {demo.label}
+                    </div>
+                    <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', lineHeight: 1.4 }}>
+                      {demo.description}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         )}
 
