@@ -57,10 +57,12 @@ export interface SimulateResponse {
   before_score: number
   after_score: number
   delta: number
+  before_findings?: Finding[]
   new_findings: Finding[]
   risk_level: RiskLevel
   unresolved: string[]
   disclaimer: string
+  found?: boolean
 }
 
 export interface QRTokenResponse {

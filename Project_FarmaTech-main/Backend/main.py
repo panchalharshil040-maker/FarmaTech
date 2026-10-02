@@ -124,22 +124,25 @@ Do not claim that the explanation is a diagnosis or treatment decision."""
 GROQ_SYSTEM_INSTRUCTION = """You are an explanation assistant for PharmaTech.
 
 Use ONLY the verified findings supplied by the application.
-
-The supplied findings come from a verified medical database.
+The supplied findings are already verified by the deterministic database engine.
 
 Do not introduce facts that are not present in the supplied findings.
+Do not introduce new medical facts.
 
 Do not invent:
 - drug interactions
+- unsupported interactions
 - contraindications
 - duplicate therapies
 - medicines
 - diagnoses
 - treatment recommendations
+- prescribing decisions
 - severity levels
 
 Do not modify the meaning of any database rule.
-Do not alter severity.
+Do not alter severity or risk.
+Do not diagnose, prescribe, or recommend treatment.
 
 If a finding contains an action or recommendation, explain it without changing it.
 
@@ -342,23 +345,36 @@ def check(r: CheckReq):
     return report(r.medicines, r.view, r.language, r.patient)
 
 
+def _finding_identity(f: dict) -> tuple:
+    fid = f.get("id")
+    drugs = tuple(sorted(str(d).lower().strip() for d in f.get("drugs", [])))
+    if fid:
+        return (fid, drugs)
+    return (f.get("type", ""), drugs, f.get("condition", ""))
+
+
 @app.post("/api/simulate", dependencies=[Depends(auth)])
 def simulate(r: SimReq):
+    new_med = r.new_medicine.strip()
+    if not new_med:
+        raise HTTPException(422, "Prospective medicine name cannot be empty")
+
     before = report(r.medicines, r.view, r.language, r.patient)
-    after = report(r.medicines + [r.new_medicine], r.view, r.language, r.patient)
-    
-    seen = {(x.get("id"), tuple(x["drugs"])) for x in before["findings"]}
-    new_f = [x for x in after["findings"] if (x.get("id"), tuple(x["drugs"])) not in seen]
-    
+    after = report(r.medicines + [new_med], r.view, r.language, r.patient)
+
+    seen = {_finding_identity(x) for x in before["findings"]}
+    new_f = [x for x in after["findings"] if _finding_identity(x) not in seen]
+
     return {
-        "before_score": before["risk_score"], 
+        "before_score": before["risk_score"],
         "after_score": after["risk_score"],
-        "delta": after["risk_score"] - before["risk_score"], 
+        "delta": after["risk_score"] - before["risk_score"],
+        "before_findings": before["findings"],
         "new_findings": new_f,
-        "risk_level": after["risk_level"], 
-        "unresolved": after["unresolved"], 
+        "risk_level": after["risk_level"],
+        "unresolved": after["unresolved"],
         "disclaimer": DISCLAIMER,
-        "found": after["found"]
+        "found": bool(new_f)
     }
 
 def call_gemini(findings: list[dict], view: str, language: str) -> dict:

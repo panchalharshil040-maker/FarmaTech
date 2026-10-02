@@ -53,6 +53,87 @@ def test_simulate_delta():
     assert r["delta"] > 0
     assert r["after_score"] > r["before_score"]
 
+def test_simulate_interaction():
+    """Proposed medicine creating a known interaction is detected as a new finding."""
+    r = client.post(
+        "/api/simulate",
+        json={"medicines": ["clopidogrel"], "new_medicine": "warfarin sodium"},
+    )
+    assert r.status_code == 200
+    data = r.json()
+    assert data["delta"] == 40
+    assert data["after_score"] == 40
+    assert data["before_score"] == 0
+    assert len(data["new_findings"]) == 1
+    assert data["new_findings"][0]["id"] == "clopidogrel-warfarin"
+    assert data["found"] is True
+
+def test_simulate_duplicate_therapy():
+    """Proposed medicine creating duplicate therapy is detected as a new finding."""
+    r = client.post(
+        "/api/simulate",
+        json={"medicines": ["simvastatin"], "new_medicine": "rosuvastatin calcium"},
+    )
+    assert r.status_code == 200
+    data = r.json()
+    assert data["delta"] == 25
+    assert len(data["new_findings"]) == 1
+    assert data["new_findings"][0]["id"] == "simvastatin-rosuvastatin-overlap"
+    assert data["found"] is True
+
+def test_simulate_contraindication_with_patient_condition():
+    """Proposed medicine contraindication against patient condition is detected."""
+    r = client.post(
+        "/api/simulate",
+        json={
+            "medicines": ["metformin"],
+            "new_medicine": "warfarin sodium",
+            "patient": {"isPregnant": True},
+        },
+    )
+    assert r.status_code == 200
+    data = r.json()
+    assert data["delta"] == 40
+    assert any(f.get("id") == "warfarin-pregnancy" for f in data["new_findings"])
+    assert data["found"] is True
+
+def test_simulate_no_matching_verified_finding():
+    """Proposed medicine with no interaction has 0 delta and no new findings."""
+    r = client.post(
+        "/api/simulate",
+        json={"medicines": ["metformin"], "new_medicine": "montelukast"},
+    )
+    assert r.status_code == 200
+    data = r.json()
+    assert data["delta"] == 0
+    assert len(data["new_findings"]) == 0
+    assert data["found"] is False
+
+def test_simulate_existing_before_finding_not_reported_as_new():
+    """A finding that already existed BEFORE adding the medicine must not be in new_findings."""
+    r = client.post(
+        "/api/simulate",
+        json={
+            "medicines": ["clopidogrel", "warfarin sodium"],
+            "new_medicine": "montelukast",
+        },
+    )
+    assert r.status_code == 200
+    data = r.json()
+    assert data["before_score"] == 40
+    assert data["after_score"] == 40
+    assert data["delta"] == 0
+    assert len(data["new_findings"]) == 0
+    assert data["found"] is False
+
+def test_simulate_empty_proposed_medicine_rejected():
+    """Empty proposed medicine should return 422."""
+    r = client.post(
+        "/api/simulate",
+        json={"medicines": ["warfarin sodium"], "new_medicine": "   "},
+    )
+    assert r.status_code == 422
+
 # --- Multi-language / view tests ---
 def test_hindi_patient_view():
     """Patient view in Hindi should use Hindi template text."""

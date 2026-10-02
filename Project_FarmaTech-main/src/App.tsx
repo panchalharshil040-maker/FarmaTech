@@ -477,6 +477,7 @@ export default function App() {
         {/* Tab 2: What-If Simulator */}
         {activeTab === 'simulate' && (
           <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+            <PatientForm patient={patient} onChange={setPatient} />
             <DrugInput
               medicines={medicines}
               onAdd={addMedicine}
@@ -487,6 +488,7 @@ export default function App() {
               medicines={medicines}
               view={view}
               language={language}
+              patient={patient}
             />
           </div>
         )}

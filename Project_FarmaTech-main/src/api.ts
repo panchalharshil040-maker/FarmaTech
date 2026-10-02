@@ -139,8 +139,8 @@ export interface ExplainResponse {
 }
 
 /**
- * Send verified findings to the backend, which forwards them to Gemini.
- * The Gemini API key is NEVER exposed to the browser — it stays in the backend .env.
+ * Send verified findings to the backend AI explanation endpoint.
+ * The API key is NEVER exposed to the browser — it stays in the backend .env.
  */
 export async function explainFindings(
   findings: object[],
