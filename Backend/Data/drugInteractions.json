@@ -1,0 +1,870 @@
+
+[
+  {
+    "id": "clopidogrel-warfarin",
+    "drugA": "clopidogrel",
+    "drugB": "warfarin sodium",
+    "ruleType": "drug-drug",
+    "risk": "increased bleeding risk",
+    "action": "monitor for bleeding",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0001-of-0014.json.zip",
+      "setId": "4cd07a3c-9673-4aa0-b76a-d79df2399ee1",
+      "effectiveTime": "2025-09-08",
+      "evidenceDrug": "clopidogrel",
+      "splId": "188c5658-7bc2-4331-a794-a2194863953c"
+    }
+  },
+  {
+    "id": "simvastatin-clarithromycin",
+    "drugA": "simvastatin",
+    "drugB": "clarithromycin",
+    "ruleType": "drug-drug",
+    "risk": "increased risk of myopathy and rhabdomyolysis",
+    "action": "concomitant use is contraindicated in the cited simvastatin label",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0001-of-0014.json.zip",
+      "setId": "751b79c6-bba8-4d29-b69c-a2ac6453fec8",
+      "effectiveTime": "2024-04-05",
+      "evidenceDrug": "simvastatin",
+      "splId": "1553d57f-414d-2c66-e063-6294a90af8e0"
+    }
+  },
+  {
+    "id": "simvastatin-amiodarone",
+    "drugA": "simvastatin",
+    "drugB": "amiodarone",
+    "ruleType": "drug-drug",
+    "risk": "increased risk of myopathy and rhabdomyolysis",
+    "action": "do not exceed simvastatin 20 mg daily in the cited label",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0001-of-0014.json.zip",
+      "setId": "751b79c6-bba8-4d29-b69c-a2ac6453fec8",
+      "effectiveTime": "2024-04-05",
+      "evidenceDrug": "simvastatin",
+      "splId": "1553d57f-414d-2c66-e063-6294a90af8e0"
+    }
+  },
+  {
+    "id": "simvastatin-amlodipine",
+    "drugA": "simvastatin",
+    "drugB": "amlodipine",
+    "ruleType": "drug-drug",
+    "risk": "increased risk of myopathy and rhabdomyolysis",
+    "action": "do not exceed simvastatin 20 mg daily in the cited label",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0001-of-0014.json.zip",
+      "setId": "751b79c6-bba8-4d29-b69c-a2ac6453fec8",
+      "effectiveTime": "2024-04-05",
+      "evidenceDrug": "simvastatin",
+      "splId": "1553d57f-414d-2c66-e063-6294a90af8e0"
+    }
+  },
+  {
+    "id": "digoxin-amiodarone",
+    "drugA": "digoxin",
+    "drugB": "amiodarone",
+    "ruleType": "drug-drug",
+    "risk": "digoxin concentration may increase; the cited label reports about a 70% increase",
+    "action": "measure serum digoxin concentration and reduce digoxin dose by approximately 30-50% or modify dosing frequency",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0001-of-0014.json.zip",
+      "setId": "dcf9b23b-5840-46ff-bb61-c57a02831a03",
+      "effectiveTime": "2026-03-18",
+      "evidenceDrug": "digoxin",
+      "splId": "be6f84d6-d95b-4e39-8c32-26176f5c98ef"
+    }
+  },
+  {
+    "id": "digoxin-clarithromycin",
+    "drugA": "digoxin",
+    "drugB": "clarithromycin",
+    "ruleType": "drug-drug",
+    "risk": "increased digoxin exposure; the cited clarithromycin label reports elevated serum concentrations and toxicity reports",
+    "action": "consider monitoring serum digoxin concentration",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0001-of-0014.json.zip",
+      "setId": "fa69ea92-0b41-43fb-918f-ed80e0dedf04",
+      "effectiveTime": "2026-03-04",
+      "evidenceDrug": "clarithromycin",
+      "splId": "4c34fe6f-2144-d0e9-e063-6294a90a3e8d"
+    }
+  },
+  {
+    "id": "digoxin-metformin",
+    "drugA": "digoxin",
+    "drugB": "metformin hydrochloride",
+    "ruleType": "drug-drug",
+    "risk": "digoxin concentrations may increase; magnitude is unclear in the cited digoxin label",
+    "action": "monitor serum digoxin concentration and adjust if necessary",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0001-of-0014.json.zip",
+      "setId": "dcf9b23b-5840-46ff-bb61-c57a02831a03",
+      "effectiveTime": "2026-03-18",
+      "evidenceDrug": "digoxin",
+      "splId": "be6f84d6-d95b-4e39-8c32-26176f5c98ef"
+    }
+  },
+  {
+    "id": "amiodarone-warfarin",
+    "drugA": "amiodarone",
+    "drugB": "warfarin sodium",
+    "ruleType": "drug-drug",
+    "risk": "potentiation of anticoagulant response with serious or fatal bleeding risk described in the cited label",
+    "action": "reduce warfarin dose by one-third to one-half and monitor prothrombin times, as specified by the cited label",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0001-of-0014.json.zip",
+      "setId": "7ae393d1-7469-432a-9f21-f5ebab1207d1",
+      "effectiveTime": "2026-02-12",
+      "evidenceDrug": "amiodarone",
+      "splId": "84ad18a0-1887-4b62-8ac1-94ace3433366"
+    }
+  },
+  {
+    "id": "fluconazole-warfarin",
+    "drugA": "fluconazole",
+    "drugB": "warfarin sodium",
+    "ruleType": "drug-drug",
+    "risk": "prothrombin time may increase; bleeding events have been reported",
+    "action": "carefully monitor prothrombin time; dose adjustment of warfarin may be necessary",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0001-of-0014.json.zip",
+      "setId": "c2c7242d-d172-4733-e053-2995a90acb2e",
+      "effectiveTime": "2026-02-10",
+      "evidenceDrug": "fluconazole",
+      "splId": "4a80ede2-17c6-ce12-e063-6294a90a38cf"
+    }
+  },
+  {
+    "id": "fluconazole-amiodarone",
+    "drugA": "fluconazole",
+    "drugB": "amiodarone",
+    "ruleType": "drug-drug",
+    "risk": "may increase QT prolongation",
+    "action": "use caution if concomitant use is necessary, especially with high-dose fluconazole",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0001-of-0014.json.zip",
+      "setId": "c2c7242d-d172-4733-e053-2995a90acb2e",
+      "effectiveTime": "2026-02-10",
+      "evidenceDrug": "fluconazole",
+      "splId": "4a80ede2-17c6-ce12-e063-6294a90a38cf"
+    }
+  },
+  {
+    "id": "clarithromycin-warfarin",
+    "drugA": "clarithromycin",
+    "drugB": "warfarin sodium",
+    "ruleType": "drug-drug",
+    "risk": "may potentiate oral anticoagulant effects",
+    "action": "carefully monitor prothrombin time during concomitant administration",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0001-of-0014.json.zip",
+      "setId": "fa69ea92-0b41-43fb-918f-ed80e0dedf04",
+      "effectiveTime": "2026-03-04",
+      "evidenceDrug": "clarithromycin",
+      "splId": "4c34fe6f-2144-d0e9-e063-6294a90a3e8d"
+    }
+  },
+  {
+    "id": "sertraline-warfarin",
+    "drugA": "sertraline hydrochloride",
+    "drugB": "warfarin sodium",
+    "ruleType": "drug-drug",
+    "risk": "concomitant use may increase bleeding risk",
+    "action": "carefully monitor INR for patients taking warfarin",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0001-of-0014.json.zip",
+      "setId": "a6d0f35c-f4f4-456d-b8d9-d56297261ad6",
+      "effectiveTime": "2026-08-17",
+      "evidenceDrug": "sertraline",
+      "splId": "593a87ef-14dc-60e8-e063-6394a90a4e8a"
+    }
+  },
+  {
+    "id": "sertraline-pimozide",
+    "drugA": "sertraline hydrochloride",
+    "drugB": "pimozide",
+    "ruleType": "drug-drug",
+    "risk": "increased pimozide exposure may increase risk of QTc prolongation and ventricular arrhythmias",
+    "action": "concomitant use is contraindicated in the cited sertraline label",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0001-of-0014.json.zip",
+      "setId": "a6d0f35c-f4f4-456d-b8d9-d56297261ad6",
+      "effectiveTime": "2026-08-17",
+      "evidenceDrug": "sertraline",
+      "splId": "593a87ef-14dc-60e8-e063-6394a90a4e8a"
+    }
+  },
+  {
+    "id": "tramadol-carbamazepine",
+    "drugA": "tramadol hydrochloride",
+    "drugB": "carbamazepine",
+    "ruleType": "drug-drug",
+    "risk": "carbamazepine may reduce tramadol analgesic effect and adds seizure-risk concerns",
+    "action": "concomitant administration is not recommended in the cited tramadol label",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0001-of-0014.json.zip",
+      "setId": "a65b4d05-3a1c-4aa1-848a-d20ac9aaf62f",
+      "effectiveTime": "2025-12-29",
+      "evidenceDrug": "tramadol",
+      "splId": "50c36ee9-b6f1-4f50-a276-cfbfa49ba588"
+    }
+  },
+  {
+    "id": "atorvastatin-digoxin",
+    "drugA": "atorvastatin calcium",
+    "drugB": "digoxin",
+    "ruleType": "drug-drug",
+    "risk": "may increase digoxin plasma levels",
+    "action": "monitor patients appropriately",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0002-of-0014.json.zip",
+      "setId": "ac98cfd7-fd4c-4fe1-91f3-50a0e232364f",
+      "effectiveTime": "2025-06-10",
+      "evidenceDrug": "atorvastatin",
+      "splId": "bb421bfa-9f89-41eb-a0b8-f235bec19554"
+    }
+  },
+  {
+    "id": "atorvastatin-clarithromycin",
+    "drugA": "atorvastatin calcium",
+    "drugB": "clarithromycin",
+    "ruleType": "drug-drug",
+    "risk": "increased risk of myopathy and rhabdomyolysis from CYP3A4 inhibition by this macrolide antibiotic",
+    "action": "do not exceed atorvastatin calcium 20 mg daily in the cited label",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0002-of-0014.json.zip",
+      "setId": "ac98cfd7-fd4c-4fe1-91f3-50a0e232364f",
+      "effectiveTime": "2025-06-10",
+      "evidenceDrug": "atorvastatin",
+      "splId": "bb421bfa-9f89-41eb-a0b8-f235bec19554"
+    }
+  },
+  {
+    "id": "omeprazole-warfarin",
+    "drugA": "omeprazole",
+    "drugB": "warfarin sodium",
+    "ruleType": "drug-drug",
+    "risk": "increased INR and prothrombin time; increases may lead to abnormal bleeding and even death per the cited label",
+    "action": "monitor INR and prothrombin time and adjust the warfarin dose as needed to maintain target INR range",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0002-of-0014.json.zip",
+      "setId": "3b19d724-821b-61dc-e063-6294a90aa4d3",
+      "effectiveTime": "2025-07-29",
+      "evidenceDrug": "omeprazole",
+      "splId": "3b19d244-3cd1-0813-e063-6394a90ac153"
+    }
+  },
+  {
+    "id": "omeprazole-clopidogrel",
+    "drugA": "omeprazole",
+    "drugB": "clopidogrel",
+    "ruleType": "drug-drug",
+    "risk": "reduces plasma concentration of clopidogrel's active metabolite and reduces platelet inhibition",
+    "action": "avoid concomitant use with omeprazole; the cited label suggests considering alternative anti-platelet therapy",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0002-of-0014.json.zip",
+      "setId": "3b19d724-821b-61dc-e063-6294a90aa4d3",
+      "effectiveTime": "2025-07-29",
+      "evidenceDrug": "omeprazole",
+      "splId": "3b19d244-3cd1-0813-e063-6394a90ac153"
+    }
+  },
+  {
+    "id": "omeprazole-digoxin",
+    "drugA": "omeprazole",
+    "drugB": "digoxin",
+    "ruleType": "drug-drug",
+    "risk": "potential for increased digoxin exposure",
+    "action": "monitor digoxin concentrations; dose adjustment may be needed",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0002-of-0014.json.zip",
+      "setId": "3b19d724-821b-61dc-e063-6294a90aa4d3",
+      "effectiveTime": "2025-07-29",
+      "evidenceDrug": "omeprazole",
+      "splId": "3b19d244-3cd1-0813-e063-6394a90ac153"
+    }
+  },
+  {
+    "id": "ciprofloxacin-warfarin",
+    "drugA": "ciprofloxacin",
+    "drugB": "warfarin sodium",
+    "ruleType": "drug-drug",
+    "risk": "may potentiate the effect of oral anticoagulants; INR effects can be difficult to assess",
+    "action": "monitor prothrombin time and INR frequently during and shortly after co-administration",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0002-of-0014.json.zip",
+      "setId": "6fd3da0b-7428-ac8f-e053-2a91aa0aed9f",
+      "effectiveTime": "2025-12-29",
+      "evidenceDrug": "ciprofloxacin",
+      "splId": "47236eca-557e-1b27-e063-6394a90acd14"
+    }
+  },
+  {
+    "id": "rivaroxaban-warfarin",
+    "drugA": "rivaroxaban",
+    "drugB": "warfarin sodium",
+    "ruleType": "drug-drug",
+    "risk": "coadministration with other anticoagulants may increase bleeding risk",
+    "action": "avoid concurrent use of rivaroxaban with other anticoagulants unless the benefit outweighs the risk",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0002-of-0014.json.zip",
+      "setId": "5524f30f-789d-4f5c-8f7c-d03a475b6d34",
+      "effectiveTime": "2025-11-21",
+      "evidenceDrug": "rivaroxaban",
+      "splId": "4b61dc52-0593-4ef0-8246-a82ff6972842"
+    }
+  },
+  {
+    "id": "rivaroxaban-clopidogrel",
+    "drugA": "rivaroxaban",
+    "drugB": "clopidogrel",
+    "ruleType": "drug-drug",
+    "risk": "coadministration with platelet aggregation inhibitors may increase bleeding risk",
+    "action": "promptly evaluate any signs or symptoms of blood loss if treated concomitantly with clopidogrel or other platelet aggregation inhibitors",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0002-of-0014.json.zip",
+      "setId": "5524f30f-789d-4f5c-8f7c-d03a475b6d34",
+      "effectiveTime": "2025-11-21",
+      "evidenceDrug": "rivaroxaban",
+      "splId": "4b61dc52-0593-4ef0-8246-a82ff6972842"
+    }
+  },
+  {
+    "id": "azithromycin-warfarin",
+    "drugA": "azithromycin",
+    "drugB": "warfarin sodium",
+    "ruleType": "drug-drug",
+    "risk": "may potentiate the effects of oral anticoagulants (increased coagulation times)",
+    "action": "monitor prothrombin time when used concomitantly",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0002-of-0014.json.zip",
+      "setId": "405ab07f-7d1d-4552-ad3b-2a03be8e9949",
+      "effectiveTime": "2026-02-17",
+      "evidenceDrug": "azithromycin",
+      "splId": "52447b25-1d4a-4d01-a863-83d92bf33388"
+    }
+  },
+  {
+    "id": "amoxicillin-warfarin",
+    "drugA": "amoxicillin",
+    "drugB": "warfarin sodium",
+    "ruleType": "drug-drug",
+    "risk": "abnormal prolongation of prothrombin time (increased INR) has been reported",
+    "action": "appropriate monitoring should be undertaken when anticoagulants are prescribed concurrently",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0003-of-0014.json.zip",
+      "setId": "6a9cfa97-3715-4b75-a1e3-932a34a942d4",
+      "effectiveTime": "2024-03-01",
+      "evidenceDrug": "amoxicillin",
+      "splId": "59bdb6eb-6f58-457d-9d49-ade53d7b626d"
+    }
+  },
+  {
+    "id": "ibuprofen-warfarin",
+    "drugA": "ibuprofen",
+    "drugB": "warfarin sodium",
+    "ruleType": "drug-drug",
+    "risk": "increased risk of serious gastrointestinal bleeding",
+    "action": "monitor closely for bleeding and use the combination only when clinically appropriate",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "400faee1-f662-470e-bcd6-7711dfaf9ba2",
+      "effectiveTime": "2023-11-24",
+      "evidenceDrug": "ibuprofen",
+      "splId": "928aea26-2b55-4e1c-9a7d-9aeddfdb32a5"
+    }
+  },
+  {
+    "id": "ibuprofen-aspirin",
+    "drugA": "ibuprofen",
+    "drugB": "aspirin",
+    "ruleType": "drug-drug",
+    "risk": "ibuprofen can interfere with the antiplatelet effect of low-dose aspirin",
+    "action": "assess dosing schedule and cardiovascular/bleeding considerations",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "400faee1-f662-470e-bcd6-7711dfaf9ba2",
+      "effectiveTime": "2023-11-24",
+      "evidenceDrug": "ibuprofen",
+      "splId": "928aea26-2b55-4e1c-9a7d-9aeddfdb32a5"
+    }
+  },
+  {
+    "id": "naproxen-warfarin",
+    "drugA": "naproxen sodium",
+    "drugB": "warfarin sodium",
+    "ruleType": "drug-drug",
+    "risk": "increased risk of serious bleeding",
+    "action": "monitor closely for bleeding and anticoagulation status",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "d0670241-f1f9-4fdf-83d4-547e7b800811",
+      "effectiveTime": "2022-11-01",
+      "evidenceDrug": "naproxen sodium",
+      "splId": "58d04fa7-f30f-4f9e-834c-f63b2c0431a9"
+    }
+  },
+  {
+    "id": "naproxen-aspirin",
+    "drugA": "naproxen sodium",
+    "drugB": "aspirin",
+    "ruleType": "drug-drug",
+    "risk": "naproxen may interfere with the antiplatelet effect of low-dose aspirin and may increase bleeding risk",
+    "action": "assess the need for combined therapy and monitor for bleeding",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "d0670241-f1f9-4fdf-83d4-547e7b800811",
+      "effectiveTime": "2022-11-01",
+      "evidenceDrug": "naproxen sodium",
+      "splId": "58d04fa7-f30f-4f9e-834c-f63b2c0431a9"
+    }
+  },
+  {
+    "id": "diclofenac-warfarin",
+    "drugA": "diclofenac sodium",
+    "drugB": "warfarin sodium",
+    "ruleType": "drug-drug",
+    "risk": "synergistic increase in bleeding risk",
+    "action": "monitor closely for serious bleeding",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "1c1ee94c-60d6-4cfc-bb66-1d4f6e630512",
+      "effectiveTime": "2022-05-02",
+      "evidenceDrug": "diclofenac sodium",
+      "splId": "840fbe22-2b9d-40c5-bf0c-30ed391273aa"
+    }
+  },
+  {
+    "id": "diclofenac-aspirin",
+    "drugA": "diclofenac sodium",
+    "drugB": "aspirin",
+    "ruleType": "drug-drug",
+    "risk": "increased gastrointestinal adverse reactions and bleeding risk",
+    "action": "avoid unnecessary concomitant NSAID/analgesic aspirin use and monitor",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "1c1ee94c-60d6-4cfc-bb66-1d4f6e630512",
+      "effectiveTime": "2022-05-02",
+      "evidenceDrug": "diclofenac sodium",
+      "splId": "840fbe22-2b9d-40c5-bf0c-30ed391273aa"
+    }
+  },
+  {
+    "id": "warfarin-omeprazole",
+    "drugA": "warfarin sodium",
+    "drugB": "omeprazole",
+    "ruleType": "drug-drug",
+    "risk": "possible alteration of anticoagulant effect and INR",
+    "action": "monitor INR when therapy is started, changed, or stopped",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "53a6947e-ef3f-403b-9ccc-1740ae5efad0",
+      "effectiveTime": "2024-12-24",
+      "evidenceDrug": "warfarin sodium",
+      "splId": "b49cb9cd-efdd-4c66-9384-0353562b83e9"
+    }
+  },
+  {
+    "id": "atorvastatin-warfarin",
+    "drugA": "atorvastatin calcium",
+    "drugB": "warfarin sodium",
+    "ruleType": "drug-drug",
+    "risk": "the cited label reports no clinically significant effect on prothrombin time",
+    "action": "continue appropriate routine anticoagulation monitoring",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "51f23212-a10d-4cfa-e054-00144ff88e88",
+      "effectiveTime": "2025-02-04",
+      "evidenceDrug": "atorvastatin calcium",
+      "splId": "2d53fdee-0fc2-2c7f-e063-6294a90ab8f2"
+    }
+  },
+  {
+    "id": "prednisone-warfarin",
+    "drugA": "prednisone",
+    "drugB": "warfarin sodium",
+    "ruleType": "drug-drug",
+    "risk": "corticosteroids may alter the response to warfarin",
+    "action": "monitor coagulation indices frequently",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "7d52bf53-76e3-4826-a12b-b16a8560bafc",
+      "effectiveTime": "2021-05-01",
+      "evidenceDrug": "prednisone",
+      "splId": "c1b5fac9-ec3d-491f-8e58-bba1d0f9d861"
+    }
+  },
+  {
+    "id": "escitalopram-warfarin",
+    "drugA": "escitalopram oxalate",
+    "drugB": "warfarin sodium",
+    "ruleType": "drug-drug",
+    "risk": "increased bleeding concern with drugs affecting hemostasis",
+    "action": "use caution and monitor for bleeding",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "2d0b4839-e4d1-4e0e-9dc0-ba821f266472",
+      "effectiveTime": "2022-04-01",
+      "evidenceDrug": "escitalopram oxalate",
+      "splId": "bfd7c6f5-24c7-4491-b4f8-d501a2393fec"
+    }
+  },
+  {
+    "id": "sertraline-clopidogrel",
+    "drugA": "sertraline hydrochloride",
+    "drugB": "clopidogrel bisulfate",
+    "ruleType": "drug-drug",
+    "risk": "increased bleeding risk when combined with antiplatelet therapy",
+    "action": "monitor for bleeding",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "68c94fb4-3018-44af-b982-2b4b6d461e6f",
+      "effectiveTime": "2022-06-24",
+      "evidenceDrug": "sertraline hydrochloride",
+      "splId": "a189f92d-a14a-45be-8f55-4b81fe2dce92"
+    }
+  },
+  {
+    "id": "bupropion-clopidogrel",
+    "drugA": "bupropion hydrochloride",
+    "drugB": "clopidogrel bisulfate",
+    "ruleType": "drug-drug",
+    "risk": "increased bupropion exposure and decreased hydroxybupropion exposure",
+    "action": "consider clinical response and dosage adjustment",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "87dac2ee-732c-465b-8ffe-e5aeba421425",
+      "effectiveTime": "2024-05-31",
+      "evidenceDrug": "bupropion hydrochloride",
+      "splId": "56dd9f39-2249-497c-a9e7-dc51cb479929"
+    }
+  },
+  {
+    "id": "levothyroxine-sertraline",
+    "drugA": "levothyroxine sodium",
+    "drugB": "sertraline hydrochloride",
+    "ruleType": "drug-drug",
+    "risk": "sertraline may increase levothyroxine requirements",
+    "action": "monitor thyroid function and adjust therapy clinically",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0004-of-0014.json.zip",
+      "setId": "3e77de84-6f59-40ac-a1a4-7bfe30387823",
+      "effectiveTime": "2023-12-12",
+      "evidenceDrug": "levothyroxine sodium",
+      "splId": "25169406-e7c1-42dd-85c0-93af09fe2e65"
+    }
+  },
+  {
+    "id": "ciprofloxacin-tizanidine",
+    "drugA": "ciprofloxacin",
+    "drugB": "tizanidine",
+    "ruleType": "drug-drug",
+    "risk": "potentiation of hypotensive and sedative effects",
+    "action": "avoid concomitant use",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0005-of-0014.json.zip",
+      "setId": "ef468722-68cd-440b-afd7-2285029db41f",
+      "effectiveTime": "2025-07-18",
+      "evidenceDrug": "ciprofloxacin",
+      "splId": null
+    }
+  },
+  {
+    "id": "ciprofloxacin-theophylline",
+    "drugA": "ciprofloxacin",
+    "drugB": "theophylline",
+    "ruleType": "drug-drug",
+    "risk": "increased theophylline exposure and risk of CNS or other adverse reactions",
+    "action": "avoid if possible; if unavoidable, monitor theophylline levels and adjust dosage",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0005-of-0014.json.zip",
+      "setId": "ef468722-68cd-440b-afd7-2285029db41f",
+      "effectiveTime": "2025-07-18",
+      "evidenceDrug": "ciprofloxacin",
+      "splId": null
+    }
+  },
+  {
+    "id": "ciprofloxacin-oral-antidiabetic",
+    "drugA": "ciprofloxacin",
+    "drugB": "oral antidiabetic drugs",
+    "ruleType": "drug-drug",
+    "risk": "potentiated glucose-lowering effect and potentially severe hypoglycemia",
+    "action": "monitor blood glucose",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0005-of-0014.json.zip",
+      "setId": "ef468722-68cd-440b-afd7-2285029db41f",
+      "effectiveTime": "2025-07-18",
+      "evidenceDrug": "ciprofloxacin",
+      "splId": null
+    }
+  },
+  {
+    "id": "doxycycline-anticoagulants",
+    "drugA": "doxycycline hyclate",
+    "drugB": "anticoagulants",
+    "ruleType": "drug-drug",
+    "risk": "possible increased anticoagulant effect",
+    "action": "monitor coagulation and consider anticoagulant dose adjustment",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0005-of-0014.json.zip",
+      "setId": "cec4368f-2852-443d-9d6f-7ba95807021b",
+      "effectiveTime": "2025-04-16",
+      "evidenceDrug": "doxycycline hyclate",
+      "splId": null
+    }
+  },
+  {
+    "id": "doxycycline-antacids",
+    "drugA": "doxycycline hyclate",
+    "drugB": "aluminum-calcium-magnesium-antacids",
+    "ruleType": "drug-drug",
+    "risk": "reduced doxycycline absorption",
+    "action": "separate administration and follow product-specific instructions",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0005-of-0014.json.zip",
+      "setId": "cec4368f-2852-443d-9d6f-7ba95807021b",
+      "effectiveTime": "2025-04-16",
+      "evidenceDrug": "doxycycline hyclate",
+      "splId": null
+    }
+  },
+  {
+    "id": "furosemide-aminoglycosides",
+    "drugA": "furosemide",
+    "drugB": "aminoglycoside antibiotics",
+    "ruleType": "drug-drug",
+    "risk": "increased ototoxic potential",
+    "action": "avoid combination except in life-threatening situations and monitor closely",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0005-of-0014.json.zip",
+      "setId": "3ba730ab-90d4-478a-80b3-1ea3edb03e4d",
+      "effectiveTime": "2025-07-15",
+      "evidenceDrug": "furosemide",
+      "splId": null
+    }
+  },
+  {
+    "id": "furosemide-lithium",
+    "drugA": "furosemide",
+    "drugB": "lithium",
+    "ruleType": "drug-drug",
+    "risk": "reduced renal lithium clearance and increased lithium toxicity risk",
+    "action": "avoid when possible and monitor lithium concentrations closely",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0005-of-0014.json.zip",
+      "setId": "3ba730ab-90d4-478a-80b3-1ea3edb03e4d",
+      "effectiveTime": "2025-07-15",
+      "evidenceDrug": "furosemide",
+      "splId": null
+    }
+  },
+  {
+    "id": "furosemide-arb",
+    "drugA": "furosemide",
+    "drugB": "angiotensin-II receptor blockers",
+    "ruleType": "drug-drug",
+    "risk": "severe hypotension and deterioration in renal function",
+    "action": "monitor blood pressure and renal function; dosage adjustment may be necessary",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0005-of-0014.json.zip",
+      "setId": "3ba730ab-90d4-478a-80b3-1ea3edb03e4d",
+      "effectiveTime": "2025-07-15",
+      "evidenceDrug": "furosemide",
+      "splId": null
+    }
+  },
+  {
+    "id": "furosemide-sucralfate",
+    "drugA": "furosemide",
+    "drugB": "sucralfate",
+    "ruleType": "drug-drug",
+    "risk": "reduced natriuretic and antihypertensive effect of furosemide",
+    "action": "separate administration by at least two hours and monitor therapeutic response",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0005-of-0014.json.zip",
+      "setId": "3ba730ab-90d4-478a-80b3-1ea3edb03e4d",
+      "effectiveTime": "2025-07-15",
+      "evidenceDrug": "furosemide",
+      "splId": null
+    }
+  },
+  {
+    "id": "rivaroxaban-aspirin",
+    "drugA": "rivaroxaban",
+    "drugB": "aspirin",
+    "ruleType": "drug-drug",
+    "risk": "increased bleeding risk",
+    "action": "evaluate bleeding risk and monitor for signs of blood loss",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0005-of-0014.json.zip",
+      "setId": "3e95389b-0a93-4560-98c5-02637fb2600f",
+      "effectiveTime": "2023-11-10",
+      "evidenceDrug": "rivaroxaban",
+      "splId": null
+    }
+  },
+  {
+    "id": "rivaroxaban-nsaid",
+    "drugA": "rivaroxaban",
+    "drugB": "NSAIDs",
+    "ruleType": "drug-drug",
+    "risk": "increased bleeding risk",
+    "action": "evaluate bleeding risk and monitor for blood loss",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0005-of-0014.json.zip",
+      "setId": "3e95389b-0a93-4560-98c5-02637fb2600f",
+      "effectiveTime": "2023-11-10",
+      "evidenceDrug": "rivaroxaban",
+      "splId": null
+    }
+  },
+  {
+    "id": "ondansetron-tramadol",
+    "drugA": "ondansetron hydrochloride",
+    "drugB": "tramadol",
+    "ruleType": "drug-drug",
+    "risk": "ondansetron may increase patient-controlled administration of tramadol",
+    "action": "monitor adequacy of pain control",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0005-of-0014.json.zip",
+      "setId": "3a76bae2-04c2-ee2d-e063-6394a90ad4c8",
+      "effectiveTime": "2025-07-21",
+      "evidenceDrug": "ondansetron hydrochloride",
+      "splId": null
+    }
+  },
+  {
+    "id": "ondansetron-serotonergic-drugs",
+    "drugA": "ondansetron hydrochloride",
+    "drugB": "serotonergic drugs",
+    "ruleType": "drug-drug",
+    "risk": "serotonin syndrome has been reported",
+    "action": "monitor for mental-status, autonomic and neuromuscular symptoms",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0005-of-0014.json.zip",
+      "setId": "3a76bae2-04c2-ee2d-e063-6394a90ad4c8",
+      "effectiveTime": "2025-07-21",
+      "evidenceDrug": "ondansetron hydrochloride",
+      "splId": null
+    }
+  },
+  {
+    "id": "glipizide-fluconazole",
+    "drugA": "glipizide",
+    "drugB": "fluconazole",
+    "ruleType": "drug-drug",
+    "risk": "increased glipizide exposure and increased hypoglycemia risk",
+    "action": "monitor blood glucose closely",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling",
+      "datasetPart": "drug-label-0005-of-0014.json.zip",
+      "setId": "62d569b8-bb34-0e06-e053-2a91aa0a2ae1",
+      "effectiveTime": "2024-06-06",
+      "evidenceDrug": "glipizide",
+      "splId": null
+    }
+  }
+]
