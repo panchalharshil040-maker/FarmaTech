@@ -1,9 +1,12 @@
 import type {
   CheckResponse,
   DrugSearchResult,
+  FoodWarning,
   Language,
   PatientProfile,
   QRTokenResponse,
+  QrRecordResponse,
+  RegimenComparison,
   SimulateResponse,
   ViewMode,
 } from './types'
@@ -90,10 +93,92 @@ export async function checkMedicines(
   const advisories = localAdvisories(medicines, patient)
   return {
     ...res,
-    food_warnings: advisories.food_warnings,
+    food_warnings: [
+      ...(res.food_warnings ?? []),
+      ...advisories.food_warnings.map((w): FoodWarning => ({
+        id: `LOCAL-${w}`,
+        medicine: '',
+        food: 'general',
+        warning: w,
+        effect: '',
+        source: { organization: 'Local Advisory', dataset: 'unverified' },
+        verified_status: 'unverified',
+      })),
+    ],
     patient_warnings: advisories.patient_warnings,
     advisories_source: advisories.advisories_source,
   }
+}
+
+/**
+ * Backend liveness probe for the header status indicator.
+ * Reports what the deterministic engine endpoint actually answered — the UI
+ * never renders an "Engine Active" claim it has not verified.
+ */
+export async function checkEngineHealth(): Promise<boolean> {
+  try {
+    const res = await request<{ status: string }>('/health', undefined, 2500)
+    return res.status === 'ok'
+  } catch {
+    return false
+  }
+}
+
+/**
+ * Read and validate an existing patient QR payload (GET /api/qr/{token}).
+ *
+ * The backend verifies the signature and returns the medicines + allergies the
+ * token carries together with a fresh deterministic report for that record.
+ * An invalid or tampered token is rejected with 400 — nothing is imported.
+ */
+export async function readQrRecord(token: string): Promise<QrRecordResponse> {
+  const trimmed = token.trim()
+  if (!trimmed) throw new Error('No QR token supplied')
+  try {
+    return await request<QrRecordResponse>(`/api/qr/${encodeURIComponent(trimmed)}`)
+  } catch (err) {
+    if (err instanceof Error && err.message.toLowerCase().includes('qr token')) {
+      throw new Error(
+        'QR validation failed — this token is invalid or has been altered. No patient record was imported.',
+      )
+    }
+    throw new Error(describeFailure(err))
+  }
+}
+
+/**
+ * Display metadata for medicines already recorded in a patient record.
+ *
+ * This is a pure lookup of the backend's own search index: it maps a recorded
+ * name to the generic name / active ingredients the database stores for it.
+ * It performs no medical matching and produces no finding.
+ */
+export async function getMedicineDetails(
+  names: string[],
+): Promise<Record<string, { generic: string; ingredients: string[] }>> {
+  const unique = [...new Set(names.map((n) => n.trim()).filter(Boolean))]
+  const detail: Record<string, { generic: string; ingredients: string[] }> = {}
+
+  await Promise.all(
+    unique.map(async (name) => {
+      try {
+        const hits = await searchDrugs(name)
+        const needle = name.toLowerCase()
+        const hit =
+          hits.find((h) => h.name.toLowerCase() === needle) ??
+          hits.find((h) => h.ingredients.some((i) => i.toLowerCase() === needle)) ??
+          hits.find((h) => h.name.toLowerCase().includes(needle)) ??
+          hits[0]
+        if (!hit) return
+        const generic = hit.ingredients[0] ?? ''
+        detail[name] = { generic, ingredients: hit.ingredients }
+      } catch {
+        /* display-only enrichment: stay silent, the record still renders */
+      }
+    }),
+  )
+
+  return detail
 }
 
 /** Simulate adding a prospective medicine. Findings come only from the backend. */
@@ -108,6 +193,29 @@ export async function simulateMedicine(
     return await request<SimulateResponse>('/api/simulate', {
       method: 'POST',
       body: JSON.stringify({ medicines, view, language, new_medicine: newMedicine, patient }),
+    })
+  } catch (err) {
+    throw new Error(describeFailure(err))
+  }
+}
+
+/**
+ * Send a complete TEMPORARY proposed regimen (add / remove / replace) to the
+ * backend simulation endpoint. The backend analyses both regimens and returns the
+ * resolved / remaining / newly introduced findings together with the score, level
+ * and risk delta — this function computes no medical value.
+ */
+export async function simulateRegimen(
+  current: string[],
+  proposed: string[],
+  view: ViewMode = 'doctor',
+  language: Language = 'en',
+  patient?: PatientProfile,
+): Promise<SimulateResponse> {
+  try {
+    return await request<SimulateResponse>('/api/simulate', {
+      method: 'POST',
+      body: JSON.stringify({ medicines: current, view, language, proposed_medicines: proposed, patient }),
     })
   } catch (err) {
     throw new Error(describeFailure(err))
@@ -159,5 +267,58 @@ export async function explainFindings(
     )
   } catch {
     return null
+  }
+}
+
+/**
+ * Compare the patient's CURRENT regimen against a temporary PROPOSED regimen.
+ *
+ * Both regimens, the finding buckets and the risk delta are produced by the
+ * deterministic backend through POST /api/simulate (`proposed_medicines`). This
+ * function only forwards the request and returns the backend response — it never
+ * analyses a regimen, computes a risk value or derives a finding.
+ *
+ * The patient record itself is never modified here — this only reads.
+ */
+export async function compareRegimens(
+  current: string[],
+  proposed: string[],
+  view: ViewMode = 'doctor',
+  language: Language = 'en',
+  patient?: PatientProfile,
+): Promise<RegimenComparison> {
+  const sim = await simulateRegimen(current, proposed, view, language, patient)
+
+  return {
+    proposed,
+    current: {
+      resolved: [],
+      unresolved: [],
+      findings: sim.before_findings,
+      food_warnings: [],
+      risk_score: sim.before_score,
+      risk_level: sim.before_level ?? sim.risk_level,
+      disclaimer: sim.disclaimer,
+      found: sim.before_findings.length > 0,
+    },
+    proposedReport: {
+      resolved: [],
+      unresolved: sim.unresolved ?? [],
+      findings: sim.after_findings ?? [],
+      food_warnings: [],
+      risk_score: sim.after_score,
+      risk_level: sim.risk_level,
+      disclaimer: sim.disclaimer,
+      found: (sim.after_findings ?? []).length > 0,
+    },
+    currentScore: sim.before_score,
+    proposedScore: sim.after_score,
+    currentLevel: sim.before_level ?? sim.risk_level,
+    proposedLevel: sim.risk_level,
+    delta: sim.delta,
+    resolved: sim.resolved_findings ?? [],
+    remaining: sim.remaining_findings ?? [],
+    introduced: sim.new_findings ?? [],
+    simulate: sim,
   }
 }

@@ -57,6 +57,7 @@ try:
     INTERACTIONS_DB = as_records("drugInteractions.json", load_json("drugInteractions.json"))
     CONTRAINDICATIONS_DB = as_records("contradiction.json", load_json("contradiction.json"))
     DUPLICATE_THERAPY_DB = as_records("duplicateTherapy.json", load_json("duplicateTherapy.json"))
+    FOOD_WARNINGS_DB = as_records("foodwarning.json", load_json("foodwarning.json"))
 except Exception as e:
     # We will raise the exception. The application won't start if databases are missing/invalid.
     raise e

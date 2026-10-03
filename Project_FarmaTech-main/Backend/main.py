@@ -13,7 +13,7 @@ from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 
 from data import TEMPLATES
-from database import MEDICINES_DB, INTERACTIONS_DB, CONTRAINDICATIONS_DB, DUPLICATE_THERAPY_DB
+from database import MEDICINES_DB, INTERACTIONS_DB, CONTRAINDICATIONS_DB, DUPLICATE_THERAPY_DB, FOOD_WARNINGS_DB
 
 load_dotenv()
 load_dotenv(os.path.join(os.path.dirname(__file__), "Data", ".env"))
@@ -82,7 +82,11 @@ class ExplainReq(BaseModel):
     language: Literal["en", "hi", "gu"] = "en"
 
 class SimReq(CheckReq):
-    new_medicine: str
+    # Backward compatible: the original contract added one medicine.
+    new_medicine: str = ""
+    # Optional full proposed regimen (add / remove / replace). When supplied it is
+    # the authoritative temporary regimen and new_medicine is ignored.
+    proposed_medicines: Optional[List[str]] = None
 
 class QRReq(BaseModel):
     medicines: list[str] = Field(min_length=1, max_length=30)
@@ -192,7 +196,7 @@ def match_condition(db_condition: str, patient_conditions: list[str]) -> bool:
             return True
     return False
 
-def analyze(meds: list[str], patient: PatientProfile | None = None) -> tuple[list, list, list]:
+def analyze(meds: list[str], patient: PatientProfile | None = None) -> tuple[list, list, list, list]:
     resolved = []
     unresolved = []
     owner = {}
@@ -284,7 +288,25 @@ def analyze(meds: list[str], patient: PatientProfile | None = None) -> tuple[lis
                         "verified_status": "verified"
                     })
 
-    return resolved, unresolved, findings
+    # 4. Food warnings (verified from foodwarning.json)
+    food_warnings = []
+    for fw in FOOD_WARNINGS_DB:
+        med_id = fw.get("medicineId", "").lower()
+        # Check if any resolved ingredient matches this medicine
+        for ing in owner.keys():
+            if ing == med_id or med_id in ing or ing in med_id:
+                food_warnings.append({
+                    "id": fw.get("id"),
+                    "medicine": fw.get("genericName"),
+                    "food": fw.get("food"),
+                    "warning": fw.get("warning"),
+                    "effect": fw.get("effect"),
+                    "source": fw.get("source", {}),
+                    "verified_status": "verified"
+                })
+                break
+
+    return resolved, unresolved, findings, food_warnings
 
 
 def explain(f: dict, view: str, lang: str) -> str:
@@ -297,7 +319,7 @@ def explain(f: dict, view: str, lang: str) -> str:
 
 def report(meds: list[str], view: str, lang: str, patient: PatientProfile | None = None) -> dict:
     """Build a full safety report for a list of medicines."""
-    resolved, unresolved, findings = analyze(meds, patient)
+    resolved, unresolved, findings, food_warnings = analyze(meds, patient)
     
     for x in findings:
         x["explanation"] = explain(x, view, lang)
@@ -316,6 +338,7 @@ def report(meds: list[str], view: str, lang: str, patient: PatientProfile | None
         "resolved": resolved,
         "unresolved": unresolved,
         "findings": findings,
+        "food_warnings": food_warnings,
         "risk_score": score,
         "risk_level": level,
         "disclaimer": DISCLAIMER,
@@ -355,23 +378,47 @@ def _finding_identity(f: dict) -> tuple:
 
 @app.post("/api/simulate", dependencies=[Depends(auth)])
 def simulate(r: SimReq):
-    new_med = r.new_medicine.strip()
-    if not new_med:
-        raise HTTPException(422, "Prospective medicine name cannot be empty")
+    """
+    Compare the current regimen against a TEMPORARY proposed regimen.
+
+    Two accepted inputs (the endpoint and its original response keys are preserved):
+      • new_medicine         → the proposed regimen is current + that medicine (add)
+      • proposed_medicines   → the complete proposed regimen (add / remove / replace),
+                               which may be an empty list to model removing everything
+
+    Both sides and every comparison value below are produced by the deterministic
+    engine: the client only renders what is returned here.
+    """
+    if r.proposed_medicines is not None:
+        proposed = [m for m in r.proposed_medicines]
+    else:
+        new_med = r.new_medicine.strip()
+        if not new_med:
+            raise HTTPException(422, "Prospective medicine name cannot be empty")
+        proposed = r.medicines + [new_med]
 
     before = report(r.medicines, r.view, r.language, r.patient)
-    after = report(r.medicines + [new_med], r.view, r.language, r.patient)
+    after = report(proposed, r.view, r.language, r.patient)
 
-    seen = {_finding_identity(x) for x in before["findings"]}
-    new_f = [x for x in after["findings"] if _finding_identity(x) not in seen]
+    before_ids = {_finding_identity(x) for x in before["findings"]}
+    after_ids = {_finding_identity(x) for x in after["findings"]}
+    new_f = [x for x in after["findings"] if _finding_identity(x) not in before_ids]
+    resolved_f = [x for x in before["findings"] if _finding_identity(x) not in after_ids]
+    remaining_f = [x for x in after["findings"] if _finding_identity(x) in before_ids]
 
     return {
         "before_score": before["risk_score"],
         "after_score": after["risk_score"],
         "delta": after["risk_score"] - before["risk_score"],
-        "before_findings": before["findings"],
-        "new_findings": new_f,
+        "before_level": before["risk_level"],
         "risk_level": after["risk_level"],
+        "before_findings": before["findings"],
+        "after_findings": after["findings"],
+        "new_findings": new_f,
+        "resolved_findings": resolved_f,
+        "remaining_findings": remaining_f,
+        "current_medicines": list(r.medicines),
+        "proposed_medicines": proposed,
         "unresolved": after["unresolved"],
         "disclaimer": DISCLAIMER,
         "found": bool(new_f)

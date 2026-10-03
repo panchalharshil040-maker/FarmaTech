@@ -1,0 +1,74 @@
+[
+  {
+    "id": "FW-CLOP-001",
+    "medicineId": "clopidogrel",
+    "genericName": "clopidogrel",
+    "food": "food",
+    "warning": "Clopidogrel can be administered with or without food. When clopidogrel was given with a standard breakfast, inhibition of ADP-induced platelet aggregation was reduced by less than 9%, while active-metabolite AUC was unchanged and Cmax decreased by 57%. Similar results were observed with a high-fat breakfast.",
+    "effect": "Food, including a standard or high-fat breakfast, decreased the maximum concentration (Cmax) of clopidogrel's active metabolite, although overall exposure (AUC) remained unchanged.",
+    "source": {
+      "organization": "U.S. Food and Drug Administration",
+      "dataset": "openFDA Drug Labeling"
+    }
+  },
+  {
+    "id": "FW-WAR-001",
+    "medicineId": "warfarin",
+    "genericName": "warfarin sodium",
+    "food": "vitamin K-rich foods and grapefruit juice",
+    "warning": "Maintain a consistent amount of vitamin K in the diet and avoid drastic changes in dietary habits, such as eating large amounts of green leafy vegetables.",
+    "effect": "The amount of vitamin K in food may affect warfarin therapy. Foods and grapefruit juice can interact with warfarin and may alter its anticoagulant effect and INR.",
+    "source": {
+      "organization": "U.S. Food and Drug Administration",
+      "dataset": "openFDA Drug Labeling"
+    }
+  },
+  {
+    "id": "FW-ACE-001",
+    "medicineId": "acetaminophen",
+    "genericName": "acetaminophen",
+    "food": "alcohol",
+    "warning": "Avoid consuming 3 or more alcoholic drinks every day while using acetaminophen.",
+    "effect": "Regular consumption of 3 or more alcoholic drinks every day while using acetaminophen may increase the risk of severe liver damage.",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling"
+    }
+  },
+  {
+    "id": "FW-ACECOD-001",
+    "medicineId": "acetaminophen-codeine",
+    "genericName": "acetaminophen-codeine",
+    "food": "alcohol",
+    "warning": "Avoid consuming 3 or more alcoholic drinks every day while using acetaminophen-codeine.",
+    "effect": "Regular consumption of 3 or more alcoholic drinks every day while using acetaminophen-codeine may increase the risk of severe liver damage.",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling"
+    }
+  },
+  {
+    "id": "FW-MET-001",
+    "medicineId": "metformin",
+    "genericName": "metformin hydrochloride",
+    "food": "alcohol",
+    "warning": "Avoid excessive alcohol intake while receiving metformin.",
+    "effect": "Alcohol can potentiate the effect of metformin on lactate metabolism and may increase the risk of lactic acidosis.",
+    "source": {
+      "organization": "U.S. Food and Drug Administration",
+      "dataset": "openFDA Drug Labeling"
+    }
+  },
+  {
+    "id": "FW-MON-001",
+    "medicineId": "montelukast_sodium",
+    "genericName": "montelukast sodium",
+    "food": "without regard to time of food ingestion",
+    "warning": "May be taken with or without food. If used for asthma, it must be taken once daily strictly in the evening. Make sure to double-check the physical label to confirm specific instructions.",
+    "effect": "Clinical efficacy for asthma has been demonstrated when administered in the evening, regardless of food intake. Timing does not alter the drug's absorption, but taking it at the same time each evening helps maintain steady baseline therapeutic levels.",
+    "source": {
+      "organization": "U.S. Food and Drug Administration (FDA)",
+      "dataset": "openFDA Drug Labeling"
+    }
+  }
+]

@@ -1,4 +1,6 @@
-import { Globe, HeartPulse, Stethoscope, User } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Activity, Globe, HeartPulse, Stethoscope, User } from 'lucide-react'
+import { checkEngineHealth } from '../api'
 import type { Language, ViewMode } from '../types'
 
 interface Props {
@@ -8,9 +10,9 @@ interface Props {
   setLanguage: (l: Language) => void
 }
 
-const viewOptions: { value: ViewMode; label: string; icon: typeof Stethoscope }[] = [
-  { value: 'doctor', label: 'Doctor View', icon: Stethoscope },
-  { value: 'patient', label: 'Patient View', icon: User },
+const roleOptions: { value: ViewMode; label: string; icon: typeof Stethoscope }[] = [
+  { value: 'doctor', label: 'Doctor', icon: Stethoscope },
+  { value: 'patient', label: 'Patient', icon: User },
 ]
 
 const langOptions: { value: Language; label: string }[] = [
@@ -20,121 +22,137 @@ const langOptions: { value: Language; label: string }[] = [
 ]
 
 export default function Header({ view, setView, language, setLanguage }: Props) {
+  const [engineActive, setEngineActive] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    let cancelled = false
+    const probe = async () => {
+      const ok = await checkEngineHealth()
+      if (!cancelled) setEngineActive(ok)
+    }
+    probe()
+    const timer = setInterval(probe, 60000)
+    return () => {
+      cancelled = true
+      clearInterval(timer)
+    }
+  }, [])
+
   return (
     <header
       style={{
-        padding: '16px 0',
-        borderBottom: '1px solid var(--border-subtle)',
-        background: 'rgba(10, 14, 26, 0.85)',
-        backdropFilter: 'blur(16px)',
+        background: '#ffffff',
+        borderBottom: '1px solid var(--border-base)',
         position: 'sticky',
         top: 0,
         zIndex: 50,
       }}
     >
-      <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
+      <div
+        className="container"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: 12,
+          paddingTop: 12,
+          paddingBottom: 12,
+        }}
+      >
         {/* Brand */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
           <div
+            aria-hidden
             style={{
-              width: 44,
-              height: 44,
-              borderRadius: 'var(--radius-md)',
-              background: 'var(--gradient-main)',
+              width: 40,
+              height: 40,
+              borderRadius: 10,
+              background: 'var(--brand)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: 'var(--shadow-glow-cyan)',
+              flexShrink: 0,
             }}
           >
-            <HeartPulse size={24} color="white" />
+            <HeartPulse size={22} color="#ffffff" />
           </div>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ minWidth: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <h1
                 style={{
-                  fontSize: '1.45rem',
+                  fontSize: '1.24rem',
                   fontWeight: 800,
-                  background: 'var(--gradient-main)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
+                  color: 'var(--text-strong)',
                   letterSpacing: '-0.02em',
+                  lineHeight: 1.1,
                 }}
               >
-                FarmaTech
+                MediGuard
               </h1>
-              <span
-                style={{
-                  fontSize: '0.65rem',
-                  padding: '2px 8px',
-                  borderRadius: '999px',
-                  background: 'rgba(6, 182, 212, 0.15)',
-                  border: '1px solid rgba(6, 182, 212, 0.3)',
-                  color: 'var(--accent-cyan)',
-                  fontWeight: 600,
-                  textTransform: 'uppercase',
-                }}
-              >
-                Clinical v2.4
+              <span className="badge badge-info" style={{ fontSize: '0.62rem' }}>
+                FarmaTech
               </span>
             </div>
-            <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', letterSpacing: '0.04em' }}>
-              AI-Powered Prescription Safety & Interaction Analyzer
+            <p
+              style={{
+                fontSize: '0.72rem',
+                color: 'var(--text-muted)',
+                letterSpacing: '0.01em',
+                marginTop: 2,
+              }}
+            >
+              AI-Powered Prescription Safety &amp; Interaction Analyzer
             </p>
           </div>
         </div>
 
-        {/* Global Controls */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-          {/* Mode Switcher */}
-          <div
-            style={{
-              display: 'flex',
-              background: 'var(--bg-secondary)',
-              borderRadius: 'var(--radius-md)',
-              border: '1px solid var(--border-subtle)',
-              padding: '3px',
-            }}
-          >
-            {viewOptions.map((opt) => {
-              const Icon = opt.icon
-              const active = view === opt.value
-              return (
-                <button
-                  key={opt.value}
-                  onClick={() => setView(opt.value)}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    padding: '6px 14px',
-                    border: 'none',
-                    borderRadius: 'calc(var(--radius-md) - 3px)',
-                    background: active ? 'var(--accent-cyan)' : 'transparent',
-                    color: active ? '#ffffff' : 'var(--text-secondary)',
-                    fontFamily: 'var(--font-sans)',
-                    fontSize: '0.82rem',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-                  }}
-                >
-                  <Icon size={14} />
-                  {opt.label}
-                </button>
-              )
-            })}
-          </div>
-
-          {/* Language Selector */}
+        {/* Global controls */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+          {/* Current role */}
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '6px',
-              background: 'var(--bg-secondary)',
+              gap: 8,
+              padding: '4px 10px 4px 12px',
+              border: '1px solid var(--border-base)',
               borderRadius: 'var(--radius-md)',
-              border: '1px solid var(--border-subtle)',
+              background: 'var(--bg-surface)',
+            }}
+          >
+            <span className="eyebrow" style={{ fontSize: '0.62rem' }}>
+              Role
+            </span>
+            <div style={{ display: 'flex', gap: 4 }}>
+              {roleOptions.map((opt) => {
+                const Icon = opt.icon
+                const active = view === opt.value
+                return (
+                  <button
+                    key={opt.value}
+                    type="button"
+                    onClick={() => setView(opt.value)}
+                    aria-pressed={active}
+                    className={active ? 'btn btn-primary btn-sm' : 'btn btn-quiet btn-sm'}
+                  >
+                    <Icon size={14} />
+                    {opt.label}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Language selector */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 6,
+              border: '1px solid var(--border-base)',
+              borderRadius: 'var(--radius-md)',
+              background: 'var(--bg-surface)',
               padding: '0 10px',
             }}
           >
@@ -142,52 +160,57 @@ export default function Header({ view, setView, language, setLanguage }: Props) 
             <select
               value={language}
               onChange={(e) => setLanguage(e.target.value as Language)}
+              aria-label="Language"
+              className="field"
               style={{
-                padding: '8px 4px',
-                background: 'transparent',
+                padding: '7px 2px',
                 border: 'none',
-                color: 'var(--text-primary)',
-                fontFamily: 'var(--font-sans)',
+                background: 'transparent',
                 fontSize: '0.82rem',
-                fontWeight: 500,
-                cursor: 'pointer',
-                outline: 'none',
+                fontWeight: 600,
+                width: 'auto',
               }}
             >
               {langOptions.map((l) => (
-                <option key={l.value} value={l.value} style={{ background: '#111827', color: '#fff' }}>
+                <option key={l.value} value={l.value}>
                   {l.label}
                 </option>
               ))}
             </select>
           </div>
 
-          {/* Live Engine Status Badge */}
+          {/* Engine status — reflects the real /health response */}
           <div
+            title={
+              engineActive === null
+                ? 'Checking deterministic engine…'
+                : engineActive
+                  ? 'Deterministic engine responded OK'
+                  : 'Deterministic engine unreachable'
+            }
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '6px',
+              gap: 6,
               padding: '6px 12px',
-              background: 'rgba(16, 185, 129, 0.1)',
-              border: '1px solid rgba(16, 185, 129, 0.25)',
-              borderRadius: '999px',
-              color: 'var(--accent-emerald)',
+              borderRadius: 999,
+              border: engineActive === false ? '1px solid var(--high-border)' : '1px solid var(--safe-border)',
+              background: engineActive === false ? 'var(--high-soft)' : 'var(--safe-soft)',
+              color: engineActive === false ? 'var(--high)' : 'var(--safe)',
               fontSize: '0.75rem',
-              fontWeight: 600,
+              fontWeight: 700,
+              whiteSpace: 'nowrap',
             }}
           >
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: '50%',
-                background: 'var(--accent-emerald)',
-                boxShadow: '0 0 8px var(--accent-emerald)',
-                display: 'inline-block',
-              }}
-            />
-            Engine Active
+            {engineActive === null ? (
+              <Activity size={11} className="spin" />
+            ) : (
+              <span
+                aria-hidden
+                style={{ width: 7, height: 7, borderRadius: '50%', background: 'currentColor' }}
+              />
+            )}
+            {engineActive === null ? 'Checking Engine' : engineActive ? 'Engine Active' : 'Engine Offline'}
           </div>
         </div>
       </div>
