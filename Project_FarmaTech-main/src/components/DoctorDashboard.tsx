@@ -137,121 +137,100 @@ export default function DoctorDashboard({
 
         {mode === 'scan' && (
           <QrImportPanel
-            onLoaded={({ record: qr }) =>
+            onLoaded={({ record: qr }) => {
               onLoadRecord(
                 {
                   source: 'qr',
+                  name: qr.name ?? '',
+                  patientId: qr.patientId ?? '',
+                  age: qr.age ?? '',
                   medicines: qr.medicines,
-                  profile: { ...EMPTY_PROFILE, allergies: qr.allergies },
+                  profile: { ...EMPTY_PROFILE, ...qr.profile, allergies: qr.allergies },
                 },
                 'Patient Record Loaded',
                 qr,
               )
-            }
+              setPhase('patient-loaded')
+              setMode('none')
+            }}
           />
         )}
 
         {/* Demo / Test Patients Section — visible on initial dashboard */}
-        <section className="card" style={{ borderColor: 'var(--color-warning-border)', background: 'var(--color-warning-soft)' }}>
+        <section className="card demo-section">
           <div className="card-head">
             <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-              <FlaskConical size={18} style={{ color: 'var(--color-warning)' }} />
+              <FlaskConical size={18} style={{ color: 'var(--color-text-muted)' }} />
               <div>
-                <h2 className="card-title">DEMO / TEST PATIENTS</h2>
+                <h2 className="card-title" style={{ fontSize: '0.95rem' }}>Demo / Test Patients</h2>
                 <p className="card-sub">
-                  Load a verified demo patient to quickly demonstrate the MediGuard workflow.
+                  Load a verified demo scenario to demonstrate the MediGuard workflow.
                 </p>
               </div>
             </div>
           </div>
-          <div className="card-pad">
-            <p className="med-field" style={{ fontSize: '0.75rem', color: 'var(--color-warning-text)', fontStyle: 'italic', marginBottom: 12 }}>
-              Demo patients are for demonstration/testing only and are not real patient records.
-            </p>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                gap: 14,
-              }}
-            >
+          <div className="card-pad" style={{ paddingTop: 14 }}>
+            <div className="demo-grid">
               {DEMO_PATIENTS.map((scenario) => {
                 const isPregnant = scenario.profile.isPregnant
-                const medCount = scenario.medicines.length
+                /* Badge config per case */
+                const badge =
+                  scenario.id === 'case-2'
+                    ? { cls: 'badge badge-high', icon: <AlertTriangle size={10} aria-hidden="true" />, label: 'Contraindication' }
+                    : scenario.id === 'case-3'
+                    ? { cls: 'badge badge-moderate', icon: <Pill size={10} aria-hidden="true" />, label: 'Duplicate Therapy' }
+                    : { cls: 'badge badge-neutral', icon: <CheckCircle2 size={10} aria-hidden="true" />, label: 'No Verified Match' }
+
                 return (
-                  <div key={scenario.id} className="card" style={{ padding: 18, background: 'var(--bg-surface)' }}>
-                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: 12 }}>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: 6, flexShrink: 0 }}>
-                        {scenario.id === 'case-2' && (
-                          <span className="badge badge-high" style={{ textAlign: 'center' }}>
-                            <AlertTriangle size={10} style={{ marginRight: 4, verticalAlign: 'middle' }} />
-                            PREGNANCY CASE
-                          </span>
-                        )}
-                        {scenario.id === 'case-3' && (
-                          <span className="badge badge-moderate" style={{ textAlign: 'center' }}>
-                            <Pill size={10} style={{ marginRight: 4, verticalAlign: 'middle' }} />
-                            DUPLICATE THERAPY
-                          </span>
-                        )}
-                        {scenario.id === 'case-4' && (
-                          <span className="badge badge-low" style={{ textAlign: 'center' }}>
-                            <CheckCircle2 size={10} style={{ marginRight: 4, verticalAlign: 'middle' }} />
-                            CLEAN CASE
-                          </span>
-                        )}
-                      </div>
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4, flexWrap: 'wrap' }}>
-                          <span className="med-name" style={{ fontSize: '1rem', fontWeight: 600 }}>
-                            {scenario.title}
-                          </span>
-                        </div>
-                        <p className="med-field" style={{ marginTop: 2, lineHeight: 1.5, fontSize: '0.85rem' }}>
-                          {scenario.description}
-                        </p>
-                      </div>
+                  <div key={scenario.id} className="demo-card">
+                    {/* Case title row */}
+                    <div className="demo-card-header">
+                      <span className="eyebrow demo-case-label">
+                        {scenario.id === 'case-2'
+                          ? 'Pregnancy Safety Case'
+                          : scenario.id === 'case-3'
+                          ? 'Duplicate Therapy Case'
+                          : 'Clean Medication Case'}
+                      </span>
                     </div>
 
-                    <div style={{ display: 'grid', gap: 8, marginBottom: 14 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', fontSize: '0.8rem' }}>
-                        <span className="small muted">Medication(s):</span>
-                        <span className="small" style={{ fontWeight: 500 }}>
-                          {scenario.medicines.join(', ')}
-                        </span>
-                      </div>
+                    {/* Medicine list */}
+                    <div className="demo-card-meds">
+                      {scenario.medicines.map((m) => (
+                        <span key={m} className="demo-med-name">{m}</span>
+                      ))}
                       {isPregnant && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.8rem' }}>
-                          <Baby size={12} style={{ color: 'var(--color-danger)' }} />
-                          <span className="badge badge-high" style={{ fontSize: '0.65rem' }}>
-                            Pregnancy
-                          </span>
-                        </div>
-                      )}
-                      {medCount > 1 && !isPregnant && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.8rem' }}>
-                          <span className="badge badge-moderate" style={{ fontSize: '0.65rem' }}>
-                            {medCount} Medicines
-                          </span>
-                        </div>
+                        <span className="badge badge-high demo-context-badge" aria-label="Pregnancy recorded">
+                          <Baby size={10} aria-hidden="true" /> Pregnancy recorded
+                        </span>
                       )}
                     </div>
 
-                    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                      <button
-                        type="button"
-                        className="btn btn-primary btn-sm"
-                        onClick={() => loadDemoPatient(scenario)}
-                        style={{ padding: '8px 16px', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: 6 }}
-                      >
-                        Load Demo Patient
-                        <ChevronRight size={14} />
-                      </button>
+                    {/* Result badge */}
+                    <div className="demo-card-result">
+                      <span className={badge.cls} style={{ gap: 5 }}>
+                        {badge.icon}
+                        {badge.label}
+                      </span>
                     </div>
+
+                    {/* Action */}
+                    <button
+                      type="button"
+                      className="btn btn-primary demo-load-btn"
+                      onClick={() => loadDemoPatient(scenario)}
+                      aria-label={`Load demo patient: ${scenario.title}`}
+                    >
+                      Load Demo Patient
+                      <ChevronRight size={14} aria-hidden="true" />
+                    </button>
                   </div>
                 )
               })}
             </div>
+            <p className="demo-disclaimer">
+              Demo patients are for demonstration/testing only and are not real patient records.
+            </p>
           </div>
         </section>
       </div>

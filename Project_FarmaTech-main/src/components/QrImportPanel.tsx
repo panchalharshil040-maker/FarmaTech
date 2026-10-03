@@ -27,8 +27,9 @@ interface Props {
  * Scan / import a patient QR record.
  *
  * The token is validated by the backend (GET /api/qr/{token}), which verifies the
- * signature and returns the medicines + allergies the token carries together with
- * a fresh deterministic report. An invalid or tampered token imports nothing.
+ * signature and returns the identity, medicines, allergies and clinical profile
+ * the token carries together with a fresh deterministic report. An invalid or
+ * tampered token imports nothing.
  */
 export default function QrImportPanel({ onLoaded, compact = false }: Props) {
   const [token, setToken] = useState('')

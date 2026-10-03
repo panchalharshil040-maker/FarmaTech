@@ -116,6 +116,13 @@ export interface PatientRecord {
 export interface QrRecordResponse {
   medicines: string[]
   allergies: string[]
+  /** Identity carried by the token. Empty for tokens minted before identity
+   *  was encoded into the payload. */
+  name: string
+  patientId: string
+  age: string
+  /** Clinical context carried by the token (allergies duplicated top-level). */
+  profile: PatientProfile
   resolved: ResolvedMedicine[]
   unresolved: string[]
   findings: Finding[]

@@ -127,9 +127,10 @@ export async function checkEngineHealth(): Promise<boolean> {
 /**
  * Read and validate an existing patient QR payload (GET /api/qr/{token}).
  *
- * The backend verifies the signature and returns the medicines + allergies the
- * token carries together with a fresh deterministic report for that record.
- * An invalid or tampered token is rejected with 400 — nothing is imported.
+ * The backend verifies the signature and returns the identity, medicines,
+ * allergies and clinical profile the token carries together with a fresh
+ * deterministic report for that record. An invalid or tampered token is
+ * rejected with 400 — nothing is imported.
  */
 export async function readQrRecord(token: string): Promise<QrRecordResponse> {
   const trimmed = token.trim()
@@ -222,20 +223,30 @@ export async function simulateRegimen(
   }
 }
 
-/** Generate a signed emergency QR token. */
+/** Generate a signed emergency QR token carrying the medicines, allergies,
+ *  identity and clinical profile of the active record. */
 export async function generateQRToken(
   medicines: string[],
   allergies: string[] = [],
+  identity?: { name: string; patientId: string; age: string; profile: PatientProfile },
 ): Promise<QRTokenResponse> {
+  const payload = {
+    medicines,
+    allergies,
+    name: identity?.name ?? '',
+    patientId: identity?.patientId ?? '',
+    age: identity?.age ?? '',
+    profile: identity?.profile,
+  }
   try {
     return await request<QRTokenResponse>('/api/qr', {
       method: 'POST',
-      body: JSON.stringify({ medicines, allergies }),
+      body: JSON.stringify(payload),
     })
   } catch {
     // Generate valid client-side emergency payload
-    const payload = btoa(JSON.stringify({ m: medicines, a: allergies, t: Date.now() }))
-    return { token: `${payload}.client_signed` }
+    const fallback = btoa(JSON.stringify({ m: medicines, a: allergies, t: Date.now() }))
+    return { token: `${fallback}.client_signed` }
   }
 }
 

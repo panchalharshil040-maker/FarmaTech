@@ -57,7 +57,7 @@ export default function PatientDashboard({
         <section className="card">
           <div className="card-pad" style={{ display: 'grid', gap: 14, justifyItems: 'center', textAlign: 'center', padding: '32px 20px' }}>
             <span className="eyebrow">My Medication Safety</span>
-            <h2 style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--text-strong)' }}>
+            <h2 style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--color-text-primary)' }}>
               No medication record loaded
             </h2>
             <p className="small muted" style={{ maxWidth: 520, lineHeight: 1.55 }}>
@@ -81,8 +81,11 @@ export default function PatientDashboard({
               onLoadRecord(
                 {
                   source: 'qr',
+                  name: qr.name ?? '',
+                  patientId: qr.patientId ?? '',
+                  age: qr.age ?? '',
                   medicines: qr.medicines,
-                  profile: { ...EMPTY_PROFILE, allergies: qr.allergies },
+                  profile: { ...EMPTY_PROFILE, ...qr.profile, allergies: qr.allergies },
                 },
                 'Patient Record Loaded',
                 qr,
@@ -151,7 +154,7 @@ return (
       <section className="card">
         <div className="card-head">
           <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-            <HeartPulse size={18} style={{ color: 'var(--brand)' }} />
+            <HeartPulse size={18} style={{ color: 'var(--color-brand)' }} />
             <div>
               <h2 className="card-title">Patient Profile</h2>
               <p className="card-sub">The medication record this page describes.</p>
@@ -184,7 +187,7 @@ return (
       <section className="card">
         <div className="card-head">
           <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-            <FileHeart size={18} style={{ color: 'var(--brand)' }} />
+            <FileHeart size={18} style={{ color: 'var(--color-brand)' }} />
             <div>
               <h2 className="card-title">My Medications</h2>
               <p className="card-sub">

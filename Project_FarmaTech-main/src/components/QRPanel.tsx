@@ -23,7 +23,12 @@ export default function QRPanel({ record }: Props) {
     setLoading(true)
     setError('')
     try {
-      const data = await generateQRToken(record.medicines, record.profile.allergies)
+      const data = await generateQRToken(record.medicines, record.profile.allergies, {
+        name: record.name,
+        patientId: record.patientId,
+        age: record.age,
+        profile: record.profile,
+      })
       setToken(data.token)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'QR generation failed')

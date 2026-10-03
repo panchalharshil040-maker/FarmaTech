@@ -91,6 +91,12 @@ class SimReq(CheckReq):
 class QRReq(BaseModel):
     medicines: list[str] = Field(min_length=1, max_length=30)
     allergies: list[str] = []
+    # Identity + clinical context so an imported pass restores the whole record.
+    # Optional: tokens/requests without them still work (empty identity).
+    name: str = ""
+    patientId: str = ""
+    age: str = ""
+    profile: Optional[PatientProfile] = None
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
@@ -557,9 +563,28 @@ def _unb64(s: str) -> bytes:
     """URL-safe base64 decode with padding restoration."""
     return base64.urlsafe_b64decode(s + "=" * (-len(s) % 4))
 
+def _qr_profile(profile: Optional[PatientProfile], allergies: list[str]) -> dict:
+    """Flatten a PatientProfile into the compact QR payload shape."""
+    return {
+        "ageGroup": profile.ageGroup if profile else "adult",
+        "isPregnant": profile.isPregnant if profile else False,
+        "hasRenalImpairment": profile.hasRenalImpairment if profile else False,
+        "hasLiverDisease": profile.hasLiverDisease if profile else False,
+        "hasCardiacHistory": profile.hasCardiacHistory if profile else False,
+        "allergies": allergies,
+    }
+
 @app.post("/api/qr", dependencies=[Depends(auth)])
 def make_qr(r: QRReq):
-    body = zlib.compress(json.dumps({"m": r.medicines, "a": r.allergies}, separators=(",", ":")).encode())
+    profile = _qr_profile(r.profile, r.allergies or (r.profile.allergies if r.profile else []))
+    body = zlib.compress(json.dumps({
+        "m": r.medicines,
+        "a": profile["allergies"],
+        "n": r.name.strip(),
+        "id": r.patientId.strip(),
+        "g": r.age.strip(),
+        "p": {k: v for k, v in profile.items() if k != "allergies"},
+    }, separators=(",", ":")).encode())
     return {"token": f"{_b64(body)}.{_b64(_sig(body))}"}
 
 @app.get("/api/qr/{token}")
@@ -571,5 +596,20 @@ def read_qr(token: str):
         d = json.loads(zlib.decompress(body))
     except Exception:
         raise HTTPException(400, "Invalid or tampered QR token")
-    return {"medicines": d["m"], "allergies": d["a"], **report(d["m"], "patient", "en")}
+    # Tokens minted before identity was encoded only carry "m" and "a";
+    # they import with an empty identity and a default clinical profile.
+    allergies = d.get("a") or []
+    defaults = _qr_profile(None, allergies)
+    carried = {k: v for k, v in (d.get("p") or {}).items() if k in defaults}
+    profile = {**defaults, **carried, "allergies": allergies}
+    patient = PatientProfile(**profile)
+    return {
+        "medicines": d.get("m", []),
+        "allergies": allergies,
+        "name": d.get("n", ""),
+        "patientId": d.get("id", ""),
+        "age": d.get("g", ""),
+        "profile": patient.model_dump(),
+        **report(d.get("m", []), "patient", "en", patient),
+    }
 

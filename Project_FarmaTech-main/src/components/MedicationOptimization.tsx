@@ -57,7 +57,7 @@ function SafetyBlock({
       <div className={`stat-value ${level && score !== null ? riskTextClass(level) : ''}`}>
         {score === null ? '—' : score}
         {score !== null && (
-          <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)' }}> / 100</span>
+          <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text-muted)' }}> / 100</span>
         )}
       </div>
       <div style={{ marginTop: 6, display: 'flex', gap: 6, flexWrap: 'wrap' }}>
@@ -162,7 +162,7 @@ export default function MedicationOptimization({ record, language }: Props) {
     <section className="card">
       <div className="card-head">
         <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-          <FlaskConical size={18} style={{ color: 'var(--brand)' }} />
+          <FlaskConical size={18} style={{ color: 'var(--color-brand)' }} />
           <div>
             <h2 className="card-title">Medication Optimization</h2>
             <p className="card-sub">
@@ -180,7 +180,7 @@ export default function MedicationOptimization({ record, language }: Props) {
         {/* Regimen editor */}
         <div
           className="card"
-          style={{ boxShadow: 'none', background: modified ? 'var(--brand-soft)' : 'var(--bg-surface)' }}
+          style={{ boxShadow: 'none', background: modified ? 'var(--color-brand-soft)' : 'var(--color-bg-surface)' }}
         >
           <div className="card-head" style={{ background: 'transparent', borderRadius: 0 }}>
             <div>
@@ -208,7 +208,7 @@ export default function MedicationOptimization({ record, language }: Props) {
               proposed.map((med) => {
                 const original = record.medicines.includes(med)
                 return (
-                  <div key={med} className="data-row" style={{ background: original ? 'var(--bg-surface)' : '#ffffff' }}>
+                  <div key={med} className="data-row" style={{ background: 'var(--color-bg-surface)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', minWidth: 0 }}>
                       <span className="med-name">{med}</span>
                       {!original && <span className="badge badge-info">Proposed</span>}
@@ -238,7 +238,7 @@ export default function MedicationOptimization({ record, language }: Props) {
                     </div>
 
                     {replacing === med && (
-                      <div style={{ width: '100%', display: 'grid', gap: 8, paddingTop: 8, borderTop: '1px dashed var(--border-strong)' }}>
+                      <div style={{ width: '100%', display: 'grid', gap: 8, paddingTop: 8, borderTop: '1px dashed var(--color-border-strong)' }}>
                         <div className="notice notice-info">
                           Current: <b>{med}</b> → Proposed: select the replacement medicine below. Nothing is
                           written to the patient record.
@@ -392,7 +392,7 @@ export default function MedicationOptimization({ record, language }: Props) {
                 <div className="card-pad" style={{ padding: 14 }}>
                   <FindingList
                     findings={activeComparison.resolved}
-                    accent="var(--safe)"
+                    accent="var(--color-success)"
                     emptyText="No finding disappeared in this comparison."
                   />
                 </div>
@@ -411,7 +411,7 @@ export default function MedicationOptimization({ record, language }: Props) {
                 <div className="card-pad" style={{ padding: 14 }}>
                   <FindingList
                     findings={activeComparison.remaining}
-                    accent="var(--caution)"
+                    accent="var(--color-warning)"
                     emptyText="No finding from the current regimen remains."
                   />
                 </div>
@@ -430,7 +430,7 @@ export default function MedicationOptimization({ record, language }: Props) {
                 <div className="card-pad" style={{ padding: 14 }}>
                   <FindingList
                     findings={activeComparison.introduced}
-                    accent="var(--high)"
+                    accent="var(--color-danger)"
                     emptyText="The proposed regimen introduced no new verified finding. This is not a safety guarantee."
                   />
                 </div>

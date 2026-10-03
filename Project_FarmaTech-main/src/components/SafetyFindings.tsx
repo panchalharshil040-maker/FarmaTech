@@ -63,6 +63,7 @@ function FindingItem({
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
+        aria-label={open ? 'Collapse finding details' : 'Expand finding details'}
         style={{
           display: 'flex',
           alignItems: 'flex-start',
@@ -87,7 +88,7 @@ function FindingItem({
             {finding.mechanism}
           </p>
         </div>
-        <span style={{ color: '#94a3b8', flexShrink: 0, marginTop: 2 }}>{open ? <ChevronUp size={16} /> : <ChevronDown size={16} />}</span>
+        <span style={{ color: 'var(--color-text-muted)', flexShrink: 0, marginTop: 2 }} aria-hidden="true">{open ? <ChevronUp size={16} /> : <ChevronDown size={16} />}</span>
       </button>
 
       {open && (
@@ -102,10 +103,10 @@ function FindingItem({
           )}
           {finding.recommendation && (
             <div>
-              <div className="eyebrow" style={{ color: 'var(--brand)' }}>
+              <div className="eyebrow" style={{ color: 'var(--color-brand)' }}>
                 Clinical guidance from database
               </div>
-              <p className="small" style={{ color: 'var(--text-body)', marginTop: 3 }}>
+              <p className="small" style={{ color: 'var(--color-text-secondary)', marginTop: 3 }}>
                 {finding.recommendation}
               </p>
             </div>
@@ -113,7 +114,7 @@ function FindingItem({
           {finding.condition && (
             <div>
               <div className="eyebrow">Patient condition matched</div>
-              <p className="small" style={{ color: 'var(--text-body)', marginTop: 3 }}>
+              <p className="small" style={{ color: 'var(--color-text-secondary)', marginTop: 3 }}>
                 {finding.condition}
               </p>
             </div>
@@ -121,7 +122,7 @@ function FindingItem({
 
           {aiExplanation && (
             <div className="notice notice-info">
-              <div className="eyebrow" style={{ color: 'var(--brand-dark)', marginBottom: 3 }}>
+              <div className="eyebrow" style={{ color: 'var(--color-brand-text)', marginBottom: 3 }}>
                 AI explanation · not a diagnosis
               </div>
               <p className="small" style={{ lineHeight: 1.5 }}>
