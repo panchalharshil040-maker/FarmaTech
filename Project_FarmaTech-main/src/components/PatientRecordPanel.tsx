@@ -54,7 +54,9 @@ export default function PatientRecordPanel({ record, result, indicator = false }
     const lookup = details[recorded]
     return {
       recorded,
-      generic: lookup?.generic ?? null,
+      // The lookup above is skipped for medicines the backend already resolved,
+      // so fall back to the backend's own ingredient for the generic name.
+      generic: lookup?.generic || backendResolved?.ingredients[0] || null,
       ingredients: backendResolved?.ingredients ?? lookup?.ingredients ?? [],
       strength: recordedStrength(recorded),
       resolved: Boolean(backendResolved) || Boolean(lookup),
