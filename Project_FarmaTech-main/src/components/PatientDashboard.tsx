@@ -111,7 +111,8 @@ return (
     <div className="stack">
       {loadedNotice && <div className="notice notice-safe">✓ {loadedNotice}</div>}
 
-      {/* Prominent Safety Check Action */}
+      {/* Prominent Safety Check Action — hidden while SafetyCheckPanel is shown to avoid a duplicate card */}
+      {!result && !loading && !error && (
       <section className="card" style={{ borderColor: 'var(--color-brand)', background: 'var(--color-brand-soft)' }}>
         <div className="card-pad" style={{ display: 'grid', gap: 12, justifyItems: 'center', textAlign: 'center' }}>
           <div style={{ display: 'grid', gap: 6, maxWidth: 480 }}>
@@ -148,8 +149,7 @@ return (
           </p>
         </div>
       </section>
-
-      {error && <div className="notice notice-danger">{error}</div>}
+      )}
 
       <section className="card">
         <div className="card-head">
@@ -200,7 +200,13 @@ return (
           <MedicineSearch
             exclude={record.medicines}
             placeholder="Search the medicine on your prescription…"
-            onSelect={(name) => onEditRecord({ medicines: [...record.medicines, name] })}
+            onSelect={(name) =>
+              onEditRecord({
+                medicines: record.medicines.some((m) => m.toLowerCase() === name.toLowerCase())
+                  ? record.medicines
+                  : [...record.medicines, name],
+              })
+            }
           />
           {record.medicines.length === 0 ? (
             <div className="notice">No medicines recorded yet.</div>

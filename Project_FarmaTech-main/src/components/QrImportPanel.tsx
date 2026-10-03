@@ -40,6 +40,7 @@ export default function QrImportPanel({ onLoaded, compact = false }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const streamRef = useRef<MediaStream | null>(null)
   const timerRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined)
+  const inFlightRef = useRef(false)
 
   const stopCamera = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current)
@@ -54,7 +55,8 @@ export default function QrImportPanel({ onLoaded, compact = false }: Props) {
   const importToken = useCallback(
     async (value: string) => {
       const trimmed = value.trim()
-      if (!trimmed) return
+      if (!trimmed || inFlightRef.current) return
+      inFlightRef.current = true
       setLoading(true)
       setError('')
       try {
@@ -63,6 +65,7 @@ export default function QrImportPanel({ onLoaded, compact = false }: Props) {
       } catch (err) {
         setError(err instanceof Error ? err.message : 'QR validation failed')
       } finally {
+        inFlightRef.current = false
         setLoading(false)
       }
     },
