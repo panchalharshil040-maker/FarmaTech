@@ -36,7 +36,7 @@ def test_unresolved_drug():
     """Unknown drug name should appear in unresolved list."""
     r = client.post("/api/check", json={"medicines": ["UnknownDrug123"]}).json()
     assert "UnknownDrug123" in r["unresolved"]
-    assert r["risk_level"] == "low"
+    assert r["risk_level"] == "no_risk"
 
 def test_empty_medicines_rejected():
     """Empty medicine list should be rejected with 422."""

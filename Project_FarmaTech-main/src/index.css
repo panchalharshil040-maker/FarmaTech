@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 /* ══════════════════════════════════════════════════════════════════
-   MediGuard / FarmaTech — LIGHT HEALTHCARE THEME
+   MediGuard / PharmaTech — LIGHT HEALTHCARE THEME
    Trust · Clarity · Safety · Professionalism · Readability
    Healthcare information stays visually dominant over decoration.
    ══════════════════════════════════════════════════════════════════ */
 
 :root {
-  color-scheme: light;
+  color-scheme: light dark;
 
   --bg-app: #f6f8fb;
   --bg-surface: #ffffff;
@@ -45,6 +45,39 @@
   --shadow-sm-hover: 0 2px 8px rgba(15, 23, 42, 0.08);
 
   --font-sans: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+[data-theme="dark"] {
+  --bg-app: #0f172a;
+  --bg-surface: #1e293b;
+  --bg-subtle: #334155;
+
+  --text-strong: #f1f5f9;
+  --text-body: #e2e8f0;
+  --text-muted: #94a3b8;
+
+  --border-base: #334155;
+  --border-strong: #475569;
+
+  --brand: #3b82f6;
+  --brand-dark: #60a5fa;
+  --brand-soft: #1e3a5f;
+
+  --safe: #10b981;
+  --safe-soft: #064e3b;
+  --safe-border: #065f46;
+
+  --caution: #f59e0b;
+  --caution-soft: #78350f;
+  --caution-border: #92400e;
+
+  --high: #ef4444;
+  --high-soft: #7f1d1d;
+  --high-border: #991b1b;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.4);
+  --shadow-sm-hover: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 *,
@@ -303,6 +336,11 @@ select.field {
   background: var(--bg-subtle);
   border-color: var(--border-base);
   color: var(--text-muted);
+}
+.badge-safe {
+  background: var(--safe-soft);
+  border-color: var(--safe-border);
+  color: var(--safe);
 }
 
 /* Verified-source marker */

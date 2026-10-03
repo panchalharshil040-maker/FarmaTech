@@ -1,6 +1,6 @@
-# 💊 FarmaTech — AI-Powered Prescription Safety & Drug Interaction Analysis
+# 💊 PharmaTech — AI-Powered Prescription Safety & Drug Interaction Analysis
 
-FarmaTech is a modern clinical decision support system designed to detect drug-drug interactions, food-drug interactions, pregnancy risks, organ contraindications (renal, hepatic, cardiac), and calculate personalized patient risk scores.
+PharmaTech is a modern clinical decision support system designed to detect drug-drug interactions, food-drug interactions, pregnancy risks, organ contraindications (renal, hepatic, cardiac), and calculate personalized patient risk scores.
 
 ---
 
@@ -65,7 +65,7 @@ npm run lint
 ## 🏗️ Architecture & Features
 
 ```
-Project_FarmaTech-main/
+Project_PharmaTech-main/
 ├── Backend/
 │   ├── main.py          # FastAPI application & REST endpoints
 │   ├── data.py          # Drug database, interactions, food warnings & disease contraindications

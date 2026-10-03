@@ -12,6 +12,7 @@ export const SEVERITY_LABEL: Record<string, string> = {
 }
 
 export const RISK_LABEL: Record<RiskLevel, string> = {
+  no_risk: 'NO RISK',
   low: 'LOW',
   moderate: 'MODERATE',
   high: 'HIGH',
@@ -20,18 +21,21 @@ export const RISK_LABEL: Record<RiskLevel, string> = {
 export function riskBadgeClass(level: RiskLevel): string {
   if (level === 'high') return 'badge badge-high'
   if (level === 'moderate') return 'badge badge-moderate'
-  return 'badge badge-low'
+  if (level === 'low') return 'badge badge-low'
+  return 'badge badge-safe'
 }
 
 export function riskTextClass(level: RiskLevel): string {
   if (level === 'high') return 'text-red-700'
   if (level === 'moderate') return 'text-amber-700'
+  if (level === 'low') return 'text-amber-700'
   return 'text-emerald-700'
 }
 
 export function riskSoftBg(level: RiskLevel): string {
   if (level === 'high') return 'bg-red-50 border-red-200'
   if (level === 'moderate') return 'bg-amber-50 border-amber-200'
+  if (level === 'low') return 'bg-amber-50 border-amber-200'
   return 'bg-emerald-50 border-emerald-200'
 }
 

@@ -1,8 +1,8 @@
-/** Data types for FarmaTech / MediGuard clinical decision support system. */
+/** Data types for PharmaTech / MediGuard clinical decision support system. */
 
 export type ViewMode = 'doctor' | 'patient'
 export type Language = 'en' | 'hi' | 'gu'
-export type RiskLevel = 'low' | 'moderate' | 'high'
+export type RiskLevel = 'no_risk' | 'low' | 'moderate' | 'high'
 export type FindingSeverity = 'major' | 'moderate' | 'minor' | 'duplicate' | 'food' | 'contraindication'
 export type AgeGroup = 'adult' | 'elderly' | 'pediatric'
 

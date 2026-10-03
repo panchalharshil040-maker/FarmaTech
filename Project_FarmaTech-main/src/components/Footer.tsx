@@ -33,7 +33,7 @@ export default function Footer() {
     >
       <div className="container" style={{ textAlign: 'center' }}>
         <p style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-strong)' }}>
-          MediGuard by FarmaTech — Clinical Decision Support &amp; Patient Safety
+          MediGuard by PharmaTech — Clinical Decision Support &amp; Patient Safety
         </p>
         <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 4 }}>
           Decision support only. Not a substitute for a doctor&rsquo;s or pharmacist&rsquo;s clinical judgment.

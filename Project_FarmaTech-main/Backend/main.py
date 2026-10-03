@@ -327,9 +327,11 @@ def report(meds: list[str], view: str, lang: str, patient: PatientProfile | None
     score = min(100, sum(WEIGHT.get(x["severity"], 0) for x in findings))
     has_major = any(x["severity"] == "major" or x["severity"] == "contraindication" for x in findings)
     
-    if score >= 60 or has_major:
+    if score == 0:
+        level = "no_risk"
+    elif score >= 40 or has_major:
         level = "high"
-    elif score >= 20:
+    elif score >= 25:
         level = "moderate"
     else:
         level = "low"

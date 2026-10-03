@@ -8,26 +8,6 @@ interface Props {
   view: ViewMode
 }
 
-function CountTile({ label, value, tone }: { label: string; value: number; tone: 'high' | 'moderate' | 'neutral' | 'info' }) {
-  const badge =
-    tone === 'high' ? 'badge badge-high' : tone === 'moderate' ? 'badge badge-moderate' : tone === 'info' ? 'badge badge-info' : 'badge badge-neutral'
-  return (
-    <div className="stat-box">
-      <div className="eyebrow" style={{ marginBottom: 4 }}>
-        {label}
-      </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <span className="stat-value" style={{ fontSize: '1.4rem' }}>
-          {value}
-        </span>
-        <span className={badge} style={{ fontSize: '0.6rem' }}>
-          {value === 0 ? 'None' : 'Reported'}
-        </span>
-      </div>
-    </div>
-  )
-}
-
 /**
  * PRESCRIPTION SAFETY SUMMARY — every number here is the value the deterministic
  * backend returned for the analysed regimen. No value is computed in the client.
@@ -93,21 +73,30 @@ export default function RiskSummaryCard({ result, view }: Props) {
           </div>
 
           <div className="stat-grid" style={{ marginTop: 12 }}>
-            <CountTile label="Major risks" value={counts.major} tone="high" />
-            <CountTile label="Moderate risks" value={counts.moderate} tone="moderate" />
-            <CountTile
-              label="Duplicate therapy"
-              value={groups.duplicate.length}
-              tone="neutral"
-            />
-            <CountTile
-              label="Contraindications"
-              value={groups.contraindication.length}
-              tone="high"
-            />
-          </div>
-
-          <div className="stat-grid" style={{ marginTop: 12 }}>
+            <div className="stat-box">
+              <div className="eyebrow" style={{ marginBottom: 6 }}>
+                Major risks
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <ShieldAlert size={15} style={{ color: counts.major ? 'var(--high)' : '#94a3b8' }} />
+                <span className="med-name">{counts.major}</span>
+                <span className={counts.major ? 'badge badge-high' : 'badge badge-neutral'} style={{ fontSize: '0.6rem' }}>
+                  {counts.major === 0 ? 'None' : 'Reported'}
+                </span>
+              </div>
+            </div>
+            <div className="stat-box">
+              <div className="eyebrow" style={{ marginBottom: 6 }}>
+                Moderate risks
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <ShieldAlert size={15} style={{ color: counts.moderate ? 'var(--caution)' : '#94a3b8' }} />
+                <span className="med-name">{counts.moderate}</span>
+                <span className={counts.moderate ? 'badge badge-moderate' : 'badge badge-neutral'} style={{ fontSize: '0.6rem' }}>
+                  {counts.moderate === 0 ? 'None' : 'Reported'}
+                </span>
+              </div>
+            </div>
             <div className="stat-box">
               <div className="eyebrow" style={{ marginBottom: 6 }}>
                 Drug–drug interactions

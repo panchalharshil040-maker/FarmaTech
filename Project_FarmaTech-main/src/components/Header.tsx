@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Activity, Globe, HeartPulse, Stethoscope, User } from 'lucide-react'
+import { Activity, Globe, HeartPulse, Stethoscope, User, Sun, Moon } from 'lucide-react'
 import { checkEngineHealth } from '../api'
 import type { Language, ViewMode } from '../types'
 
@@ -23,6 +23,17 @@ const langOptions: { value: Language; label: string }[] = [
 
 export default function Header({ view, setView, language, setLanguage }: Props) {
   const [engineActive, setEngineActive] = useState<boolean | null>(null)
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof window !== 'undefined') {
+      return (localStorage.getItem('pharmatech-theme') as 'light' | 'dark') || 'light'
+    }
+    return 'light'
+  })
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('pharmatech-theme', theme)
+  }, [theme])
 
   useEffect(() => {
     let cancelled = false
@@ -38,10 +49,12 @@ export default function Header({ view, setView, language, setLanguage }: Props) 
     }
   }, [])
 
+  const toggleTheme = () => setTheme(prev => prev === 'light' ? 'dark' : 'light')
+
   return (
     <header
       style={{
-        background: '#ffffff',
+        background: 'var(--bg-surface)',
         borderBottom: '1px solid var(--border-base)',
         position: 'sticky',
         top: 0,
@@ -91,7 +104,7 @@ export default function Header({ view, setView, language, setLanguage }: Props) 
                 MediGuard
               </h1>
               <span className="badge badge-info" style={{ fontSize: '0.62rem' }}>
-                FarmaTech
+                PharmaTech
               </span>
             </div>
             <p
@@ -178,6 +191,21 @@ export default function Header({ view, setView, language, setLanguage }: Props) 
               ))}
             </select>
           </div>
+
+          {/* Theme toggle */}
+          <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+            title={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+            className="btn btn-quiet btn-sm"
+            style={{ padding: '6px 10px' }}
+          >
+            {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
+            <span className="small" style={{ marginLeft: 4 }}>
+              {theme === 'light' ? 'Dark' : 'Light'}
+            </span>
+          </button>
 
           {/* Engine status — reflects the real /health response */}
           <div
