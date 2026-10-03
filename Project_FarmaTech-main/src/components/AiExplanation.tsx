@@ -20,8 +20,8 @@ export default function AiExplanation({ explain, loading, unavailable }: Props) 
   const aiUsed = explain?.ai_used === true
 
   return (
-    <section className="card" style={{ borderColor: '#bfdbfe' }}>
-      <div className="card-head" style={{ background: 'var(--brand-soft)', borderRadius: '14px 14px 0 0' }}>
+    <section className="card" style={{ borderColor: 'var(--color-info-border)' }}>
+      <div className="card-head" style={{ background: 'var(--color-brand-soft)', borderRadius: 'var(--radius-lg) var(--radius-lg) 0 0' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 9, flexWrap: 'wrap' }}>
           <Sparkles size={18} style={{ color: 'var(--brand)' }} />
           <div>

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CircleMinus, FileHeart, HeartPulse, ScanLine, UserPlus } from 'lucide-react'
+import { CircleMinus, FileHeart, HeartPulse, ScanLine, UserPlus, ShieldCheck } from 'lucide-react'
 import type { ExplainResponse } from '../api'
 import type { CheckResponse, PatientRecord } from '../types'
 import MedicineSearch from './MedicineSearch'
@@ -104,9 +104,49 @@ export default function PatientDashboard({
     )
   }
 
-  return (
+return (
     <div className="stack">
       {loadedNotice && <div className="notice notice-safe">✓ {loadedNotice}</div>}
+
+      {/* Prominent Safety Check Action */}
+      <section className="card" style={{ borderColor: 'var(--color-brand)', background: 'var(--color-brand-soft)' }}>
+        <div className="card-pad" style={{ display: 'grid', gap: 12, justifyItems: 'center', textAlign: 'center' }}>
+          <div style={{ display: 'grid', gap: 6, maxWidth: 480 }}>
+            <h2 className="card-title" style={{ fontSize: '1.02rem' }}>
+              Check My Medication Safety
+            </h2>
+            <p className="small muted" style={{ lineHeight: 1.55 }}>
+              Analyze your active medication record for verified interactions, duplicates, and contraindications.
+            </p>
+            <ul style={{ listStyle: 'none', display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center' }}>
+              {['Drug–Drug Interactions', 'Duplicate Therapy', 'Contraindications', 'Food Interactions'].map((c) => (
+                <li key={c} className="badge badge-info" style={{ textTransform: 'none', fontSize: '0.74rem' }}>
+                  {c}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <button
+            type="button"
+            className="btn btn-primary btn-lg"
+            onClick={onRunCheck}
+            disabled={loading || record.medicines.length === 0}
+            style={{ width: '100%', maxWidth: 360 }}
+          >
+            {loading ? <ShieldCheck size={16} className="spin" /> : <ShieldCheck size={16} />}
+            {loading ? 'Analyzing…' : 'Analyze My Medication Safety'}
+          </button>
+
+          <p className="med-field">
+            {record.medicines.length === 0
+              ? 'No medication in the active record — add a medicine first.'
+              : `Analysing ${record.medicines.length} medication${record.medicines.length === 1 ? '' : 's'} from your record.`}
+          </p>
+        </div>
+      </section>
+
+      {error && <div className="notice notice-danger">{error}</div>}
 
       <section className="card">
         <div className="card-head">
@@ -187,17 +227,19 @@ export default function PatientDashboard({
         hint="Recorded here so the verified database rules can be checked against your situation."
       />
 
-      <SafetyCheckPanel
-        record={record}
-        view="patient"
-        result={result}
-        loading={loading}
-        error={error}
-        onRun={onRunCheck}
-        aiExplain={aiExplain}
-        aiLoading={aiLoading}
-        aiUnavailable={aiUnavailable}
-      />
+      {(result || loading || error) && (
+        <SafetyCheckPanel
+          record={record}
+          view="patient"
+          result={result}
+          loading={loading}
+          error={error}
+          onRun={onRunCheck}
+          aiExplain={aiExplain}
+          aiLoading={aiLoading}
+          aiUnavailable={aiUnavailable}
+        />
+      )}
 
       <QRPanel record={record} />
 

@@ -152,10 +152,10 @@ export default function DoctorDashboard({
         )}
 
         {/* Demo / Test Patients Section — visible on initial dashboard */}
-        <section className="card" style={{ borderColor: '#fde68a', background: '#fffbeb' }}>
+        <section className="card" style={{ borderColor: 'var(--color-warning-border)', background: 'var(--color-warning-soft)' }}>
           <div className="card-head">
             <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-              <FlaskConical size={18} style={{ color: '#b45309' }} />
+              <FlaskConical size={18} style={{ color: 'var(--color-warning)' }} />
               <div>
                 <h2 className="card-title">DEMO / TEST PATIENTS</h2>
                 <p className="card-sub">
@@ -165,7 +165,7 @@ export default function DoctorDashboard({
             </div>
           </div>
           <div className="card-pad">
-            <p className="med-field" style={{ fontSize: '0.75rem', color: '#92400e', fontStyle: 'italic', marginBottom: 12 }}>
+            <p className="med-field" style={{ fontSize: '0.75rem', color: 'var(--color-warning-text)', fontStyle: 'italic', marginBottom: 12 }}>
               Demo patients are for demonstration/testing only and are not real patient records.
             </p>
             <div
@@ -183,19 +183,19 @@ export default function DoctorDashboard({
                     <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: 12 }}>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 6, flexShrink: 0 }}>
                         {scenario.id === 'case-2' && (
-                          <span className="badge badge-high" style={{ fontSize: '0.65rem', textAlign: 'center' }}>
+                          <span className="badge badge-high" style={{ textAlign: 'center' }}>
                             <AlertTriangle size={10} style={{ marginRight: 4, verticalAlign: 'middle' }} />
                             PREGNANCY CASE
                           </span>
                         )}
                         {scenario.id === 'case-3' && (
-                          <span className="badge badge-moderate" style={{ fontSize: '0.65rem', textAlign: 'center' }}>
+                          <span className="badge badge-moderate" style={{ textAlign: 'center' }}>
                             <Pill size={10} style={{ marginRight: 4, verticalAlign: 'middle' }} />
                             DUPLICATE THERAPY
                           </span>
                         )}
                         {scenario.id === 'case-4' && (
-                          <span className="badge badge-low" style={{ fontSize: '0.65rem', textAlign: 'center' }}>
+                          <span className="badge badge-low" style={{ textAlign: 'center' }}>
                             <CheckCircle2 size={10} style={{ marginRight: 4, verticalAlign: 'middle' }} />
                             CLEAN CASE
                           </span>
@@ -222,7 +222,7 @@ export default function DoctorDashboard({
                       </div>
                       {isPregnant && (
                         <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.8rem' }}>
-                          <Baby size={12} style={{ color: '#dc2626' }} />
+                          <Baby size={12} style={{ color: 'var(--color-danger)' }} />
                           <span className="badge badge-high" style={{ fontSize: '0.65rem' }}>
                             Pregnancy
                           </span>
@@ -258,13 +258,10 @@ export default function DoctorDashboard({
     )
   }
 
-  /* ── Phase 2: Patient Loaded — Linear Clinical Workflow ───────────── */
+/* ── Phase 2: Patient Loaded — Linear Clinical Workflow ───────────── */
   return (
     <div className="stack">
       {loadedNotice && <div className="notice notice-safe">✓ {loadedNotice}</div>}
-
-      {/* Patient Record Panel — always visible */}
-      <PatientRecordPanel record={activeRecord} result={result} indicator />
 
       {/* Safety Check Section */}
       <SafetyCheckPanel
@@ -283,10 +280,10 @@ export default function DoctorDashboard({
       <MedicationOptimization record={activeRecord} language={language} />
 
       {/* Patient Record & Outputs */}
-      <div className="card" style={{ borderColor: '#bfdbfe' }}>
+      <div className="card" style={{ borderColor: 'var(--color-info-border)' }}>
         <div className="card-head">
           <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-            <ClipboardList size={18} style={{ color: 'var(--brand)' }} />
+            <ClipboardList size={18} style={{ color: 'var(--color-brand)' }} />
             <div>
               <h2 className="card-title">Patient Record & Outputs</h2>
               <p className="card-sub">Medication reconciliation, summary report, and QR pass.</p>

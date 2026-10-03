@@ -105,18 +105,18 @@ export default function PatientContextForm({ profile, onChange, title, hint }: P
                   textAlign: 'left',
                   cursor: 'pointer',
                   alignItems: 'flex-start',
-                  background: active ? 'var(--high-soft)' : 'var(--bg-surface)',
-                  borderColor: active ? '#fecaca' : 'var(--border-base)',
+                  background: active ? 'var(--color-danger-soft)' : 'var(--color-bg-surface)',
+                  borderColor: active ? 'var(--color-danger-border)' : 'var(--color-border-subtle)',
                 }}
               >
-                <Icon size={16} style={{ color: active ? 'var(--high)' : '#94a3b8', flexShrink: 0, marginTop: 2 }} />
+                <Icon size={16} style={{ color: active ? 'var(--color-danger)' : 'var(--color-text-muted)', flexShrink: 0, marginTop: 2 }} />
                 <span style={{ minWidth: 0 }}>
                   <span style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-strong)' }}>
                     {label}
                   </span>
                   <span className="med-field">{detail}</span>
                 </span>
-                <span className={active ? 'badge badge-high' : 'badge badge-neutral'} style={{ fontSize: '0.6rem' }}>
+                <span className={active ? 'badge badge-high' : 'badge badge-neutral'}>
                   {active ? 'Yes' : 'No'}
                 </span>
               </button>

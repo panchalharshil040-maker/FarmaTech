@@ -126,7 +126,12 @@ export default function RecordSetupForm({
             width: 'fit-content',
           }}
         >
-          <input type="checkbox" checked={isPregnant} onChange={(e) => setIsPregnant(e.target.checked)} />
+          <input
+            id="rec-pregnant"
+            type="checkbox"
+            checked={isPregnant}
+            onChange={(e) => setIsPregnant(e.target.checked)}
+          />
           <span className="small" style={{ fontWeight: 600, color: 'var(--text-strong)' }}>
             Pregnancy recorded
           </span>

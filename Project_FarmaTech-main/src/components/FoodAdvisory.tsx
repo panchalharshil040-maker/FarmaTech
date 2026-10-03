@@ -56,7 +56,7 @@ export default function FoodAdvisory({ warnings = [], verifiedWarnings = [], pat
               </span>
             </div>
             {verifiedWarnings.map((w, i) => (
-              <div key={w.id ?? i} className="notice" style={{ borderLeft: '3px solid #fcd34d' }}>
+              <div key={w.id ?? i} className="notice" style={{ borderLeft: '3px solid var(--color-warning-border)' }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, flexWrap: 'wrap', marginBottom: 4 }}>
                   <span className="badge badge-moderate" style={{ fontSize: '0.6rem' }}>
                     {w.id}

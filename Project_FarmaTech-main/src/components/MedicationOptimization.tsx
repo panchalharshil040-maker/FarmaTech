@@ -211,9 +211,9 @@ export default function MedicationOptimization({ record, language }: Props) {
                   <div key={med} className="data-row" style={{ background: original ? 'var(--bg-surface)' : '#ffffff' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', minWidth: 0 }}>
                       <span className="med-name">{med}</span>
-                      {!original && <span className="badge badge-info" style={{ fontSize: '0.6rem' }}>Proposed</span>}
+                      {!original && <span className="badge badge-info">Proposed</span>}
                       {replacing === med && (
-                        <span className="badge badge-moderate" style={{ fontSize: '0.6rem' }}>
+                        <span className="badge badge-moderate">
                           <Pencil size={11} /> Replacing
                         </span>
                       )}

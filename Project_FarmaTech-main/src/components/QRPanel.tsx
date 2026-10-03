@@ -85,8 +85,8 @@ export default function QRPanel({ record }: Props) {
           <div className="data-row" style={{ alignItems: 'flex-start', gap: 18 }}>
             <div
               style={{
-                background: '#ffffff',
-                border: '1px solid var(--border-base)',
+                background: 'var(--color-bg-surface)',
+                border: '1px solid var(--color-border-subtle)',
                 borderRadius: 'var(--radius-md)',
                 padding: 12,
                 textAlign: 'center',

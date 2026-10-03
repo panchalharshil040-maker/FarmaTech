@@ -39,6 +39,38 @@ export function riskSoftBg(level: RiskLevel): string {
   return 'bg-emerald-50 border-emerald-200'
 }
 
+/* ─── Semantic CSS variable mappings for inline styles ─── */
+export const riskColorVars = {
+  high: {
+    text: 'var(--color-danger)',
+    bg: 'var(--color-danger-soft)',
+    border: 'var(--color-danger-border)',
+    badge: 'badge badge-high',
+  },
+  moderate: {
+    text: 'var(--color-warning)',
+    bg: 'var(--color-warning-soft)',
+    border: 'var(--color-warning-border)',
+    badge: 'badge badge-moderate',
+  },
+  low: {
+    text: 'var(--color-warning)',
+    bg: 'var(--color-warning-soft)',
+    border: 'var(--color-warning-border)',
+    badge: 'badge badge-low',
+  },
+  no_risk: {
+    text: 'var(--color-success)',
+    bg: 'var(--color-success-soft)',
+    border: 'var(--color-success-border)',
+    badge: 'badge badge-safe',
+  },
+} as const;
+
+export function getRiskVars(level: RiskLevel) {
+  return riskColorVars[level] ?? riskColorVars.low;
+}
+
 export type FindingCategory = 'interaction' | 'duplicate' | 'contraindication' | 'other'
 
 export const CATEGORY_TITLE: Record<FindingCategory, string> = {

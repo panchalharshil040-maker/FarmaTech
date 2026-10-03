@@ -156,8 +156,8 @@ export default function QrImportPanel({ onLoaded, compact = false }: Props) {
                 maxHeight: 260,
                 objectFit: 'cover',
                 borderRadius: 'var(--radius-md)',
-                border: '1px solid var(--border-base)',
-                background: '#0f172a',
+                border: '1px solid var(--color-border-subtle)',
+                background: 'var(--color-bg-canvas)',
               }}
             />
             <button type="button" className="btn btn-quiet btn-sm" style={{ marginTop: 8 }} onClick={stopCamera}>

@@ -42,7 +42,7 @@ function FindingItem({
   finding,
   aiExplanation,
   compact,
-  accent = 'var(--border-strong)',
+  accent = 'var(--color-border-strong)',
   defaultOpen,
 }: {
   finding: Finding
@@ -186,16 +186,15 @@ export default function SafetyFindings({ findings, aiExplanations = {}, compact 
           .map((key) => {
             const Icon = CATEGORY_ICON[key]
             const items = groups[key]
+            const categoryColor = key === 'interaction' ? 'var(--color-danger)' : key === 'duplicate' ? 'var(--color-warning)' : 'var(--color-danger)'
             return (
               <div key={key}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8, flexWrap: 'wrap' }}>
-                  <Icon size={16} style={{ color: key === 'interaction' ? 'var(--high)' : key === 'duplicate' ? 'var(--caution)' : 'var(--high)' }} />
-                  <h3 style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--text-strong)' }}>
+                  <Icon size={16} style={{ color: categoryColor }} />
+                  <h3 style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--color-text-primary)' }}>
                     {CATEGORY_TITLE[key]}
                   </h3>
-                  <span className="badge badge-neutral" style={{ fontSize: '0.62rem' }}>
-                    {items.length}
-                  </span>
+                  <span className="badge badge-neutral">{items.length}</span>
                   <span className="med-field">{CATEGORY_HINT[key]}</span>
                 </div>
                 <div style={{ display: 'grid', gap: 8 }}>

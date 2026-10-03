@@ -30,7 +30,7 @@ export default function RiskGauge({ score, riskLevel, hasFindings = true }: Prop
           <path
             d="M 25 103 A 75 75 0 0 1 175 103"
             fill="none"
-            stroke="#e2e8f0"
+            stroke="var(--color-border-subtle)"
             strokeWidth="12"
             strokeLinecap="round"
           />

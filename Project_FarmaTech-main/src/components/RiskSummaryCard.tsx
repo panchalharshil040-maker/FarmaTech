@@ -78,9 +78,9 @@ export default function RiskSummaryCard({ result, view }: Props) {
                 Major risks
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <ShieldAlert size={15} style={{ color: counts.major ? 'var(--high)' : '#94a3b8' }} />
+                <ShieldAlert size={15} style={{ color: counts.major ? 'var(--color-danger)' : 'var(--color-text-muted)' }} />
                 <span className="med-name">{counts.major}</span>
-                <span className={counts.major ? 'badge badge-high' : 'badge badge-neutral'} style={{ fontSize: '0.6rem' }}>
+                <span className={counts.major ? 'badge badge-high' : 'badge badge-neutral'}>
                   {counts.major === 0 ? 'None' : 'Reported'}
                 </span>
               </div>
@@ -90,9 +90,9 @@ export default function RiskSummaryCard({ result, view }: Props) {
                 Moderate risks
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <ShieldAlert size={15} style={{ color: counts.moderate ? 'var(--caution)' : '#94a3b8' }} />
+                <ShieldAlert size={15} style={{ color: counts.moderate ? 'var(--color-warning)' : 'var(--color-text-muted)' }} />
                 <span className="med-name">{counts.moderate}</span>
-                <span className={counts.moderate ? 'badge badge-moderate' : 'badge badge-neutral'} style={{ fontSize: '0.6rem' }}>
+                <span className={counts.moderate ? 'badge badge-moderate' : 'badge badge-neutral'}>
                   {counts.moderate === 0 ? 'None' : 'Reported'}
                 </span>
               </div>
@@ -102,7 +102,7 @@ export default function RiskSummaryCard({ result, view }: Props) {
                 Drug–drug interactions
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <ShieldAlert size={15} style={{ color: groups.interaction.length ? 'var(--high)' : '#94a3b8' }} />
+                <ShieldAlert size={15} style={{ color: groups.interaction.length ? 'var(--color-danger)' : 'var(--color-text-muted)' }} />
                 <span className="med-name">{groups.interaction.length}</span>
               </div>
             </div>
@@ -111,7 +111,7 @@ export default function RiskSummaryCard({ result, view }: Props) {
                 Duplicate therapy
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Copy size={15} style={{ color: groups.duplicate.length ? 'var(--caution)' : '#94a3b8' }} />
+                <Copy size={15} style={{ color: groups.duplicate.length ? 'var(--color-warning)' : 'var(--color-text-muted)' }} />
                 <span className="med-name">{groups.duplicate.length}</span>
               </div>
             </div>
@@ -120,7 +120,7 @@ export default function RiskSummaryCard({ result, view }: Props) {
                 Contraindications
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <ShieldAlert size={15} style={{ color: groups.contraindication.length ? 'var(--high)' : '#94a3b8' }} />
+                <ShieldAlert size={15} style={{ color: groups.contraindication.length ? 'var(--color-danger)' : 'var(--color-text-muted)' }} />
                 <span className="med-name">{groups.contraindication.length}</span>
               </div>
             </div>
