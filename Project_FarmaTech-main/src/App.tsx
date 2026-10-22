@@ -326,7 +326,8 @@ export default function App() {
   /* Authenticated: role is the backend-verified account role; nothing here
      can change it. */
   const role = auth.role
-  const firstName = (auth.fullName ?? '').trim().split(/\s+/)[0] || ''
+  const fullName = (auth.fullName ?? '').trim()
+  const firstName = fullName.split(/\s+/)[0] || ''
 
   return (
     <>
@@ -348,6 +349,11 @@ export default function App() {
                 ? 'Clinical Medication Safety Review'
                 : `Welcome back${firstName ? `, ${firstName}` : ''}`}
             </h2>
+            {role === 'doctor' && fullName && (
+              <p className="dash-intro-sub" style={{ marginTop: 2 }}>
+                Signed in as <b>{fullName}</b>
+              </p>
+            )}
             <p className="dash-intro-sub">
               {role === 'doctor'
                 ? 'Enter a patient record, run the Safety Check, then use the What-if Simulator to compare proposed changes. The deterministic engine produces every finding.'

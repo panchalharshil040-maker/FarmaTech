@@ -19,8 +19,16 @@ interface Props {
  *    These carry no severity, no risk value, and are clearly labelled as unverified.
  */
 export default function FoodAdvisory({ warnings = [], verifiedWarnings = [], patientWarnings = [] }: Props) {
-  const unverifiedAll = [...warnings, ...patientWarnings]
-  const hasVerified = verifiedWarnings.length > 0
+  /* The API layer appends unverified LOCAL advisories to food_warnings (their
+     id is the advisory sentence itself). Keep them out of the verified FDA
+     section and out of the id badge — both to avoid duplication and so a long
+     sentence can never inflate the layout via the badge's nowrap. */
+  const verifiedOnly = verifiedWarnings.filter((w) => w.verified_status !== 'unverified')
+  const localFromMerged = verifiedWarnings
+    .filter((w) => w.verified_status === 'unverified')
+    .map((w) => w.warning)
+  const unverifiedAll = [...warnings, ...patientWarnings, ...localFromMerged]
+  const hasVerified = verifiedOnly.length > 0
   const hasUnverified = unverifiedAll.length > 0
 
   if (!hasVerified && !hasUnverified) return null
@@ -42,7 +50,7 @@ export default function FoodAdvisory({ warnings = [], verifiedWarnings = [], pat
           </div>
         </div>
         <span className={hasVerified ? 'badge badge-moderate' : 'badge badge-neutral'}>
-          {verifiedWarnings.length + unverifiedAll.length}
+          {verifiedOnly.length + unverifiedAll.length}
         </span>
       </div>
       <div className="card-pad" style={{ display: 'grid', gap: 12 }}>
@@ -55,10 +63,13 @@ export default function FoodAdvisory({ warnings = [], verifiedWarnings = [], pat
                 These are separate from drug-drug interactions, contraindications, and duplicate therapy.
               </span>
             </div>
-            {verifiedWarnings.map((w, i) => (
+            {verifiedOnly.map((w, i) => (
               <div key={w.id ?? i} className="notice" style={{ borderLeft: '3px solid var(--color-warning-border)' }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, flexWrap: 'wrap', marginBottom: 4 }}>
-                  <span className="badge badge-moderate" style={{ fontSize: '0.6rem' }}>
+                  <span
+                    className="badge badge-moderate"
+                    style={{ fontSize: '0.6rem', whiteSpace: 'normal', maxWidth: '100%', overflowWrap: 'anywhere' }}
+                  >
                     {w.id}
                   </span>
                   <span className="med-name" style={{ textTransform: 'capitalize' }}>

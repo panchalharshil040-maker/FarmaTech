@@ -1,7 +1,7 @@
 /* ══════════════════════════════════════════════════════════════════
    MediGuard dashboard — SCOPED styles.
 
-   Every selector is prefixed (app- / dash- / pd- / risk-) so nothing
+   Every selector is prefixed (app- / dash- / pd- / dd- / risk-) so nothing
    here can reach the authentication screens or shared primitives.
    Colors come only from the shared --color-health-* tokens in
    index.css, which flip with the existing data-theme dark mode.
@@ -576,6 +576,125 @@
   flex-shrink: 0;
 }
 
+/* ─── Clinician: patient context strip ────────────────────────────── */
+.dd-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-health-surface);
+}
+
+.dd-strip-id {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.dd-strip-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--color-health-teal-soft);
+  border: 1px solid var(--color-health-border);
+  color: var(--color-health-teal);
+}
+
+.dd-strip-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  margin: 0;
+}
+
+.dd-strip-fact {
+  min-width: 0;
+}
+
+.dd-strip-fact dt {
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--color-health-text-2);
+}
+
+.dd-strip-fact dd {
+  margin: 1px 0 0;
+  font-size: var(--text-small);
+  font-weight: 700;
+  color: var(--color-health-text);
+  overflow-wrap: anywhere;
+}
+
+.dd-strip-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.dd-strip-actions {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+/* ─── Clinician: QR-load toggle row (onboarding) ──────────────────── */
+.dd-or-pad {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.dd-or-copy {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  min-width: 0;
+  flex: 1;
+}
+
+.dd-or-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--color-health-teal-soft);
+  border: 1px solid var(--color-health-border);
+  color: var(--color-health-teal);
+}
+
+.dd-or-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-health-text);
+}
+
+.dd-or-text {
+  margin-top: 2px;
+  font-size: var(--text-small);
+  line-height: 1.5;
+  color: var(--color-health-text-2);
+}
+
+/* ─── Clinician: summary report + QR pass side by side ────────────── */
+.dd-outputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr));
+  gap: var(--space-4);
+  align-items: start;
+}
+
 /* ─── Responsive ──────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .app-header-inner {
@@ -594,6 +713,14 @@
     padding: var(--space-4);
   }
 
+  .dd-strip {
+    padding: var(--space-4);
+  }
+
+  .dd-outputs {
+    grid-template-columns: 1fr;
+  }
+
   .pd-cta-pad {
     padding: var(--space-5) var(--space-4);
   }
@@ -610,6 +737,14 @@
 @media (max-width: 480px) {
   .app-brand-tag {
     display: none;
+  }
+
+  .dd-or-pad .btn {
+    width: 100%;
+  }
+
+  .dd-strip-actions .btn {
+    width: 100%;
   }
 
   .pd-empty-actions .btn {

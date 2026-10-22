@@ -8,13 +8,18 @@ interface Props {
   result?: CheckResponse | null
   /** Persistent context indicator mode. */
   indicator?: boolean
+  /**
+   * Render the built-in "record loaded" banner. The clinician dashboard turns
+   * this off and renders its own patient-context strip instead.
+   */
+  showIndicator?: boolean
 }
 
 /**
  * Read-only medication record view (clinician surface). Resolution logic
  * lives in useMedicineViews so the patient dashboard shares one lookup path.
  */
-export default function PatientRecordPanel({ record, result, indicator = false }: Props) {
+export default function PatientRecordPanel({ record, result, indicator = false, showIndicator = true }: Props) {
   const medicines = useMedicineViews(record.medicines, result)
 
   const unresolved = result?.unresolved ?? []
@@ -23,41 +28,43 @@ export default function PatientRecordPanel({ record, result, indicator = false }
   return (
     <div style={{ display: 'grid', gap: 14 }}>
       {/* Persistent context indicator */}
-      <div
-        className="card"
-        style={{
-          borderColor: 'var(--color-success-border)',
-          background: 'var(--color-success-soft)',
-          padding: '11px 14px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 12,
-          flexWrap: 'wrap',
-        }}
-      >
-        <span className="badge badge-safe" style={{ background: 'var(--color-bg-surface)' }}>
-          <BadgeCheck size={12} /> Patient record: loaded
-        </span>
-        <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap', alignItems: 'center' }}>
-          <span className="small">
-            <b style={{ color: 'var(--color-text-primary)' }}>{record.name || 'Unnamed patient'}</b>
+      {showIndicator && (
+        <div
+          className="card"
+          style={{
+            borderColor: 'var(--color-success-border)',
+            background: 'var(--color-success-soft)',
+            padding: '11px 14px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 12,
+            flexWrap: 'wrap',
+          }}
+        >
+          <span className="badge badge-safe" style={{ background: 'var(--color-bg-surface)' }}>
+            <BadgeCheck size={12} /> Patient record: loaded
           </span>
-          <span className="med-field">
-            ID <b style={{ display: 'inline', color: 'var(--color-text-secondary)' }}>{record.patientId || '—'}</b>
-          </span>
-          <span className="med-field">
-            Age <b style={{ display: 'inline', color: 'var(--color-text-secondary)' }}>{record.age || record.profile.ageGroup}</b>
-          </span>
-          <span className="med-field">
-            Medications{' '}
-            <b style={{ display: 'inline', color: 'var(--color-text-secondary)' }}>{record.medicines.length}</b>
-          </span>
-          <span className="med-field">
-            Allergies{' '}
-            <b style={{ display: 'inline', color: 'var(--color-text-secondary)' }}>{allergyList.length || 'none recorded'}</b>
-          </span>
+          <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap', alignItems: 'center' }}>
+            <span className="small">
+              <b style={{ color: 'var(--color-text-primary)' }}>{record.name || 'Unnamed patient'}</b>
+            </span>
+            <span className="med-field">
+              ID <b style={{ display: 'inline', color: 'var(--color-text-secondary)' }}>{record.patientId || '—'}</b>
+            </span>
+            <span className="med-field">
+              Age <b style={{ display: 'inline', color: 'var(--color-text-secondary)' }}>{record.age || record.profile.ageGroup}</b>
+            </span>
+            <span className="med-field">
+              Medications{' '}
+              <b style={{ display: 'inline', color: 'var(--color-text-secondary)' }}>{record.medicines.length}</b>
+            </span>
+            <span className="med-field">
+              Allergies{' '}
+              <b style={{ display: 'inline', color: 'var(--color-text-secondary)' }}>{allergyList.length || 'none recorded'}</b>
+            </span>
+          </div>
         </div>
-      </div>
+      )}
 
       {!indicator && (
         <>

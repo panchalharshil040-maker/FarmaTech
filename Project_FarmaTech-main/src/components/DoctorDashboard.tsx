@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import {
-  ClipboardList,
+  ArrowLeftRight,
   FlaskConical,
   ScanLine,
-  UserPlus,
   ChevronRight,
   AlertTriangle,
   Baby,
   Pill,
   CheckCircle2,
+  User,
 } from 'lucide-react'
 import type { ExplainResponse } from '../api'
 import type { DemoScenario } from '../lib/demoCases'
@@ -73,6 +73,7 @@ export default function DoctorDashboard({
 
   const handleNewPatientCancel = () => {
     setMode('none')
+    if (record) setPhase('patient-loaded')
   }
 
   const loadDemoPatient = (scenario: DemoScenario) => {
@@ -92,45 +93,37 @@ export default function DoctorDashboard({
   if (phase === 'new-patient') {
     return (
       <div className="stack">
-        <section className="card">
-          <div className="card-head">
-            <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-              <UserPlus size={18} style={{ color: 'var(--color-health-teal)' }} />
-              <div>
-                <h2 className="card-title">New Patient Record</h2>
-                <p className="card-sub">Enter patient identity, clinical context, and medications.</p>
-              </div>
-            </div>
-          </div>
-          <div className="card-pad">
-            <RecordSetupForm
-              title="Patient Information"
-              subtitle="Enter the patient exactly as written on the clinical document."
-              defaultAgeGroup="adult"
-              onCreate={handleNewPatientSubmit}
-              onCancel={handleNewPatientCancel}
-            />
-          </div>
-        </section>
+        <RecordSetupForm
+          title="New Patient Record"
+          subtitle="Enter patient identity, clinical context, and medications."
+          defaultAgeGroup="adult"
+          onCreate={handleNewPatientSubmit}
+          onCancel={handleNewPatientCancel}
+        />
 
+        {/* QR import — single toggle row, panel renders its own card */}
         <section className="card">
-          <div className="card-head">
-            <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-              <ScanLine size={18} style={{ color: 'var(--color-health-teal)' }} />
+          <div className="card-pad dd-or-pad">
+            <div className="dd-or-copy">
+              <span className="dd-or-icon" aria-hidden>
+                <ScanLine size={18} />
+              </span>
               <div>
-                <h2 className="card-title">Or Scan Patient QR</h2>
-                <p className="card-sub">Load a patient record from a validated QR pass.</p>
+                <div className="dd-or-title">Or load from a patient QR pass</div>
+                <p className="dd-or-text">
+                  Scan the patient&rsquo;s MediGuard QR pass with the camera, or paste the token from it.
+                  Only a backend-validated token loads a record.
+                </p>
               </div>
             </div>
-          </div>
-          <div className="card-pad">
             <button
               type="button"
               className="btn btn-secondary"
-              onClick={() => setMode('scan')}
-              style={{ width: '100%' }}
+              onClick={() => setMode(mode === 'scan' ? 'none' : 'scan')}
+              aria-expanded={mode === 'scan'}
             >
-              <ScanLine size={16} /> Scan with Camera or Paste Token
+              <ScanLine size={16} />
+              {mode === 'scan' ? 'Hide QR import' : 'Scan Patient QR'}
             </button>
           </div>
         </section>
@@ -237,12 +230,83 @@ export default function DoctorDashboard({
     )
   }
 
-/* ── Phase 2: Patient Loaded — Linear Clinical Workflow ───────────── */
+  /* ── Phase 2: Patient Loaded — Clinical Workflow ─────────────────── */
+  const profile = activeRecord.profile
+  const conditionTags = [
+    profile.isPregnant && 'Pregnancy recorded',
+    profile.hasRenalImpairment && 'Renal impairment',
+    profile.hasLiverDisease && 'Liver disease',
+    profile.hasCardiacHistory && 'Cardiac history',
+  ].filter((t): t is string => Boolean(t))
+
   return (
     <div className="stack">
       {loadedNotice && <div className="notice notice-safe">✓ {loadedNotice}</div>}
 
-      {/* Safety Check Section */}
+      {/* B — Patient context strip (record data only) */}
+      <section className="card dd-strip" aria-label="Active patient context">
+        <div className="dd-strip-id">
+          <span className="dd-strip-avatar" aria-hidden>
+            <User size={18} />
+          </span>
+          <dl className="dd-strip-facts">
+            <div className="dd-strip-fact">
+              <dt>Patient</dt>
+              <dd>{activeRecord.name || 'Unnamed patient'}</dd>
+            </div>
+            <div className="dd-strip-fact">
+              <dt>ID</dt>
+              <dd>{activeRecord.patientId || '—'}</dd>
+            </div>
+            <div className="dd-strip-fact">
+              <dt>Age</dt>
+              <dd>{activeRecord.age || profile.ageGroup}</dd>
+            </div>
+            <div className="dd-strip-fact">
+              <dt>Source</dt>
+              <dd style={{ textTransform: 'capitalize' }}>{activeRecord.source}</dd>
+            </div>
+            <div className="dd-strip-fact">
+              <dt>Medications</dt>
+              <dd>{activeRecord.medicines.length}</dd>
+            </div>
+            <div className="dd-strip-fact">
+              <dt>Allergies</dt>
+              <dd>{profile.allergies.length ? profile.allergies.join(', ') : 'None recorded'}</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div className="dd-strip-tags">
+          {conditionTags.length === 0 ? (
+            <span className="badge badge-neutral">No recorded conditions</span>
+          ) : (
+            conditionTags.map((tag) => (
+              <span key={tag} className="badge badge-info" style={{ textTransform: 'none' }}>
+                {tag}
+              </span>
+            ))
+          )}
+        </div>
+
+        <div className="dd-strip-actions">
+          <button
+            type="button"
+            className="btn btn-secondary btn-sm"
+            onClick={() => {
+              setMode('none')
+              setPhase('new-patient')
+            }}
+          >
+            <ArrowLeftRight size={14} /> Load different patient
+          </button>
+        </div>
+      </section>
+
+      {/* C — Medication review (record + allergies, built-in indicator hidden) */}
+      <PatientRecordPanel record={activeRecord} result={result} showIndicator={false} />
+
+      {/* D/E — Primary safety action + verified results */}
       <SafetyCheckPanel
         record={activeRecord}
         view="doctor"
@@ -258,22 +322,10 @@ export default function DoctorDashboard({
       {/* What-if Medication Optimization Simulator */}
       <MedicationOptimization record={activeRecord} language={language} />
 
-      {/* Patient Record & Outputs */}
-      <div className="card" style={{ borderColor: 'var(--color-info-border)' }}>
-        <div className="card-head">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-            <ClipboardList size={18} style={{ color: 'var(--color-brand)' }} />
-            <div>
-              <h2 className="card-title">Patient Record & Outputs</h2>
-              <p className="card-sub">Medication reconciliation, summary report, and QR pass.</p>
-            </div>
-          </div>
-        </div>
-        <div className="card-pad" style={{ display: 'grid', gap: 16 }}>
-          <PatientRecordPanel record={activeRecord} result={result} />
-          <PatientSummary record={activeRecord} result={result} />
-          <QRPanel record={activeRecord} />
-        </div>
+      {/* Record tools: printable summary + QR pass */}
+      <div className="dd-outputs">
+        <PatientSummary record={activeRecord} result={result} />
+        <QRPanel record={activeRecord} />
       </div>
     </div>
   )
