@@ -759,3 +759,501 @@
     width: 100%;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   PATIENT DASHBOARD REDESIGN — SCOPED under .pd-root / .pd-*.
+   Visual-first, large readable text, generous touch targets.
+   Nothing here applies outside the patient dashboard tree, so the
+   Doctor Dashboard and shared primitives are unaffected.
+   ═══════════════════════════════════════════════════════════════════ */
+
+.pd-root {
+  font-size: 1.0625rem;
+}
+
+/* Readable body text for elderly patients (scoped — shared classes stay
+   at their default size everywhere else). */
+.pd-root .card-sub,
+.pd-root .notice,
+.pd-root .med-field,
+.pd-root .small {
+  font-size: 1rem;
+}
+
+.pd-root .eyebrow,
+.pd-root .section-label {
+  font-size: 0.75rem;
+}
+
+/* Large, easy-to-select buttons. */
+.pd-root .btn:not(.btn-sm) {
+  min-height: 48px;
+  font-size: 1rem;
+}
+
+.pd-root .btn-sm {
+  min-height: 40px;
+  font-size: 0.875rem;
+  padding: var(--space-2) var(--space-3);
+}
+
+.pd-root .field {
+  font-size: 1rem;
+  padding: var(--space-3);
+}
+
+/* ─── Welcome ─────────────────────────────────────────────────────── */
+.pd-welcome {
+  max-width: 720px;
+}
+
+.pd-welcome-title {
+  margin-top: 3px;
+  font-size: var(--text-h1);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--color-health-text);
+}
+
+.pd-lead {
+  margin-top: 5px;
+  font-size: 1.125rem;
+  line-height: 1.55;
+  color: var(--color-health-text-2);
+}
+
+/* ─── Onboarding (no record) ──────────────────────────────────────── */
+.pd-onboard {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: var(--space-4) var(--space-5);
+}
+
+.pd-onboard-copy {
+  flex: 1;
+  min-width: 240px;
+}
+
+.pd-onboard-copy .pd-lead {
+  margin-top: 4px;
+}
+
+.pd-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+/* ─── Health summary cards ────────────────────────────────────────── */
+.pd-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(235px, 1fr));
+  gap: var(--space-4);
+}
+
+.pd-stat {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--color-health-surface);
+  border: 1px solid var(--color-health-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  min-width: 0;
+}
+
+.pd-stat--warning {
+  border-color: var(--color-health-warning-border);
+  background: var(--color-health-warning-soft);
+}
+
+.pd-stat--danger {
+  border-color: var(--color-health-error-border);
+  background: var(--color-health-error-soft);
+}
+
+.pd-stat--info {
+  border-color: var(--color-health-accent-border);
+  background: var(--color-health-accent-soft);
+}
+
+.pd-stat-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--color-health-teal-soft);
+  color: var(--color-health-teal);
+}
+
+.pd-stat-icon--warning {
+  background: var(--color-health-warning-soft);
+  color: var(--color-health-warning);
+}
+
+.pd-stat--warning .pd-stat-icon--warning {
+  background: var(--color-health-surface);
+}
+
+.pd-stat-icon--danger {
+  background: var(--color-health-error-soft);
+  color: var(--color-health-error);
+}
+
+.pd-stat--danger .pd-stat-icon--danger {
+  background: var(--color-health-surface);
+}
+
+.pd-stat-icon--info {
+  background: var(--color-health-accent-soft);
+  color: var(--color-health-accent);
+}
+
+.pd-stat--info .pd-stat-icon--info {
+  background: var(--color-health-surface);
+}
+
+.pd-stat-body {
+  min-width: 0;
+}
+
+.pd-stat-label {
+  color: var(--color-health-text-2);
+}
+
+.pd-stat-value {
+  margin-top: 2px;
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--color-health-text);
+  overflow-wrap: anywhere;
+}
+
+.pd-stat--danger .pd-stat-value {
+  color: var(--color-health-error);
+}
+
+.pd-stat--warning .pd-stat-value {
+  color: var(--color-health-warning);
+}
+
+.pd-stat-sub {
+  margin-top: 3px;
+  font-size: 0.98rem;
+  line-height: 1.45;
+  color: var(--color-health-text-2);
+  overflow-wrap: anywhere;
+}
+
+/* ─── Quick actions ───────────────────────────────────────────────── */
+.pd-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+  gap: var(--space-3);
+}
+
+.pd-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  min-height: 68px;
+  background: var(--color-health-surface);
+  border-color: var(--color-health-border);
+  color: var(--color-health-text);
+  text-align: left;
+}
+
+.pd-action-btn:hover:not(:disabled) {
+  background: var(--color-health-teal-soft);
+  border-color: var(--color-health-teal);
+}
+
+.pd-action-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--color-health-teal-soft);
+  color: var(--color-health-teal);
+}
+
+.pd-action-btn:hover:not(:disabled) .pd-action-icon {
+  background: var(--color-health-surface);
+}
+
+.pd-action-copy {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.pd-action-title {
+  font-size: 1.02rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.pd-action-sub {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--color-health-text-2);
+  line-height: 1.35;
+}
+
+/* ─── Sections (scroll targets for quick actions) ─────────────────── */
+.pd-section {
+  scroll-margin-top: 88px;
+}
+
+.pd-section:focus {
+  outline: none;
+}
+
+.pd-head-copy {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.pd-head-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--color-health-teal-soft);
+  border: 1px solid var(--color-health-border);
+  color: var(--color-health-teal);
+}
+
+.pd-head-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+/* ─── Safety section ──────────────────────────────────────────────── */
+.pd-safety-body,
+.pd-food-body,
+.pd-info-body {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.pd-state-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--color-health-text-2);
+}
+
+.pd-state-row .pd-lead {
+  margin-top: 0;
+}
+
+.pd-risk-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.pd-risk-score {
+  font-size: 1rem;
+  color: var(--color-health-text-2);
+}
+
+.pd-risk-score b {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--color-health-text);
+}
+
+.pd-finding {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--color-health-border);
+  border-left: 4px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-health-surface);
+}
+
+.pd-finding-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.pd-finding-title {
+  text-transform: none;
+  overflow-wrap: anywhere;
+}
+
+.pd-finding-mech {
+  font-size: 1.02rem;
+  line-height: 1.5;
+  color: var(--color-health-text-2);
+}
+
+.pd-finding-next {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-health-text);
+  padding-top: var(--space-2);
+  border-top: 1px dashed var(--color-health-border);
+}
+
+.pd-finding-next b {
+  color: var(--color-health-teal);
+}
+
+.pd-disclaimer-line {
+  text-align: center;
+  font-style: italic;
+}
+
+/* ─── Medicines list tweaks ───────────────────────────────────────── */
+.pd-root .pd-med {
+  padding: var(--space-4);
+}
+
+.pd-root .pd-med-details {
+  font-size: 0.98rem;
+}
+
+/* ─── Health information ──────────────────────────────────────────── */
+.pd-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.pd-fact {
+  min-width: 0;
+}
+
+.pd-fact dt {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--color-health-text-2);
+}
+
+.pd-fact dd {
+  margin: 2px 0 0;
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--color-health-text);
+  overflow-wrap: anywhere;
+}
+
+.pd-info-group .eyebrow {
+  margin-bottom: var(--space-2);
+}
+
+.pd-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.pd-chips .badge {
+  font-size: 0.8rem;
+  padding: 6px 10px;
+}
+
+/* ─── Food guidance ───────────────────────────────────────────────── */
+.pd-food-item {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--color-health-warning-border);
+  border-radius: var(--radius-md);
+  background: var(--color-health-warning-soft);
+}
+
+.pd-food-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.pd-food-with {
+  font-size: 0.98rem;
+  color: var(--color-health-text-2);
+}
+
+.pd-food-warning {
+  font-size: 1.02rem;
+  line-height: 1.5;
+  color: var(--color-health-text);
+}
+
+/* ─── Disclaimer ──────────────────────────────────────────────────── */
+.pd-disclaimer {
+  line-height: 1.55;
+}
+
+/* ─── Patient-dashboard responsive ────────────────────────────────── */
+@media (max-width: 768px) {
+  .pd-onboard {
+    flex-direction: column;
+  }
+
+  .pd-onboard .pd-empty-actions {
+    width: 100%;
+  }
+
+  .pd-summary-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .pd-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .pd-head-actions {
+    width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .pd-summary-grid,
+  .pd-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .pd-action-btn {
+    width: 100%;
+  }
+}
+
+/* ─── Reduced motion ──────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .pd-root *,
+  .pd-root *::before,
+  .pd-root *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

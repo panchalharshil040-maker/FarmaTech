@@ -327,7 +327,6 @@ export default function App() {
      can change it. */
   const role = auth.role
   const fullName = (auth.fullName ?? '').trim()
-  const firstName = fullName.split(/\s+/)[0] || ''
 
   return (
     <>
@@ -340,26 +339,23 @@ export default function App() {
       />
       <main className="page">
         <div className="container">
-          <div className="dash-intro">
-            <span className="eyebrow dash-intro-eyebrow">
-              {role === 'doctor' ? 'Doctor Dashboard' : 'Patient Dashboard'}
-            </span>
-            <h2 className="dash-intro-title">
-              {role === 'doctor'
-                ? 'Clinical Medication Safety Review'
-                : `Welcome back${firstName ? `, ${firstName}` : ''}`}
-            </h2>
-            {role === 'doctor' && fullName && (
-              <p className="dash-intro-sub" style={{ marginTop: 2 }}>
-                Signed in as <b>{fullName}</b>
+          {/* Doctor intro stays here; the patient welcome lives inside
+              PatientDashboard so the patient layout owns its full structure. */}
+          {role === 'doctor' && (
+            <div className="dash-intro">
+              <span className="eyebrow dash-intro-eyebrow">Doctor Dashboard</span>
+              <h2 className="dash-intro-title">Clinical Medication Safety Review</h2>
+              {fullName && (
+                <p className="dash-intro-sub" style={{ marginTop: 2 }}>
+                  Signed in as <b>{fullName}</b>
+                </p>
+              )}
+              <p className="dash-intro-sub">
+                Enter a patient record, run the Safety Check, then use the What-if Simulator to compare
+                proposed changes. The deterministic engine produces every finding.
               </p>
-            )}
-            <p className="dash-intro-sub">
-              {role === 'doctor'
-                ? 'Enter a patient record, run the Safety Check, then use the What-if Simulator to compare proposed changes. The deterministic engine produces every finding.'
-                : 'Your medicines, allergies and the verified safety information for your record — in one calm place. Decision support only; your clinician makes the calls.'}
-            </p>
-          </div>
+            </div>
+          )}
 
           {role === 'doctor' ? (
             <DoctorDashboard
@@ -379,6 +375,7 @@ export default function App() {
           ) : (
             <PatientDashboard
               record={record}
+              patientName={fullName}
               loadedNotice={loadedNotice}
               onLoadRecord={loadRecord}
               onEditRecord={editRecord}
