@@ -5,10 +5,13 @@ import httpx
 import json
 import os
 import re
+import secrets
+import sqlite3
 import zlib
 from typing import Literal, List, Optional
 from fastapi import Depends, FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 
@@ -20,10 +23,77 @@ load_dotenv(os.path.join(os.path.dirname(__file__), "Data", ".env"))
 load_dotenv("Data/.env")
 
 app = FastAPI(title="MediGuard API", version="0.1.0")
-app.add_middleware(CORSMiddleware, allow_origins=os.getenv("ALLOWED_ORIGINS", "*").split(","),
-                   allow_methods=["*"], allow_headers=["*"])
+
+# ─── CORS ────────────────────────────────────────────────────────────────────
+# Cookie-based sessions require credentialed CORS: the browser only accepts a
+# Set-Cookie / Access-Control-Allow-Credentials response when the exact origin
+# is allowed (a wildcard "*" is rejected by browsers once credentials are on).
+# ALLOWED_ORIGINS may list explicit origins; "*" is treated as "reflect any
+# origin" which is only appropriate for local development.
+_allowed_origins = [
+    o.strip() for o in os.getenv("ALLOWED_ORIGINS", "http://localhost:5173").split(",")
+    if o.strip()
+]
+_cors_kwargs = dict(
+    allow_methods=["*"],
+    allow_headers=["*"],
+    allow_credentials=True,
+)
+if "*" in _allowed_origins:
+    # Starlette reflects the request origin when allow_origins is ["*"].
+    app.add_middleware(CORSMiddleware, allow_origins=["*"], **_cors_kwargs)
+else:
+    app.add_middleware(CORSMiddleware, allow_origins=_allowed_origins, **_cors_kwargs)
+
+# ─── Secrets ────────────────────────────────────────────────────────────────
+# AUTH_SECRET signs session cookies. QR_SECRET remains the QR-payload secret.
+# They are separate so rotating one cannot silently invalidate the other.
 SECRET = os.getenv("QR_SECRET", "change-me").encode()
+AUTH_SECRET = (os.getenv("AUTH_SECRET") or os.getenv("QR_SECRET") or "change-me").encode()
 API_KEY = os.getenv("API_KEY")
+
+SESSION_COOKIE = "mediguard_session"
+AUTH_COOKIE_SECURE = os.getenv("AUTH_COOKIE_SECURE", "false").lower() == "true"
+
+# ─── Account / record database ──────────────────────────────────────────────
+# A single file-backed SQLite database holds user accounts and each patient's
+# saved record. A file (not ":memory:") is required so a registered account and
+# its record survive across requests — an in-memory database is recreated for
+# every new connection, which made login impossible after registration.
+_BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+_AUTH_DB_PATH = os.getenv("AUTH_DB_PATH") or os.path.join(_BASE_DIR, "auth.db")
+if not os.path.isabs(_AUTH_DB_PATH):
+    _AUTH_DB_PATH = os.path.join(_BASE_DIR, _AUTH_DB_PATH)
+
+_db_conn: sqlite3.Connection | None = None
+
+def _get_db() -> sqlite3.Connection:
+    """Return the shared, thread-safe account/record database connection."""
+    global _db_conn
+    if _db_conn is None:
+        _db_conn = sqlite3.connect(_AUTH_DB_PATH, check_same_thread=False)
+        _db_conn.row_factory = sqlite3.Row
+        _db_conn.execute(
+            "CREATE TABLE IF NOT EXISTS users ("
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "email TEXT UNIQUE NOT NULL, "
+            "full_name TEXT, "
+            "password_hash TEXT NOT NULL, "
+            "role TEXT NOT NULL, "
+            "created_at TEXT DEFAULT (datetime('now'))"
+            ")"
+        )
+        _db_conn.execute(
+            "CREATE TABLE IF NOT EXISTS patient_records ("
+            "user_id INTEGER PRIMARY KEY, "
+            "record_json TEXT NOT NULL, "
+            "updated_at TEXT DEFAULT (datetime('now')), "
+            "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE"
+            ")"
+        )
+        _db_conn.commit()
+    return _db_conn
+
 WEIGHT = {"major": 40, "moderate": 20, "minor": 5, "duplicate": 25, "contraindication": 40}
 LANG = {"en": "English", "hi": "Hindi", "gu": "Gujarati"}
 DISCLAIMER = "Decision support only. Not a substitute for a doctor's or pharmacist's judgment."
@@ -33,6 +103,86 @@ def auth(x_api_key: str | None = Header(None)):
     """Validate API key from request header if API_KEY is configured."""
     if API_KEY and x_api_key != API_KEY:
         raise HTTPException(401, "Invalid API key")
+
+# ─── Password hashing (PBKDF2-HMAC-SHA256, per-user salt) ───────────────────
+_PBKDF2_ITERATIONS = 240_000
+
+def _hash_password(password: str) -> str:
+    salt = secrets.token_bytes(16)
+    dk = hashlib.pbkdf2_hmac("sha256", password.encode(), salt, _PBKDF2_ITERATIONS)
+    return "pbkdf2_sha256${}${}${}".format(
+        _PBKDF2_ITERATIONS,
+        base64.urlsafe_b64encode(salt).decode().rstrip("="),
+        base64.urlsafe_b64encode(dk).decode().rstrip("="),
+    )
+
+def _verify_password(password: str, stored: str) -> bool:
+    try:
+        scheme, iterations, salt_b64, hash_b64 = stored.split("$")
+        if scheme != "pbkdf2_sha256":
+            return False
+        salt = base64.urlsafe_b64decode(salt_b64 + "=" * (-len(salt_b64) % 4))
+        expected = base64.urlsafe_b64decode(hash_b64 + "=" * (-len(hash_b64) % 4))
+        dk = hashlib.pbkdf2_hmac("sha256", password.encode(), salt, int(iterations))
+        return hmac.compare_digest(dk, expected)
+    except Exception:
+        return False
+
+# ─── Session tokens ─────────────────────────────────────────────────────────
+# A session token identifies the user AND their role:
+#     <user_id>.<role>.<hmac>
+# The HMAC covers "<user_id>.<role>" so neither part can be altered without
+# detection. The role is re-checked against the database on every request, so a
+# stale or forged token can never grant a role the account does not hold.
+
+def _sign_session(user_id: int, role: str) -> str:
+    payload = f"{user_id}.{role}"
+    sig = hmac.new(AUTH_SECRET, payload.encode(), hashlib.sha256).digest()[:16]
+    sig_b64 = base64.urlsafe_b64encode(sig).decode().rstrip("=")
+    return f"{payload}.{sig_b64}"
+
+def _verify_session(token: str) -> dict | None:
+    """Verify a session token and return the authoritative account row.
+
+    The token's signature is checked first, then the account is loaded from the
+    database. The database row — not the token — decides the role, so a token
+    minted before a role change (or a tampered token) cannot grant access.
+    """
+    try:
+        parts = token.split(".")
+        if len(parts) != 3:
+            return None
+        user_id_s, role, sig = parts
+        payload = f"{user_id_s}.{role}"
+        expected = hmac.new(AUTH_SECRET, payload.encode(), hashlib.sha256).digest()[:16]
+        expected_b64 = base64.urlsafe_b64encode(expected).decode().rstrip("=")
+        if not hmac.compare_digest(sig, expected_b64):
+            return None
+        db = _get_db()
+        row = db.execute(
+            "SELECT id, email, full_name, role FROM users WHERE id = ?",
+            (int(user_id_s),),
+        ).fetchone()
+        if row is None:
+            return None
+        return {"id": row["id"], "email": row["email"],
+                "full_name": row["full_name"], "role": row["role"]}
+    except Exception:
+        return None
+
+def get_current_user(request: Request) -> dict:
+    """FastAPI dependency: resolve the authenticated account from the cookie.
+
+    Raises 401 when no valid session cookie is present. The returned dict is the
+    authoritative account loaded from the database.
+    """
+    token = request.cookies.get(SESSION_COOKIE)
+    if not token:
+        raise HTTPException(401, "Not authenticated")
+    user = _verify_session(token)
+    if user is None:
+        raise HTTPException(401, "Session is invalid or expired")
+    return user
 
 def normalize_name(name: str) -> str:
     """Normalize medicine names before matching."""
@@ -80,6 +230,48 @@ class ExplainReq(BaseModel):
     findings: list[dict] = Field(..., min_length=1)
     view: Literal["doctor", "patient"] = "doctor"
     language: Literal["en", "hi", "gu"] = "en"
+
+class UserCreate(BaseModel):
+    email: str
+    password: str
+    role: Literal["patient", "doctor"]
+    full_name: str | None = None
+
+class UserLogin(BaseModel):
+    email: str
+    password: str
+
+class UserOut(BaseModel):
+    email: str
+    role: str
+    full_name: str | None = None
+
+class PatientRecordIn(BaseModel):
+    """A patient record saved for the authenticated account.
+
+    The account that owns the record is taken from the session cookie, never
+    from a field in this payload — a client cannot address another user's record.
+    """
+    source: Literal["qr", "manual", "demo"] = "manual"
+    name: str = ""
+    patientId: str = ""
+    age: str = ""
+    medicines: List[str] = Field(default_factory=list, max_length=100)
+    profile: Optional[PatientProfile] = None
+    notes: str = ""
+
+class User(BaseModel):
+    id: int
+    email: str
+    role: str
+    created_at: str
+    full_name: str | None = None
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    role: str
+    email: str
 
 class SimReq(CheckReq):
     # Backward compatible: the original contract added one medicine.
@@ -356,6 +548,139 @@ def report(meds: list[str], view: str, lang: str, patient: PatientProfile | None
 
 @app.get("/health")
 def health(): return {"status": "ok"}
+
+# ─── Authentication ──────────────────────────────────────────────────────────
+
+def _set_session_cookie(response, token: str) -> None:
+    response.set_cookie(
+        key=SESSION_COOKIE,
+        value=token,
+        httponly=True,
+        secure=AUTH_COOKIE_SECURE,
+        samesite="lax",
+        path="/",
+    )
+
+@app.post("/api/auth/register", status_code=201)
+def register(user: UserCreate):
+    """Register a new patient or doctor account and start a session."""
+    email = user.email.strip().lower()
+    if "@" not in email or not email.split("@")[0] or "." not in email.split("@")[-1]:
+        raise HTTPException(422, "Please enter a valid email address")
+    if len(user.password) < 8:
+        raise HTTPException(422, "Password must be at least 8 characters")
+    if user.full_name is not None and len(user.full_name.strip()) > 120:
+        raise HTTPException(422, "Name is too long")
+
+    db = _get_db()
+    existing = db.execute(
+        "SELECT id FROM users WHERE email = ?", (email,)
+    ).fetchone()
+    if existing:
+        raise HTTPException(409, "An account with this email already exists")
+
+    password_hash = _hash_password(user.password)
+    cursor = db.execute(
+        "INSERT INTO users (email, password_hash, role, full_name) VALUES (?, ?, ?, ?)",
+        (email, password_hash, user.role, (user.full_name or "").strip() or None),
+    )
+    db.commit()
+    user_id = cursor.lastrowid
+
+    token = _sign_session(user_id, user.role)
+    resp = JSONResponse(
+        status_code=201,
+        content={
+            "email": email,
+            "role": user.role,
+            "full_name": (user.full_name or "").strip() or None,
+        },
+    )
+    _set_session_cookie(resp, token)
+    return resp
+
+@app.post("/api/auth/login")
+def login(user: UserLogin):
+    """Verify credentials and start a session."""
+    email = user.email.strip().lower()
+    db = _get_db()
+    row = db.execute(
+        "SELECT id, email, full_name, password_hash, role FROM users WHERE email = ?",
+        (email,),
+    ).fetchone()
+    # Same message for unknown email and wrong password: never reveal which
+    # accounts exist.
+    if row is None or not _verify_password(user.password, row["password_hash"]):
+        raise HTTPException(401, "Incorrect email or password")
+
+    token = _sign_session(row["id"], row["role"])
+    resp = JSONResponse(content={
+        "email": row["email"],
+        "role": row["role"],
+        "full_name": row["full_name"],
+    })
+    _set_session_cookie(resp, token)
+    return resp
+
+@app.get("/api/auth/me")
+def me(user: dict = Depends(get_current_user)):
+    """Return the authenticated account from the session cookie."""
+    return {
+        "email": user["email"],
+        "role": user["role"],
+        "full_name": user["full_name"],
+        "authenticated": True,
+    }
+
+@app.post("/api/auth/logout")
+def logout(response: JSONResponse):
+    """Invalidate the session cookie."""
+    resp = JSONResponse(content={"ok": True})
+    resp.delete_cookie(SESSION_COOKIE, path="/")
+    return resp
+
+# ─── Patient record persistence ─────────────────────────────────────────────
+# Each authenticated account owns at most one saved record. The owner is taken
+# from the session cookie, so a client can never read or write another
+# account's record by supplying an id.
+
+def _load_record_json(user_id: int) -> str | None:
+    db = _get_db()
+    row = db.execute(
+        "SELECT record_json FROM patient_records WHERE user_id = ?", (user_id,)
+    ).fetchone()
+    return row["record_json"] if row else None
+
+@app.get("/api/patient-records/me")
+def get_my_record(user: dict = Depends(get_current_user)):
+    """Load the signed-in account's saved record (404 when none is saved)."""
+    record_json = _load_record_json(user["id"])
+    if record_json is None:
+        raise HTTPException(404, "No saved record")
+    return json.loads(record_json)
+
+@app.put("/api/patient-records/me")
+def save_my_record(record: PatientRecordIn, user: dict = Depends(get_current_user)):
+    """Create or replace the signed-in account's saved record."""
+    db = _get_db()
+    payload = record.model_dump()
+    db.execute(
+        "INSERT INTO patient_records (user_id, record_json, updated_at) "
+        "VALUES (?, ?, datetime('now')) "
+        "ON CONFLICT(user_id) DO UPDATE SET "
+        "record_json = excluded.record_json, updated_at = datetime('now')",
+        (user["id"], json.dumps(payload)),
+    )
+    db.commit()
+    return {"saved": True, "record": payload}
+
+@app.delete("/api/patient-records/me", status_code=200)
+def delete_my_record(user: dict = Depends(get_current_user)):
+    """Remove the signed-in account's saved record."""
+    db = _get_db()
+    db.execute("DELETE FROM patient_records WHERE user_id = ?", (user["id"],))
+    db.commit()
+    return {"deleted": True}
 
 
 @app.get("/api/drugs/search", dependencies=[Depends(auth)])

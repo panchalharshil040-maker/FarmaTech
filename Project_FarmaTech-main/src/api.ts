@@ -4,6 +4,7 @@ import type {
   FoodWarning,
   Language,
   PatientProfile,
+  PatientRecord,
   QRTokenResponse,
   QrRecordResponse,
   RegimenComparison,
@@ -35,6 +36,9 @@ async function request<T>(path: string, options?: RequestInit, timeoutMs = 4000)
 
   try {
     const res = await fetch(`${BASE}${path}`, {
+      // Send and accept the HttpOnly session cookie. Harmless for endpoints
+      // that do not use sessions; required for /api/auth/* and record APIs.
+      credentials: 'include',
       ...options,
       signal: controller.signal,
       headers: {
@@ -331,5 +335,97 @@ export async function compareRegimens(
     remaining: sim.remaining_findings ?? [],
     introduced: sim.new_findings ?? [],
     simulate: sim,
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Authentication
+   The backend is the only authority on identity and role. These functions
+   never store a password and never read a role from anywhere but the
+   backend's own response. The session is an HttpOnly cookie the browser
+   manages — the frontend never sees or stores the token.
+   ───────────────────────────────────────────────────────────────────────── */
+
+export type AuthRole = 'patient' | 'doctor'
+
+export interface AuthUser {
+  email: string
+  role: AuthRole
+  full_name: string | null
+}
+
+export async function registerUser(input: {
+  email: string
+  password: string
+  role: AuthRole
+  full_name?: string
+}): Promise<AuthUser> {
+  return request<AuthUser>('/api/auth/register', {
+    method: 'POST',
+    body: JSON.stringify({
+      email: input.email,
+      password: input.password,
+      role: input.role,
+      full_name: input.full_name || null,
+    }),
+  })
+}
+
+export async function loginUser(input: { email: string; password: string }): Promise<AuthUser> {
+  return request<AuthUser>('/api/auth/login', {
+    method: 'POST',
+    body: JSON.stringify(input),
+  })
+}
+
+/** Ask the backend to invalidate the session cookie. Safe to call blindly. */
+export async function logoutUser(): Promise<void> {
+  await request<{ ok: boolean }>('/api/auth/logout', { method: 'POST' })
+}
+
+/**
+ * Restore the session from the HttpOnly cookie. Returns the backend's
+ * authoritative account, or null when there is no valid session. This is the
+ * only source the UI trusts to decide which dashboard to render.
+ */
+export async function getMe(): Promise<AuthUser | null> {
+  try {
+    return await request<AuthUser>('/api/auth/me', undefined, 5000)
+  } catch {
+    return null
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Patient record persistence
+   Records are addressed by the session cookie, not by a patient id sent from
+   the browser — the backend ignores any client-supplied owner identity.
+   ───────────────────────────────────────────────────────────────────────── */
+
+export async function loadMyRecord(): Promise<PatientRecord | null> {
+  try {
+    return await request<PatientRecord>('/api/patient-records/me', undefined, 5000)
+  } catch {
+    return null
+  }
+}
+
+export async function saveMyRecord(record: PatientRecord): Promise<boolean> {
+  try {
+    await request<{ saved: boolean }>('/api/patient-records/me', {
+      method: 'PUT',
+      body: JSON.stringify(record),
+    })
+    return true
+  } catch {
+    return false
+  }
+}
+
+export async function deleteMyRecord(): Promise<void> {
+  try {
+    await request<{ deleted: boolean }>('/api/patient-records/me', { method: 'DELETE' })
+  } catch {
+    /* clearing a non-existent record is not an error */
   }
 }

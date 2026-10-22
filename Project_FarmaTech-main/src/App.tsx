@@ -1,6 +1,16 @@
-import { useCallback, useMemo, useState } from 'react'
-import { checkMedicines, explainFindings } from './api'
-import type { ExplainResponse } from './api'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { HeartPulse } from 'lucide-react'
+import {
+  checkMedicines,
+  deleteMyRecord,
+  explainFindings,
+  getMe,
+  loadMyRecord,
+  logoutUser,
+  saveMyRecord,
+} from './api'
+import type { AuthUser, ExplainResponse } from './api'
+import AuthScreen from './components/AuthScreen'
 import DoctorDashboard from './components/DoctorDashboard'
 import Footer from './components/Footer'
 import Header from './components/Header'
@@ -32,15 +42,43 @@ const EMPTY_RECORD: PatientRecord = {
 }
 
 /**
+ * Single source of truth for which screen the app shows.
+ *
+ * - `checking`       → session cookie is being verified with the backend
+ * - `unauthenticated`→ no valid session; the AuthScreen is the ONLY thing rendered
+ * - `authenticated`  → a backend-verified account; exactly one dashboard renders,
+ *                      chosen by the role the BACKEND returned (never by the
+ *                      browser, a token claim, or a portal click)
+ *
+ * Exactly one of these states exists at a time, and exactly one top-level
+ * branch renders for it. There is no second overlay, no entry screen that can
+ * stack over a dashboard, and no path that shows two screens at once.
+ */
+type AuthState =
+  | { status: 'checking' }
+  | { status: 'unauthenticated' }
+  | {
+      status: 'authenticated'
+      role: 'patient' | 'doctor'
+      email: string
+      fullName: string | null
+    }
+
+/** How long to wait after the last keystroke before persisting a record.
+ *  PatientContextForm fires onChange on every character, so saving must be
+ *  debounced to avoid one request per keystroke. */
+const SAVE_DEBOUNCE_MS = 800
+
+/**
  * MediGuard shell.
  *
  * The deterministic backend stays the single source of medical truth. This layer
- * owns UI state only: role, language, the ACTIVE patient record and the backend
- * responses produced for that record. No finding, severity or risk value is ever
- * produced here.
+ * owns UI state only: auth session, language, the ACTIVE patient record and the
+ * backend responses produced for that record. No finding, severity or risk value
+ * is ever produced here.
  */
 export default function App() {
-  const [view, setView] = useState<ViewMode>('doctor')
+  const [auth, setAuth] = useState<AuthState>({ status: 'checking' })
   const [language, setLanguage] = useState<Language>('en')
 
   /** The loaded patient record — it stays active across every section. */
@@ -53,6 +91,23 @@ export default function App() {
   const [aiExplain, setAiExplain] = useState<ExplainResponse | null>(null)
   const [aiLoading, setAiLoading] = useState(false)
   const [aiUnavailable, setAiUnavailable] = useState(false)
+
+  /** Latest record for flush-on-logout; mirrors `record` without re-rendering. */
+  const recordRef = useRef<PatientRecord | null>(null)
+  useEffect(() => {
+    recordRef.current = record
+  }, [record])
+
+  /** Set right before a record is hydrated from the server so the save effect
+   *  below does not immediately write back the data it just read. */
+  const skipNextSaveRef = useRef(false)
+
+  /**
+   * The dashboard role is locked to the authenticated account. The header's
+   * role toggle cannot move a patient into the doctor workspace or a doctor
+   * into the patient workspace — only a different login can change role.
+   */
+  const view: ViewMode = auth.status === 'authenticated' ? auth.role : 'doctor'
 
   const activeRecord: PatientRecord = useMemo(
     () => record ?? EMPTY_RECORD,
@@ -104,8 +159,6 @@ export default function App() {
         medicines: patch.medicines ?? [],
       })
       setLoadedNotice(notice ?? 'Patient Record Loaded')
-      // A validated QR payload already carries a backend-verified report: show it
-      // instead of making the doctor re-run the same analysis.
       if (loadedReport) {
         setResult(loadedReport)
         void requestExplanation(loadedReport.findings)
@@ -124,10 +177,13 @@ export default function App() {
     [clearResults],
   )
 
+  /** Clear the active record locally AND remove the saved copy server-side. */
   const unloadPatient = useCallback(() => {
     clearResults()
     setRecord(null)
     setLoadedNotice('')
+    skipNextSaveRef.current = false
+    void deleteMyRecord()
   }, [clearResults])
 
   const runCheck = useCallback(async () => {
@@ -140,7 +196,6 @@ export default function App() {
     try {
       const data = await checkMedicines(activeRecord.medicines, view, language, activeRecord.profile)
       setResult(data)
-      // Groq is asked to explain verified findings only — never to produce them.
       await requestExplanation(data.findings)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Analysis check failed')
@@ -149,21 +204,144 @@ export default function App() {
     }
   }, [activeRecord, language, requestExplanation, view])
 
-  const switchRole = useCallback(
-    (next: ViewMode) => {
-      setView(next)
+  const switchRole = useCallback((_next: ViewMode) => {
+    /* Intentionally locked. See AuthState: role comes from the backend. */
+  }, [])
+
+  /**
+   * Session restore on startup. The HttpOnly cookie is verified by the
+   * backend; the returned account (not the URL, not localStorage) decides
+   * which dashboard opens.
+   */
+  useEffect(() => {
+    let cancelled = false
+    void getMe().then((user) => {
+      if (cancelled) return
+      if (user) {
+        setAuth({
+          status: 'authenticated',
+          role: user.role,
+          email: user.email,
+          fullName: user.full_name,
+        })
+      } else {
+        setAuth({ status: 'unauthenticated' })
+      }
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  /**
+   * When a patient session becomes active, restore their saved record from
+   * the server. Doctors do not get a persisted record — their loaded record
+   * lives for the session only.
+   */
+  useEffect(() => {
+    if (auth.status !== 'authenticated' || auth.role !== 'patient') return
+    let cancelled = false
+    void loadMyRecord().then((saved) => {
+      if (cancelled || !saved) return
+      skipNextSaveRef.current = true
+      setRecord(saved)
+      setLoadedNotice('Patient record restored')
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [auth])
+
+  /**
+   * Debounced persistence for the patient's record. Fires after typing
+   * pauses (PatientContextForm emits onChange per keystroke), after a QR or
+   * manual load, and after profile edits. Never fires for doctors and never
+   * fires for a record that was just hydrated from the server.
+   */
+  useEffect(() => {
+    if (auth.status !== 'authenticated' || auth.role !== 'patient') return
+    if (!record) return
+    if (skipNextSaveRef.current) {
+      skipNextSaveRef.current = false
+      return
+    }
+    const timer = window.setTimeout(() => {
+      void saveMyRecord(record)
+    }, SAVE_DEBOUNCE_MS)
+    return () => window.clearTimeout(timer)
+  }, [record, auth])
+
+  /** Succeeding login/register: adopt the backend's account and reset session state. */
+  const handleAuthenticated = useCallback(
+    (user: AuthUser) => {
+      setAuth({
+        status: 'authenticated',
+        role: user.role,
+        email: user.email,
+        fullName: user.full_name,
+      })
+      setRecord(null)
+      setLoadedNotice('')
+      clearResults()
     },
-    [],
+    [clearResults],
   )
+
+  /** Sign out: flush any pending patient edits, kill the cookie, reset state. */
+  const handleLogout = useCallback(async () => {
+    if (recordRef.current && auth.status === 'authenticated' && auth.role === 'patient') {
+      void saveMyRecord(recordRef.current)
+    }
+    try {
+      await logoutUser()
+    } catch {
+      /* cookie may already be gone — local reset proceeds regardless */
+    }
+    skipNextSaveRef.current = false
+    setAuth({ status: 'unauthenticated' })
+    setRecord(null)
+    setLoadedNotice('')
+    clearResults()
+  }, [auth, clearResults])
+
+  /* ── Render: exactly one branch per auth state ──────────────────────── */
+
+  if (auth.status === 'checking') {
+    return (
+      <div className="auth-loading">
+        <div className="auth-loading-inner">
+          <div className="auth-loading-mark">
+            <HeartPulse size={26} color="#ffffff" />
+          </div>
+          <span className="auth-loading-text">Restoring your session…</span>
+        </div>
+      </div>
+    )
+  }
+
+  if (auth.status === 'unauthenticated') {
+    return <AuthScreen onAuthenticated={handleAuthenticated} />
+  }
+
+  /* Authenticated: role is the backend-verified account role; nothing here
+     can change it. */
+  const role = auth.role
 
   return (
     <>
-      <Header view={view} setView={switchRole} language={language} setLanguage={setLanguage} />
-
+      <Header
+        view={role}
+        setView={switchRole}
+        language={language}
+        setLanguage={setLanguage}
+        onLogout={handleLogout}
+      />
       <main className="page">
         <div className="container">
           <div style={{ marginBottom: 22 }}>
-            <span className="eyebrow">{view === 'doctor' ? 'Doctor Dashboard' : 'Patient Dashboard'}</span>
+            <span className="eyebrow">
+              {role === 'doctor' ? 'Doctor Dashboard' : 'Patient Dashboard'}
+            </span>
             <h2
               style={{
                 fontSize: '1.5rem',
@@ -173,18 +351,18 @@ export default function App() {
                 marginTop: 2,
               }}
             >
-              {view === 'doctor'
+              {role === 'doctor'
                 ? 'Clinical Medication Safety Review'
                 : 'My Medication Safety Information'}
             </h2>
             <p className="small muted" style={{ marginTop: 4, maxWidth: 760, lineHeight: 1.55 }}>
-              {view === 'doctor'
+              {role === 'doctor'
                 ? 'Enter a patient record, run the Safety Check, then use the What-if Simulator to compare proposed changes. The deterministic engine produces every finding.'
                 : 'View your medications, allergies and the verified safety information for your record.'}
             </p>
           </div>
 
-          {view === 'doctor' ? (
+          {role === 'doctor' ? (
             <DoctorDashboard
               record={record}
               activeRecord={activeRecord}
@@ -217,7 +395,6 @@ export default function App() {
           )}
         </div>
       </main>
-
       <Footer />
     </>
   )

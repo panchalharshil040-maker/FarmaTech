@@ -32,3 +32,9 @@ __pycache__/
 venv/
 .venv/
 *.egg-info/
+
+# Local account database (created by Backend/main.py at startup)
+Backend/auth.db
+
+# Pre-edit backups
+.backup_auth_fix/

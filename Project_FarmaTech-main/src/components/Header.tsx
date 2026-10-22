@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Activity, Globe, HeartPulse, Stethoscope, User, Sun, Moon } from 'lucide-react'
+import { Activity, Globe, HeartPulse, LogOut, Stethoscope, User, Sun, Moon } from 'lucide-react'
 import { checkEngineHealth } from '../api'
 import type { Language, ViewMode } from '../types'
 
@@ -8,6 +8,9 @@ interface Props {
   setView: (v: ViewMode) => void
   language: Language
   setLanguage: (l: Language) => void
+  /** Optional: when provided, a sign-out control is rendered. App owns the
+   *  actual logout flow (cookie invalidation + state reset). */
+  onLogout?: () => void
 }
 
 const roleOptions: { value: ViewMode; label: string; icon: typeof Stethoscope }[] = [
@@ -21,7 +24,7 @@ const langOptions: { value: Language; label: string }[] = [
   { value: 'gu', label: 'ગુજરાતી' },
 ]
 
-export default function Header({ view, setView, language, setLanguage }: Props) {
+export default function Header({ view, setView, language, setLanguage, onLogout }: Props) {
   const [engineActive, setEngineActive] = useState<boolean | null>(null)
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     if (typeof window !== 'undefined') {
@@ -206,6 +209,22 @@ export default function Header({ view, setView, language, setLanguage }: Props) 
               {theme === 'light' ? 'Dark' : 'Light'}
             </span>
           </button>
+
+          {/* Sign out — only present when App supplies the handler */}
+          {onLogout && (
+            <button
+              type="button"
+              onClick={onLogout}
+              className="btn btn-quiet btn-sm"
+              title="Sign out of your account"
+              style={{ padding: '6px 10px' }}
+            >
+              <LogOut size={16} />
+              <span className="small" style={{ marginLeft: 4 }}>
+                Sign out
+              </span>
+            </button>
+          )}
 
           {/* Engine status — reflects the real /health response */}
           <div
