@@ -58,6 +58,32 @@
   --color-focus: #1d4ed8;
   --color-focus-ring: rgba(29, 78, 216, 0.24);
 
+  /* ─── Healthcare palette (new brand direction) ──────────────────────
+     Calm clinical teal + sage tokens. Established here so every surface
+     can adopt them consistently; the authentication screens use them
+     first, the dashboards migrate in a later pass. */
+  --color-health-page: #f4f7f5;
+  --color-health-surface: #ffffff;
+  --color-health-elevated: #f8faf8;
+  --color-health-text: #18332f;
+  --color-health-text-2: #647570;
+  --color-health-teal: #167d72;
+  --color-health-teal-hover: #11675e;
+  --color-health-teal-soft: #e7f3ef;
+  --color-health-border: #dce6e1;
+  --color-health-sage: #a9c7b8;
+  --color-health-accent: #477c94;
+  --color-health-success: #267a52;
+  --color-health-success-soft: #eaf5ef;
+  --color-health-success-border: #c4e0d2;
+  --color-health-warning: #95651b;
+  --color-health-error: #b54747;
+  --color-health-error-soft: #f9eded;
+  --color-health-error-border: #eacfce;
+  /* Foreground for the solid teal brand mark (white on teal in light). */
+  --color-health-mark-fg: #ffffff;
+  --color-health-ring: rgba(22, 125, 114, 0.26);
+
   /* ─── Radius ─── */
   --radius-sm: 6px;
   --radius-md: 10px;
@@ -145,6 +171,31 @@
   /* ─── Color: Focus ─── */
   --color-focus: #3b82f6;
   --color-focus-ring: rgba(59, 130, 246, 0.3);
+
+  /* ─── Healthcare palette — dark ─────────────────────────────────────
+     Deep green-charcoal surfaces, soft off-white text, muted teal/sage.
+     No orange accents; warnings stay a calm amber for clinical meaning. */
+  --color-health-page: #101b19;
+  --color-health-surface: #1d2d29;
+  --color-health-elevated: #192724;
+  --color-health-text: #f0f6f3;
+  --color-health-text-2: #b0c2bb;
+  --color-health-teal: #68b9a8;
+  --color-health-teal-hover: #83ccba;
+  --color-health-teal-soft: #263b35;
+  --color-health-border: #344640;
+  --color-health-sage: #5e7d70;
+  --color-health-accent: #7fa9be;
+  --color-health-success: #8fd0ae;
+  --color-health-success-soft: #1c3328;
+  --color-health-success-border: #2e5240;
+  --color-health-warning: #d4a24e;
+  --color-health-error: #efb4b4;
+  --color-health-error-soft: #33201f;
+  --color-health-error-border: #553231;
+  /* Dark icon on the light teal brand mark. */
+  --color-health-mark-fg: #101b19;
+  --color-health-ring: rgba(104, 185, 168, 0.32);
 
   /* ─── Shadows ─── */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);

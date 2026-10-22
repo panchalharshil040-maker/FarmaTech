@@ -311,7 +311,7 @@ export default function App() {
       <div className="auth-loading">
         <div className="auth-loading-inner">
           <div className="auth-loading-mark">
-            <HeartPulse size={26} color="#ffffff" />
+            <HeartPulse size={26} aria-hidden />
           </div>
           <span className="auth-loading-text">Restoring your session…</span>
         </div>

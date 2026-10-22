@@ -1,55 +1,48 @@
 /* ══════════════════════════════════════════════════════════════════
    MediGuard authentication screen — SCOPED styles.
 
-   Every selector below is prefixed with .auth- so nothing here can reach
-   the dashboard's cards, buttons or layout. No element selectors, no
-   bare class names shared with the dashboard, no position:fixed rules
-   outside .auth-page itself.
+   Every selector is prefixed with .auth- so nothing here can reach the
+   dashboard's cards, buttons or layout. Colors come from the shared
+   --color-health-* tokens in index.css, which flip with the existing
+   data-theme dark mode. No element selectors, no position:fixed rules
+   outside .auth-page / .auth-loading themselves.
    ═══════════════════════════════════════════════════════════════════ */
 
 .auth-page {
-  /* Deep navy base — the same clinical-trust palette as the brand */
-  --auth-navy-900: #0b1a33;
-  --auth-navy-800: #0f2444;
-  --auth-navy-700: #143057;
-  --auth-blue-600: #1d4ed8;
-  --auth-blue-500: #2563eb;
-  --auth-cyan-400: #22d3ee;
-  --auth-cyan-300: #67e8f9;
-
   min-height: 100vh;
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-  background: var(--color-bg-canvas);
-  color: var(--color-text-secondary);
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, 1fr);
+  background: var(--color-health-page);
+  color: var(--color-health-text-2);
 }
 
-/* ─── Left branding panel ─────────────────────────────────────────── */
+/* ─── Left: brand panel ───────────────────────────────────────────── */
 .auth-brand-panel {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 32px;
-  padding: 48px 52px;
-  color: #e8eefb;
+  gap: var(--space-8);
+  padding: 48px 56px;
+  color: var(--color-health-text-2);
   background:
-    radial-gradient(1100px 520px at -10% -10%, rgba(34, 211, 238, 0.14), transparent 60%),
-    radial-gradient(900px 480px at 110% 110%, rgba(37, 99, 235, 0.28), transparent 55%),
-    linear-gradient(158deg, var(--auth-navy-800) 0%, var(--auth-navy-900) 62%, #081226 100%);
+    radial-gradient(1000px 560px at -8% -12%, rgba(169, 199, 184, 0.35), transparent 62%),
+    radial-gradient(820px 460px at 108% 112%, rgba(22, 125, 114, 0.1), transparent 58%),
+    linear-gradient(162deg, var(--color-health-surface) 0%, var(--color-health-page) 58%, var(--color-health-teal-soft) 100%);
+  border-right: 1px solid var(--color-health-border);
   overflow: hidden;
 }
 
+/* Fine, low-contrast grid detail — depth without decoration. */
 .auth-brand-panel::after {
-  /* faint grid texture — subtle depth, not decoration for its own sake */
   content: "";
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  background-size: 44px 44px;
-  mask-image: radial-gradient(circle at 30% 20%, black, transparent 78%);
+    linear-gradient(rgba(24, 51, 47, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(24, 51, 47, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(circle at 28% 18%, black, transparent 76%);
   pointer-events: none;
 }
 
@@ -63,7 +56,7 @@
 .auth-brand-lockup {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .auth-brand-mark {
@@ -72,16 +65,17 @@
   border-radius: 12px;
   display: grid;
   place-items: center;
-  background: linear-gradient(135deg, var(--auth-blue-500), var(--auth-cyan-400));
-  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
   flex-shrink: 0;
+  background: var(--color-health-teal);
+  color: var(--color-health-mark-fg);
+  box-shadow: 0 6px 18px rgba(22, 125, 114, 0.22);
 }
 
 .auth-brand-name {
-  font-size: 1.32rem;
+  font-size: 1.3rem;
   font-weight: 800;
   letter-spacing: -0.02em;
-  color: #ffffff;
+  color: var(--color-health-text);
   line-height: 1.1;
 }
 
@@ -90,10 +84,10 @@
   align-items: center;
   margin-top: 3px;
   padding: 2px 9px;
-  border-radius: 999px;
-  border: 1px solid rgba(103, 232, 249, 0.35);
-  background: rgba(34, 211, 238, 0.12);
-  color: var(--auth-cyan-300);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-health-sage);
+  background: var(--color-health-teal-soft);
+  color: var(--color-health-teal);
   font-size: 0.64rem;
   font-weight: 700;
   letter-spacing: 0.09em;
@@ -102,42 +96,42 @@
 
 .auth-headline {
   margin: 0;
-  font-size: clamp(1.75rem, 2.4vw + 1rem, 2.6rem);
+  font-size: clamp(1.7rem, 2.2vw + 1rem, 2.45rem);
   font-weight: 800;
-  letter-spacing: -0.028em;
-  line-height: 1.12;
-  color: #ffffff;
+  letter-spacing: -0.026em;
+  line-height: 1.14;
+  color: var(--color-health-text);
   max-width: 15ch;
 }
 
 .auth-headline em {
   font-style: normal;
-  background: linear-gradient(100deg, var(--auth-cyan-300), #93c5fd);
+  background: linear-gradient(100deg, var(--color-health-teal), var(--color-health-accent));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 .auth-lede {
-  margin: 16px 0 0;
-  max-width: 46ch;
-  font-size: 0.95rem;
+  margin: var(--space-4) 0 0;
+  max-width: 47ch;
+  font-size: 0.94rem;
   line-height: 1.65;
-  color: rgba(226, 232, 240, 0.82);
+  color: var(--color-health-text-2);
 }
 
 .auth-features {
   list-style: none;
-  margin: 28px 0 0;
+  margin: var(--space-6) 0 0;
   padding: 0;
   display: grid;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .auth-feature {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .auth-feature-icon {
@@ -147,32 +141,32 @@
   display: grid;
   place-items: center;
   flex-shrink: 0;
-  background: rgba(34, 211, 238, 0.1);
-  border: 1px solid rgba(34, 211, 238, 0.22);
-  color: var(--auth-cyan-300);
+  background: var(--color-health-teal-soft);
+  border: 1px solid var(--color-health-border);
+  color: var(--color-health-teal);
 }
 
 .auth-feature-title {
   display: block;
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   font-weight: 700;
-  color: #f1f5f9;
+  color: var(--color-health-text);
   line-height: 1.3;
 }
 
 .auth-feature-desc {
   display: block;
   margin-top: 2px;
-  font-size: 0.78rem;
+  font-size: 0.79rem;
   line-height: 1.5;
-  color: rgba(203, 213, 225, 0.72);
+  color: var(--color-health-text-2);
 }
 
-/* Process indicator: RECONCILE → EVALUATE → REVIEW */
+/* Discreet three-stage workflow indicator */
 .auth-process {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--space-2);
   flex-wrap: wrap;
 }
 
@@ -180,12 +174,12 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  padding: 7px 13px;
-  border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.28);
-  background: rgba(255, 255, 255, 0.045);
-  color: rgba(226, 232, 240, 0.9);
-  font-size: 0.68rem;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-health-border);
+  background: var(--color-health-surface);
+  color: var(--color-health-text-2);
+  font-size: 0.67rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -198,133 +192,163 @@
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: rgba(34, 211, 238, 0.18);
-  color: var(--auth-cyan-300);
+  background: var(--color-health-teal-soft);
+  color: var(--color-health-teal);
   font-size: 0.6rem;
   font-weight: 800;
   letter-spacing: 0;
 }
 
 .auth-process-arrow {
-  color: rgba(148, 163, 184, 0.55);
+  color: var(--color-health-sage);
   flex-shrink: 0;
 }
 
-/* ─── Right authentication panel ──────────────────────────────────── */
+/* ─── Right: authentication panel ─────────────────────────────────── */
 .auth-form-panel {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 32px;
-  background: var(--color-bg-canvas);
+  padding: 48px 40px;
+  background: var(--color-health-page);
   overflow-y: auto;
 }
 
 .auth-card {
   width: 100%;
-  max-width: 400px;
-  background: var(--color-bg-surface);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: 18px;
-  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
-  padding: 34px 34px 30px;
+  max-width: 420px;
+  background: var(--color-health-surface);
+  border: 1px solid var(--color-health-border);
+  border-radius: 16px;
+  box-shadow: 0 10px 32px rgba(24, 51, 47, 0.07);
+  padding: 36px 36px 32px;
 }
 
 [data-theme="dark"] .auth-card {
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.35);
 }
 
 .auth-card-eyebrow {
-  font-size: 0.6875rem;
+  display: block;
+  font-size: var(--text-label);
   font-weight: 700;
   letter-spacing: 0.09em;
   text-transform: uppercase;
-  color: var(--color-brand);
+  color: var(--color-health-teal);
 }
 
 .auth-card-title {
-  margin: 8px 0 0;
-  font-size: 1.42rem;
+  margin: var(--space-2) 0 0;
+  font-size: 1.4rem;
   font-weight: 800;
   letter-spacing: -0.02em;
-  color: var(--color-text-primary);
+  color: var(--color-health-text);
   line-height: 1.2;
 }
 
 .auth-card-sub {
-  margin: 8px 0 0;
+  margin: var(--space-2) 0 0;
   font-size: 0.855rem;
   line-height: 1.55;
-  color: var(--color-text-muted);
+  color: var(--color-health-text-2);
 }
 
-/* Portal selection */
+/* ─── Role / portal selection cards ───────────────────────────────── */
 .auth-portals {
   display: grid;
-  gap: 12px;
-  margin-top: 26px;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
 }
 
 .auth-portal-btn {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: var(--space-3);
   width: 100%;
-  padding: 15px 16px;
-  border-radius: 13px;
-  border: 1px solid var(--color-border-emphasis);
-  background: var(--color-bg-surface);
-  color: var(--color-text-primary);
+  padding: var(--space-4);
+  border-radius: 12px;
+  border: 1px solid var(--color-health-border);
+  background: var(--color-health-surface);
+  color: var(--color-health-text);
   font-family: var(--font-sans);
   text-align: left;
   cursor: pointer;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  transition: border-color 0.14s ease, background-color 0.14s ease, box-shadow 0.14s ease;
 }
 
 .auth-portal-btn:hover {
-  border-color: var(--color-brand);
-  background: var(--color-brand-soft);
-  box-shadow: 0 0 0 3px var(--color-focus-ring);
+  border-color: var(--color-health-teal);
+  background: var(--color-health-teal-soft);
+}
+
+.auth-portal-btn:focus-visible {
+  outline: none;
+  border-color: var(--color-health-teal);
+  box-shadow: 0 0 0 3px var(--color-health-ring);
+}
+
+/* Selected role (registration step) */
+.auth-portal-btn-active,
+.auth-portal-btn-active:hover {
+  border-color: var(--color-health-teal);
+  background: var(--color-health-teal-soft);
+  box-shadow: inset 0 0 0 1px var(--color-health-teal);
 }
 
 .auth-portal-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 11px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
   display: grid;
   place-items: center;
   flex-shrink: 0;
-  background: var(--color-brand-soft);
-  color: var(--color-brand);
-  border: 1px solid var(--color-info-border);
+  background: var(--color-health-teal-soft);
+  color: var(--color-health-teal);
+  border: 1px solid var(--color-health-border);
+}
+
+.auth-portal-btn-active .auth-portal-icon {
+  background: var(--color-health-teal);
+  border-color: var(--color-health-teal);
+  color: var(--color-health-mark-fg);
+}
+
+.auth-portal-body {
+  min-width: 0;
 }
 
 .auth-portal-label {
   display: block;
-  font-size: 0.94rem;
+  font-size: 0.92rem;
   font-weight: 700;
-  color: var(--color-text-primary);
+  color: var(--color-health-text);
 }
 
 .auth-portal-desc {
   display: block;
   margin-top: 2px;
-  font-size: 0.76rem;
+  font-size: 0.77rem;
   line-height: 1.45;
-  color: var(--color-text-muted);
+  color: var(--color-health-text-2);
 }
 
 .auth-portal-chevron {
   margin-left: auto;
-  color: var(--color-text-muted);
+  color: var(--color-health-text-2);
   flex-shrink: 0;
 }
 
-/* Forms */
+.auth-portal-check {
+  margin-left: auto;
+  color: var(--color-health-teal);
+  flex-shrink: 0;
+}
+
+/* ─── Forms ───────────────────────────────────────────────────────── */
 .auth-form {
   display: grid;
-  gap: 15px;
-  margin-top: 24px;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
 }
 
 .auth-field {
@@ -333,20 +357,41 @@
 }
 
 .auth-label {
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
+  letter-spacing: 0.02em;
+  color: var(--color-health-text);
+}
+
+.auth-label-optional {
+  font-weight: 500;
+  color: var(--color-health-text-2);
+}
+
+/* Input wrapper hosts the leading icon and the show/hide control */
+.auth-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.auth-input-icon {
+  position: absolute;
+  left: 13px;
+  color: var(--color-health-text-2);
+  pointer-events: none;
+  display: grid;
+  place-items: center;
 }
 
 .auth-input {
   width: 100%;
-  padding: 11px 13px;
-  border-radius: 11px;
-  border: 1px solid var(--color-border-emphasis);
-  background: var(--color-bg-surface);
-  color: var(--color-text-primary);
+  height: 44px;
+  padding: 0 13px;
+  border-radius: 10px;
+  border: 1px solid var(--color-health-border);
+  background: var(--color-health-surface);
+  color: var(--color-health-text);
   font-family: var(--font-sans);
   font-size: 0.9rem;
   outline: none;
@@ -354,35 +399,82 @@
 }
 
 .auth-input::placeholder {
-  color: var(--color-text-muted);
+  color: var(--color-health-text-2);
+  opacity: 0.75;
+}
+
+.auth-input:hover {
+  border-color: var(--color-health-sage);
 }
 
 .auth-input:focus {
-  border-color: var(--color-brand);
-  box-shadow: 0 0 0 3px var(--color-focus-ring);
+  border-color: var(--color-health-teal);
+  box-shadow: 0 0 0 3px var(--color-health-ring);
 }
 
+.auth-input[aria-invalid="true"] {
+  border-color: var(--color-health-error);
+}
+
+.auth-input[aria-invalid="true"]:focus {
+  box-shadow: 0 0 0 3px var(--color-health-error-border);
+}
+
+/* Icon-carrying inputs need matching padding */
+.auth-input-icon ~ .auth-input {
+  padding-left: 40px;
+}
+
+.auth-input-has-eye {
+  padding-right: 42px;
+}
+
+.auth-eye {
+  position: absolute;
+  right: 6px;
+  display: grid;
+  place-items: center;
+  padding: 6px;
+  border: none;
+  background: none;
+  color: var(--color-health-text-2);
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.auth-eye:hover {
+  color: var(--color-health-text);
+}
+
+.auth-field-error {
+  margin: 0;
+  font-size: 0.76rem;
+  line-height: 1.4;
+  color: var(--color-health-error);
+}
+
+/* ─── Buttons ─────────────────────────────────────────────────────── */
 .auth-submit {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--space-2);
   width: 100%;
-  margin-top: 4px;
-  padding: 12px 16px;
+  height: 44px;
+  margin-top: var(--space-1);
   border: none;
-  border-radius: 11px;
-  background: linear-gradient(135deg, var(--auth-blue-600), var(--auth-blue-500));
-  color: #ffffff;
+  border-radius: 10px;
+  background: var(--color-health-teal);
+  color: var(--color-health-mark-fg);
   font-family: var(--font-sans);
   font-size: 0.92rem;
   font-weight: 700;
   cursor: pointer;
-  transition: filter 0.13s ease, transform 0.13s ease;
+  transition: background-color 0.13s ease, transform 0.13s ease;
 }
 
 .auth-submit:hover:not(:disabled) {
-  filter: brightness(1.07);
+  background: var(--color-health-teal-hover);
 }
 
 .auth-submit:active:not(:disabled) {
@@ -390,43 +482,20 @@
 }
 
 .auth-submit:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.auth-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  width: 100%;
-  padding: 10px 14px;
-  border-radius: 11px;
-  border: 1px solid var(--color-border-emphasis);
-  background: var(--color-bg-surface);
-  color: var(--color-text-secondary);
-  font-family: var(--font-sans);
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.13s ease, color 0.13s ease;
-}
-
-.auth-secondary:hover:not(:disabled) {
-  background: var(--color-bg-subtle);
-  color: var(--color-text-primary);
-}
-
-.auth-secondary:disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }
 
+.auth-submit:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--color-health-ring);
+}
+
 .auth-switch {
-  margin: 18px 0 0;
+  margin: var(--space-5) 0 0;
   text-align: center;
   font-size: 0.82rem;
-  color: var(--color-text-muted);
+  color: var(--color-health-text-2);
 }
 
 .auth-link {
@@ -436,9 +505,8 @@
   font-family: var(--font-sans);
   font-size: inherit;
   font-weight: 700;
-  color: var(--color-brand);
+  color: var(--color-health-teal);
   cursor: pointer;
-  text-decoration: none;
 }
 
 .auth-link:hover {
@@ -450,32 +518,32 @@
   width: fit-content;
   align-items: center;
   gap: 6px;
-  margin-bottom: 18px;
+  margin-bottom: var(--space-5);
   padding: 0;
   border: none;
   background: none;
   font-family: var(--font-sans);
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--color-text-muted);
+  color: var(--color-health-text-2);
   cursor: pointer;
 }
 
 .auth-back:hover {
-  color: var(--color-text-primary);
+  color: var(--color-health-text);
 }
 
-/* Feedback */
+/* ─── Feedback ────────────────────────────────────────────────────── */
 .auth-error {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
-  margin-top: 16px;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
   padding: 11px 13px;
   border-radius: 10px;
-  border: 1px solid var(--color-danger-border);
-  background: var(--color-danger-soft);
-  color: var(--color-danger-text);
+  border: 1px solid var(--color-health-error-border);
+  background: var(--color-health-error-soft);
+  color: var(--color-health-error);
   font-size: 0.82rem;
   line-height: 1.5;
 }
@@ -483,29 +551,29 @@
 .auth-success {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
-  margin-top: 16px;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
   padding: 11px 13px;
   border-radius: 10px;
-  border: 1px solid var(--color-success-border);
-  background: var(--color-success-soft);
-  color: var(--color-success-text);
+  border: 1px solid var(--color-health-success-border);
+  background: var(--color-health-success-soft);
+  color: var(--color-health-success);
   font-size: 0.82rem;
   line-height: 1.5;
 }
 
-/* Loading screen shown while the session is being checked */
+/* ─── Session-check loading screen (used by App shell) ────────────── */
 .auth-loading {
   min-height: 100vh;
   display: grid;
   place-items: center;
-  background: var(--color-bg-canvas);
+  background: var(--color-health-page);
 }
 
 .auth-loading-inner {
   display: grid;
   justify-items: center;
-  gap: 18px;
+  gap: var(--space-4);
   text-align: center;
 }
 
@@ -515,61 +583,106 @@
   border-radius: 14px;
   display: grid;
   place-items: center;
-  background: linear-gradient(135deg, var(--auth-blue-600), var(--auth-cyan-400));
-  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
+  background: var(--color-health-teal);
+  color: var(--color-health-mark-fg);
+  box-shadow: 0 8px 24px rgba(22, 125, 114, 0.24);
 }
 
 .auth-loading-text {
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--color-text-muted);
+  color: var(--color-health-text-2);
 }
 
-/* ─── Mobile: stack panels, keep everything in the viewport ──────── */
+/* ─── Dark theme: calm green-charcoal restatement ─────────────────── */
+[data-theme="dark"] .auth-brand-panel {
+  background:
+    radial-gradient(1000px 560px at -8% -12%, rgba(94, 125, 112, 0.22), transparent 62%),
+    radial-gradient(820px 460px at 108% 112%, rgba(104, 185, 168, 0.08), transparent 58%),
+    linear-gradient(162deg, var(--color-health-elevated) 0%, var(--color-health-page) 62%, var(--color-health-teal-soft) 100%);
+  border-right-color: var(--color-health-border);
+}
+
+[data-theme="dark"] .auth-brand-panel::after {
+  background-image:
+    linear-gradient(rgba(240, 246, 243, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240, 246, 243, 0.03) 1px, transparent 1px);
+}
+
+[data-theme="dark"] .auth-brand-mark,
+[data-theme="dark"] .auth-loading-mark {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="dark"] .auth-portal-btn-active .auth-portal-icon {
+  background: var(--color-health-teal);
+  color: var(--color-health-mark-fg);
+}
+
+/* ─── Responsive ──────────────────────────────────────────────────── */
+@media (max-width: 1080px) {
+  .auth-brand-panel {
+    padding: 40px 40px;
+  }
+
+  .auth-form-panel {
+    padding: 40px 28px;
+  }
+}
+
 @media (max-width: 900px) {
   .auth-page {
     grid-template-columns: 1fr;
+    /* Top-align the stacked rows so the form sits directly under the
+       compact brand band instead of being pushed down by row stretching. */
+    align-content: start;
   }
 
+  /* Simplify the brand panel: logo + headline only, so the form is
+     reachable without scrolling through marketing copy. */
   .auth-brand-panel {
-    padding: 34px 24px 30px;
-    gap: 26px;
+    padding: var(--space-6) var(--space-5);
+    gap: var(--space-4);
+    border-right: none;
+    border-bottom: 1px solid var(--color-health-border);
   }
 
   .auth-headline {
     max-width: none;
-    font-size: 1.6rem;
+    font-size: 1.55rem;
   }
 
-  .auth-lede {
-    max-width: none;
-    font-size: 0.88rem;
-  }
-
-  .auth-features {
-    margin-top: 22px;
+  .auth-lede,
+  .auth-features,
+  .auth-process {
+    display: none;
   }
 
   .auth-form-panel {
-    padding: 26px 18px 40px;
+    padding: var(--space-6) var(--space-4) var(--space-8);
   }
 
   .auth-card {
-    padding: 26px 22px 24px;
-    border-radius: 15px;
+    padding: 28px 24px 26px;
+    border-radius: 14px;
   }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 480px) {
   .auth-brand-panel {
-    padding: 26px 18px 24px;
+    padding: var(--space-4) var(--space-4);
+  }
+
+  /* On the smallest screens keep only the lockup above the form. */
+  .auth-headline {
+    display: none;
   }
 
   .auth-form-panel {
-    padding: 20px 14px 32px;
+    padding: var(--space-5) var(--space-3) var(--space-8);
   }
 
   .auth-card {
-    padding: 22px 17px 20px;
+    padding: 24px 18px 22px;
   }
 }
