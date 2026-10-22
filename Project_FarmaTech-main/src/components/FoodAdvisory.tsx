@@ -29,7 +29,7 @@ export default function FoodAdvisory({ warnings = [], verifiedWarnings = [], pat
     <section className="card">
       <div className="card-head">
         <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-          <Utensils size={18} style={{ color: hasVerified ? '#b45309' : 'var(--caution)' }} />
+          <Utensils size={18} style={{ color: hasVerified ? 'var(--color-health-warning)' : 'var(--color-health-text-2)' }} />
           <div>
             <h2 className="card-title">
               {hasVerified ? 'Food & Dietary Information' : 'Dietary & Lifestyle Advisories'}
@@ -66,10 +66,10 @@ export default function FoodAdvisory({ warnings = [], verifiedWarnings = [], pat
                   </span>
                   <span className="small muted">— {w.food}</span>
                 </div>
-                <p className="small" style={{ color: 'var(--text-body)', marginLeft: 28, marginBottom: 4 }}>
+                <p className="small" style={{ color: 'var(--color-health-text-2)', marginLeft: 28, marginBottom: 4 }}>
                   {w.warning}
                 </p>
-                <p className="small" style={{ color: 'var(--text-muted)', fontStyle: 'italic', marginLeft: 28 }}>
+                <p className="small" style={{ color: 'var(--color-health-text-2)', fontStyle: 'italic', marginLeft: 28 }}>
                   Effect: {w.effect}
                 </p>
               </div>

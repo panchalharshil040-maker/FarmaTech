@@ -1,7 +1,6 @@
-import { useEffect, useMemo, useState } from 'react'
 import { BadgeCheck, CircleAlert, FileHeart, Pill, TriangleAlert } from 'lucide-react'
-import { getMedicineDetails } from '../api'
 import type { CheckResponse, PatientRecord } from '../types'
+import { useMedicineViews } from '../lib/useMedicineViews'
 
 interface Props {
   record: PatientRecord
@@ -11,57 +10,12 @@ interface Props {
   indicator?: boolean
 }
 
-interface MedicineView {
-  recorded: string
-  generic: string | null
-  ingredients: string[]
-  strength: string | null
-  resolved: boolean
-}
-
 /**
- * Read the strength exactly as it appears in the recorded medicine name.
- * Nothing is inferred: a name without a strength returns null and the UI says
- * the database does not record it.
+ * Read-only medication record view (clinician surface). Resolution logic
+ * lives in useMedicineViews so the patient dashboard shares one lookup path.
  */
-function recordedStrength(name: string): string | null {
-  const m = name.match(/(\d+(?:\.\d+)?)\s*(mg|mcg|g)\b/i)
-  return m ? `${m[1]} ${m[2].toLowerCase()}` : null
-}
-
 export default function PatientRecordPanel({ record, result, indicator = false }: Props) {
-  const [details, setDetails] = useState<Record<string, { generic: string; ingredients: string[] }>>({})
-
-  const key = useMemo(() => record.medicines.join('|'), [record.medicines])
-
-  useEffect(() => {
-    let cancelled = false
-    const missing = record.medicines.filter(
-      (m) => !details[m] && !result?.resolved?.some((r) => r.input.toLowerCase() === m.toLowerCase()),
-    )
-    if (missing.length === 0) return
-    getMedicineDetails(missing).then((d) => {
-      if (!cancelled) setDetails((prev) => ({ ...prev, ...d }))
-    })
-    return () => {
-      cancelled = true
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [key, result])
-
-  const medicines: MedicineView[] = record.medicines.map((recorded) => {
-    const backendResolved = result?.resolved?.find((r) => r.input.toLowerCase() === recorded.toLowerCase())
-    const lookup = details[recorded]
-    return {
-      recorded,
-      // The lookup above is skipped for medicines the backend already resolved,
-      // so fall back to the backend's own ingredient for the generic name.
-      generic: lookup?.generic || backendResolved?.ingredients[0] || null,
-      ingredients: backendResolved?.ingredients ?? lookup?.ingredients ?? [],
-      strength: recordedStrength(recorded),
-      resolved: Boolean(backendResolved) || Boolean(lookup),
-    }
-  })
+  const medicines = useMedicineViews(record.medicines, result)
 
   const unresolved = result?.unresolved ?? []
   const allergyList = record.profile.allergies

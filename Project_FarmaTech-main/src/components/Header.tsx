@@ -5,7 +5,9 @@ import type { Language, ViewMode } from '../types'
 
 interface Props {
   view: ViewMode
-  setView: (v: ViewMode) => void
+  /** Role switching is locked to the backend-verified account; kept for API
+   *  compatibility with the shell. The header renders the current role only. */
+  setView?: (v: ViewMode) => void
   language: Language
   setLanguage: (l: Language) => void
   /** Optional: when provided, a sign-out control is rendered. App owns the
@@ -13,18 +15,13 @@ interface Props {
   onLogout?: () => void
 }
 
-const roleOptions: { value: ViewMode; label: string; icon: typeof Stethoscope }[] = [
-  { value: 'doctor', label: 'Doctor', icon: Stethoscope },
-  { value: 'patient', label: 'Patient', icon: User },
-]
-
 const langOptions: { value: Language; label: string }[] = [
   { value: 'en', label: 'English' },
   { value: 'hi', label: 'हिंदी' },
   { value: 'gu', label: 'ગુજરાતી' },
 ]
 
-export default function Header({ view, setView, language, setLanguage, onLogout }: Props) {
+export default function Header({ view, language, setLanguage, onLogout }: Props) {
   const [engineActive, setEngineActive] = useState<boolean | null>(null)
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     if (typeof window !== 'undefined') {
@@ -54,138 +51,44 @@ export default function Header({ view, setView, language, setLanguage, onLogout 
 
   const toggleTheme = () => setTheme(prev => prev === 'light' ? 'dark' : 'light')
 
+  const RoleIcon = view === 'doctor' ? Stethoscope : User
+
   return (
-    <header
-      style={{
-        background: 'var(--bg-surface)',
-        borderBottom: '1px solid var(--border-base)',
-        position: 'sticky',
-        top: 0,
-        zIndex: 50,
-      }}
-    >
-      <div
-        className="container"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: 12,
-          paddingTop: 12,
-          paddingBottom: 12,
-        }}
-      >
+    <header className="app-header">
+      <div className="container app-header-inner">
         {/* Brand */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
-          <div
-            aria-hidden
-            style={{
-              width: 40,
-              height: 40,
-              borderRadius: 10,
-              background: 'var(--brand)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexShrink: 0,
-            }}
-          >
-            <HeartPulse size={22} color="#ffffff" />
+        <div className="app-brand">
+          <div className="app-brand-mark" aria-hidden>
+            <HeartPulse size={22} />
           </div>
           <div style={{ minWidth: 0 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <h1
-                style={{
-                  fontSize: '1.24rem',
-                  fontWeight: 800,
-                  color: 'var(--text-strong)',
-                  letterSpacing: '-0.02em',
-                  lineHeight: 1.1,
-                }}
-              >
-                MediGuard
-              </h1>
-              <span className="badge badge-info" style={{ fontSize: '0.62rem' }}>
-                PharmaTech
-              </span>
+            <div className="app-brand-row">
+              <h1 className="app-brand-name">MediGuard</h1>
+              <span className="app-brand-tag">PharmaTech</span>
             </div>
-            <p
-              style={{
-                fontSize: '0.72rem',
-                color: 'var(--text-muted)',
-                letterSpacing: '0.01em',
-                marginTop: 2,
-              }}
-            >
-              AI-Powered Prescription Safety &amp; Interaction Analyzer
-            </p>
+            <p className="app-brand-sub">Prescription Safety &amp; Interaction Analyzer</p>
           </div>
         </div>
 
         {/* Global controls */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-          {/* Current role */}
+        <div className="app-controls">
+          {/* Current role — locked to the backend-verified account */}
           <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 8,
-              padding: '4px 10px 4px 12px',
-              border: '1px solid var(--border-base)',
-              borderRadius: 'var(--radius-md)',
-              background: 'var(--bg-surface)',
-            }}
+            className="app-pill"
+            title="Your role comes from your signed-in account and cannot be switched here."
           >
-            <span className="eyebrow" style={{ fontSize: '0.62rem' }}>
-              Role
-            </span>
-            <div style={{ display: 'flex', gap: 4 }}>
-              {roleOptions.map((opt) => {
-                const Icon = opt.icon
-                const active = view === opt.value
-                return (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    onClick={() => setView(opt.value)}
-                    aria-pressed={active}
-                    className={active ? 'btn btn-primary btn-sm' : 'btn btn-quiet btn-sm'}
-                  >
-                    <Icon size={14} />
-                    {opt.label}
-                  </button>
-                )
-              })}
-            </div>
+            <span className="app-pill-label">Role</span>
+            <RoleIcon size={14} aria-hidden />
+            {view === 'doctor' ? 'Clinician' : 'Patient'}
           </div>
 
           {/* Language selector */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-              border: '1px solid var(--border-base)',
-              borderRadius: 'var(--radius-md)',
-              background: 'var(--bg-surface)',
-              padding: '0 10px',
-            }}
-          >
-            <Globe size={14} style={{ color: 'var(--text-muted)' }} />
+          <div className="app-lang">
+            <Globe size={14} aria-hidden />
             <select
               value={language}
               onChange={(e) => setLanguage(e.target.value as Language)}
               aria-label="Language"
-              className="field"
-              style={{
-                padding: '7px 2px',
-                border: 'none',
-                background: 'transparent',
-                fontSize: '0.82rem',
-                fontWeight: 600,
-                width: 'auto',
-              }}
             >
               {langOptions.map((l) => (
                 <option key={l.value} value={l.value}>
@@ -202,7 +105,6 @@ export default function Header({ view, setView, language, setLanguage, onLogout 
             aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
             title={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
             className="btn btn-quiet btn-sm"
-            style={{ padding: '6px 10px' }}
           >
             {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
             <span className="small" style={{ marginLeft: 4 }}>
@@ -217,7 +119,6 @@ export default function Header({ view, setView, language, setLanguage, onLogout 
               onClick={onLogout}
               className="btn btn-quiet btn-sm"
               title="Sign out of your account"
-              style={{ padding: '6px 10px' }}
             >
               <LogOut size={16} />
               <span className="small" style={{ marginLeft: 4 }}>
@@ -228,6 +129,7 @@ export default function Header({ view, setView, language, setLanguage, onLogout 
 
           {/* Engine status — reflects the real /health response */}
           <div
+            className={engineActive === false ? 'app-engine app-engine--down' : 'app-engine'}
             title={
               engineActive === null
                 ? 'Checking deterministic engine…'
@@ -235,19 +137,6 @@ export default function Header({ view, setView, language, setLanguage, onLogout 
                   ? 'Deterministic engine responded OK'
                   : 'Deterministic engine unreachable'
             }
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-              padding: '6px 12px',
-              borderRadius: 999,
-              border: engineActive === false ? '1px solid var(--high-border)' : '1px solid var(--safe-border)',
-              background: engineActive === false ? 'var(--high-soft)' : 'var(--safe-soft)',
-              color: engineActive === false ? 'var(--high)' : 'var(--safe)',
-              fontSize: '0.75rem',
-              fontWeight: 700,
-              whiteSpace: 'nowrap',
-            }}
           >
             {engineActive === null ? (
               <Activity size={11} className="spin" />

@@ -26,17 +26,17 @@ export function riskBadgeClass(level: RiskLevel): string {
 }
 
 export function riskTextClass(level: RiskLevel): string {
-  if (level === 'high') return 'text-red-700'
-  if (level === 'moderate') return 'text-amber-700'
-  if (level === 'low') return 'text-amber-700'
-  return 'text-emerald-700'
+  if (level === 'high') return 'risk-text-high'
+  if (level === 'moderate') return 'risk-text-moderate'
+  if (level === 'low') return 'risk-text-low'
+  return 'risk-text-none'
 }
 
 export function riskSoftBg(level: RiskLevel): string {
-  if (level === 'high') return 'bg-red-50 border-red-200'
-  if (level === 'moderate') return 'bg-amber-50 border-amber-200'
-  if (level === 'low') return 'bg-amber-50 border-amber-200'
-  return 'bg-emerald-50 border-emerald-200'
+  if (level === 'high') return 'var(--color-health-error-soft)'
+  if (level === 'moderate') return 'var(--color-health-warning-soft)'
+  if (level === 'low') return 'var(--color-health-warning-soft)'
+  return 'var(--color-health-success-soft)'
 }
 
 /* ─── Semantic CSS variable mappings for inline styles ─── */

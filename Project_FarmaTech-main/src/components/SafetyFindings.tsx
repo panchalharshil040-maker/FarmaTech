@@ -84,7 +84,7 @@ function FindingItem({
               {findingTitle(finding)}
             </span>
           </div>
-          <p className="small" style={{ color: 'var(--text-body)', lineHeight: 1.45 }}>
+          <p className="small" style={{ color: 'var(--color-health-text-2)', lineHeight: 1.45 }}>
             {finding.mechanism}
           </p>
         </div>
@@ -96,7 +96,7 @@ function FindingItem({
           {finding.watch && (
             <div>
               <div className="eyebrow">Monitoring / watch for</div>
-              <p className="small" style={{ color: 'var(--text-body)', marginTop: 3 }}>
+              <p className="small" style={{ color: 'var(--color-health-text-2)', marginTop: 3 }}>
                 {finding.watch}
               </p>
             </div>

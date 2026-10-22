@@ -18,7 +18,7 @@ export default function DemoScenarios({ onSelect, activeId }: Props) {
     <section className="card">
       <div className="card-head">
         <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-          <FlaskConical size={18} style={{ color: 'var(--caution)' }} />
+          <FlaskConical size={18} style={{ color: 'var(--color-health-warning)' }} />
           <div>
             <h2 className="card-title">Demo / Test Scenarios</h2>
             <p className="card-sub">
@@ -47,8 +47,8 @@ export default function DemoScenarios({ onSelect, activeId }: Props) {
                   padding: 13,
                   textAlign: 'left',
                   cursor: 'pointer',
-                  background: active ? 'var(--brand-soft)' : 'var(--bg-surface)',
-                  borderColor: active ? '#93c5fd' : 'var(--border-base)',
+                  background: active ? 'var(--color-health-teal-soft)' : 'var(--color-health-surface)',
+                  borderColor: active ? 'var(--color-health-teal)' : 'var(--color-health-border)',
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>

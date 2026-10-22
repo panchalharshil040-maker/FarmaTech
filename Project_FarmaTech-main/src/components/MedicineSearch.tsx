@@ -90,7 +90,7 @@ export default function MedicineSearch({
               left: 12,
               top: '50%',
               transform: 'translateY(-50%)',
-              color: '#94a3b8',
+              color: 'var(--color-health-text-2)',
               pointerEvents: 'none',
             }}
           />
@@ -161,21 +161,21 @@ export default function MedicineSearch({
                   opacity: added ? 0.55 : 1,
                 }}
                 onMouseEnter={(e) => {
-                  if (!added) e.currentTarget.style.background = 'var(--brand-soft)'
+                  if (!added) e.currentTarget.style.background = 'var(--color-health-teal-soft)'
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = 'transparent'
                 }}
               >
                 <span style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
-                  <Pill size={14} style={{ color: 'var(--brand)', flexShrink: 0 }} />
+                  <Pill size={14} style={{ color: 'var(--color-health-teal)', flexShrink: 0 }} />
                   <span style={{ minWidth: 0 }}>
                     <span
                       style={{
                         display: 'block',
                         fontSize: '0.86rem',
                         fontWeight: 600,
-                        color: 'var(--text-strong)',
+                        color: 'var(--color-health-text)',
                         textTransform: 'capitalize',
                       }}
                     >
@@ -191,7 +191,7 @@ export default function MedicineSearch({
                     <Check size={11} /> In regimen
                   </span>
                 ) : (
-                  <span className="small" style={{ color: 'var(--brand)', fontWeight: 600 }}>
+                  <span className="small" style={{ color: 'var(--color-health-teal)', fontWeight: 600 }}>
                     Select
                   </span>
                 )}

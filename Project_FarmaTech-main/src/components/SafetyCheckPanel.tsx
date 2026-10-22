@@ -40,29 +40,30 @@ export default function SafetyCheckPanel({
 
   return (
     <div style={{ display: 'grid', gap: 16 }}>
-      <section className="card">
-        <div className="card-pad" style={{ display: 'grid', gap: 12, justifyItems: 'center', textAlign: 'center' }}>
-          <div style={{ display: 'grid', gap: 6, maxWidth: 560 }}>
-            <h2 className="card-title" style={{ fontSize: '1.02rem' }}>
-              {view === 'doctor' ? 'Analyze Patient Medication Safety' : 'Check My Medication Safety'}
-            </h2>
-            <p className="small muted" style={{ lineHeight: 1.55 }}>
-              {view === 'doctor'
-                ? `Analyze the patient${record.name ? `’s (${record.name})` : '’s'} active medication record for verified:`
-                : 'Analyze your active medication record for verified:'}
-            </p>
-            <ul style={{ listStyle: 'none', display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center' }}>
-              {CHECKS.map((c) => (
-                <li key={c} className="badge badge-info" style={{ textTransform: 'none', fontSize: '0.74rem' }}>
-                  {c}
-                </li>
-              ))}
-            </ul>
-          </div>
+      <section className="card pd-cta">
+        <div className="pd-cta-pad">
+          <span className="pd-cta-icon" aria-hidden>
+            <ShieldCheck size={20} />
+          </span>
+          <h2 className="pd-cta-title">
+            {view === 'doctor' ? 'Analyze Patient Medication Safety' : 'Check My Medication Safety'}
+          </h2>
+          <p className="pd-cta-text">
+            {view === 'doctor'
+              ? `Analyze the patient${record.name ? `’s (${record.name})` : '’s'} active medication record for verified:`
+              : 'Analyze your active medication record for verified:'}
+          </p>
+          <ul className="pd-cta-tags">
+            {CHECKS.map((c) => (
+              <li key={c} className="badge badge-info" style={{ textTransform: 'none', fontSize: '0.74rem' }}>
+                {c}
+              </li>
+            ))}
+          </ul>
 
           <button
             type="button"
-            className="btn btn-primary btn-lg"
+            className="btn btn-primary btn-lg pd-cta-btn"
             onClick={onRun}
             disabled={loading || noMedicines}
           >
@@ -70,7 +71,7 @@ export default function SafetyCheckPanel({
             {loading ? 'Analyzing…' : view === 'doctor' ? 'Analyze Patient Medication Safety' : 'Analyze My Medication Safety'}
           </button>
 
-          <p className="med-field">
+          <p className="pd-cta-count">
             {noMedicines
               ? 'No medication in the active record — load a patient record or add a medicine first.'
               : `Analysing ${record.medicines.length} medication${record.medicines.length === 1 ? '' : 's'} from the active patient record.`}

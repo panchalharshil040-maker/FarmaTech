@@ -23,7 +23,7 @@ export default function AiExplanation({ explain, loading, unavailable }: Props) 
     <section className="card" style={{ borderColor: 'var(--color-info-border)' }}>
       <div className="card-head" style={{ background: 'var(--color-brand-soft)', borderRadius: 'var(--radius-lg) var(--radius-lg) 0 0' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 9, flexWrap: 'wrap' }}>
-          <Sparkles size={18} style={{ color: 'var(--brand)' }} />
+          <Sparkles size={18} style={{ color: 'var(--color-health-teal)' }} />
           <div>
             <h2 className="card-title">AI Explanation — Plain-Language Summary</h2>
             <p className="card-sub">
@@ -47,7 +47,7 @@ export default function AiExplanation({ explain, loading, unavailable }: Props) 
 
         {explain && !loading && (
           <>
-            <p style={{ fontSize: '0.9rem', color: 'var(--text-body)', lineHeight: 1.55 }}>{explain.summary}</p>
+            <p style={{ fontSize: '0.9rem', color: 'var(--color-health-text-2)', lineHeight: 1.55 }}>{explain.summary}</p>
             {explain.explanations.length > 0 && (
               <div style={{ display: 'grid', gap: 8 }}>
                 {explain.explanations.map((ex, i) => (

@@ -338,7 +338,7 @@ export default function MedicationOptimization({ record, language }: Props) {
                   emptyLabel="No verified finding returned for the current regimen."
                 />
                 <div style={{ display: 'grid', placeItems: 'center' }}>
-                  <ArrowRight size={20} style={{ color: '#94a3b8' }} />
+                  <ArrowRight size={20} style={{ color: 'var(--color-health-text-2)' }} />
                 </div>
                 <SafetyBlock
                   title="Proposed safety"

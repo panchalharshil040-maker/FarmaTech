@@ -10,9 +10,9 @@ interface Props {
 }
 
 function strokeFor(level: RiskLevel): string {
-  if (level === 'high') return '#dc2626'
-  if (level === 'moderate') return '#d97706'
-  return '#059669'
+  if (level === 'high') return 'var(--color-health-error)'
+  if (level === 'moderate') return 'var(--color-health-warning)'
+  return 'var(--color-health-success)'
 }
 
 /** Flat, print-safe risk indicator. No glow, no gradient, no animation. */
@@ -37,7 +37,7 @@ export default function RiskGauge({ score, riskLevel, hasFindings = true }: Prop
           <path
             d="M 25 103 A 75 75 0 0 1 175 103"
             fill="none"
-            stroke={noVerifiedFinding ? '#cbd5e1' : strokeFor(riskLevel)}
+            stroke={noVerifiedFinding ? 'var(--color-health-sage)' : strokeFor(riskLevel)}
             strokeWidth="12"
             strokeLinecap="round"
             strokeDasharray={circumference}

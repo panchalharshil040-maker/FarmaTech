@@ -1,0 +1,626 @@
+/* ══════════════════════════════════════════════════════════════════
+   MediGuard dashboard — SCOPED styles.
+
+   Every selector is prefixed (app- / dash- / pd- / risk-) so nothing
+   here can reach the authentication screens or shared primitives.
+   Colors come only from the shared --color-health-* tokens in
+   index.css, which flip with the existing data-theme dark mode.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ─── App header ──────────────────────────────────────────────────── */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--color-health-surface);
+  border-bottom: 1px solid var(--color-health-border);
+}
+
+.app-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+}
+
+.app-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.app-brand-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--color-health-teal);
+  color: var(--color-health-mark-fg);
+  box-shadow: 0 4px 12px rgba(22, 125, 114, 0.2);
+}
+
+.app-brand-name {
+  font-size: 1.16rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--color-health-text);
+}
+
+.app-brand-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.app-brand-tag {
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-health-border);
+  background: var(--color-health-teal-soft);
+  color: var(--color-health-teal);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.app-brand-sub {
+  margin-top: 2px;
+  font-size: 0.7rem;
+  color: var(--color-health-text-2);
+  letter-spacing: 0.01em;
+}
+
+.app-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.app-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 11px;
+  border: 1px solid var(--color-health-border);
+  border-radius: var(--radius-full);
+  background: var(--color-health-elevated);
+  color: var(--color-health-text);
+  font-size: 0.74rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.app-pill-label {
+  color: var(--color-health-text-2);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.app-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-left: 10px;
+  border: 1px solid var(--color-health-border);
+  border-radius: var(--radius-full);
+  background: var(--color-health-elevated);
+  color: var(--color-health-text-2);
+}
+
+.app-lang select {
+  width: auto;
+  padding: 6px 6px 6px 0;
+  border: none;
+  background: transparent;
+  color: var(--color-health-text);
+  font-size: 0.78rem;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+}
+
+.app-engine {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-health-success-border);
+  background: var(--color-health-success-soft);
+  color: var(--color-health-success);
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.app-engine--down {
+  border-color: var(--color-health-error-border);
+  background: var(--color-health-error-soft);
+  color: var(--color-health-error);
+}
+
+/* ─── Dashboard intro (shared by both roles) ──────────────────────── */
+.dash-intro {
+  margin-bottom: var(--space-5);
+  max-width: 760px;
+}
+
+.dash-intro-eyebrow {
+  color: var(--color-health-teal);
+}
+
+.dash-intro-title {
+  margin-top: 3px;
+  font-size: var(--text-h1);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--color-health-text);
+}
+
+.dash-intro-sub {
+  margin-top: 5px;
+  font-size: var(--text-small);
+  line-height: 1.55;
+  color: var(--color-health-text-2);
+}
+
+/* ─── Patient: empty onboarding state ─────────────────────────────── */
+.pd-empty {
+  background:
+    radial-gradient(560px 260px at 82% -10%, rgba(169, 199, 184, 0.28), transparent 70%),
+    var(--color-health-surface);
+}
+
+.pd-empty-pad {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  padding: var(--space-8) var(--space-5);
+  text-align: center;
+}
+
+.pd-empty-mark {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: var(--color-health-teal-soft);
+  border: 1px solid var(--color-health-border);
+  color: var(--color-health-teal);
+}
+
+.pd-empty-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  color: var(--color-health-text);
+}
+
+.pd-empty-text {
+  max-width: 520px;
+  font-size: var(--text-small);
+  line-height: 1.55;
+  color: var(--color-health-text-2);
+}
+
+.pd-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+}
+
+/* ─── Patient: record strip ───────────────────────────────────────── */
+.pd-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-health-surface);
+}
+
+.pd-strip-id {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.pd-strip-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--color-health-teal-soft);
+  border: 1px solid var(--color-health-border);
+  color: var(--color-health-teal);
+}
+
+.pd-strip-name {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--color-health-text);
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.pd-strip-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-5);
+  margin: 0;
+}
+
+.pd-strip-fact {
+  min-width: 0;
+}
+
+.pd-strip-fact dt {
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--color-health-text-2);
+}
+
+.pd-strip-fact dd {
+  margin: 1px 0 0;
+  font-size: var(--text-small);
+  font-weight: 700;
+  color: var(--color-health-text);
+  overflow-wrap: anywhere;
+}
+
+/* ─── Patient: safety call-to-action band ─────────────────────────── */
+.pd-cta {
+  background:
+    radial-gradient(640px 220px at 90% -20%, rgba(22, 125, 114, 0.12), transparent 70%),
+    var(--color-health-teal-soft);
+  border-color: var(--color-health-border);
+}
+
+.pd-cta-pad {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  padding: var(--space-6) var(--space-5);
+  text-align: center;
+}
+
+.pd-cta-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: var(--color-health-teal);
+  color: var(--color-health-mark-fg);
+  box-shadow: 0 6px 16px rgba(22, 125, 114, 0.22);
+}
+
+.pd-cta-title {
+  font-size: 1.06rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--color-health-text);
+}
+
+.pd-cta-text {
+  max-width: 520px;
+  font-size: var(--text-small);
+  line-height: 1.55;
+  color: var(--color-health-text-2);
+}
+
+.pd-cta-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pd-cta-btn {
+  width: 100%;
+  max-width: 340px;
+}
+
+.pd-cta-count {
+  font-size: var(--text-small);
+  color: var(--color-health-text-2);
+}
+
+/* ─── Patient: medicine list ──────────────────────────────────────── */
+.pd-meds {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.pd-meds-empty {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  padding: var(--space-6) var(--space-4);
+  border: 1px dashed var(--color-health-border-2);
+  border-radius: var(--radius-md);
+  background: var(--color-health-elevated);
+  text-align: center;
+  color: var(--color-health-text-2);
+  font-size: var(--text-small);
+}
+
+.pd-med-list {
+  list-style: none;
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+}
+
+.pd-med {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-health-border);
+  border-radius: var(--radius-md);
+  background: var(--color-health-surface);
+}
+
+.pd-med--review {
+  border-color: var(--color-health-warning-border);
+  background: var(--color-health-warning-soft);
+}
+
+.pd-med-main {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  min-width: 0;
+  flex: 1;
+}
+
+.pd-med-icon {
+  flex-shrink: 0;
+  margin-top: 3px;
+  color: var(--color-health-teal);
+}
+
+.pd-med--review .pd-med-icon {
+  color: var(--color-health-warning);
+}
+
+.pd-med-body {
+  min-width: 0;
+  flex: 1;
+}
+
+.pd-med-title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.pd-med-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 2px var(--space-4);
+  margin-top: 4px;
+  font-size: var(--text-small);
+  color: var(--color-health-text-2);
+  line-height: 1.45;
+}
+
+.pd-med-details b {
+  display: block;
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-health-text-2);
+}
+
+.pd-med-action {
+  flex-shrink: 0;
+}
+
+/* ─── Patient: health information form ────────────────────────────── */
+.pd-form-section + .pd-form-section {
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-health-border);
+}
+
+.pd-form-section-title {
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-health-text-2);
+  margin-bottom: var(--space-3);
+}
+
+.pd-cond {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  text-align: left;
+  cursor: pointer;
+}
+
+.pd-cond-active {
+  border-color: var(--color-health-teal);
+  background: var(--color-health-teal-soft);
+}
+
+.pd-cond-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-health-text);
+}
+
+.pd-allergy-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: var(--space-2);
+}
+
+/* ─── Safety summary (risk) ───────────────────────────────────────── */
+.risk-summary-body {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+}
+
+.risk-summary-main {
+  flex: 1;
+  min-width: 250px;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.pd-count-chips {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+}
+
+.pd-count-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-health-border);
+  background: var(--color-health-elevated);
+  color: var(--color-health-text-2);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.pd-count-chip b {
+  font-weight: 800;
+  color: var(--color-health-text);
+}
+
+.pd-count-chip--high {
+  border-color: var(--color-health-error-border);
+  background: var(--color-health-error-soft);
+  color: var(--color-health-error);
+}
+
+.pd-count-chip--high b {
+  color: var(--color-health-error);
+}
+
+.pd-count-chip--moderate {
+  border-color: var(--color-health-warning-border);
+  background: var(--color-health-warning-soft);
+  color: var(--color-health-warning);
+}
+
+.pd-count-chip--moderate b {
+  color: var(--color-health-warning);
+}
+
+/* Risk-level text colours (used by gauge / summary values) */
+.risk-text-high {
+  color: var(--color-health-error);
+}
+.risk-text-moderate,
+.risk-text-low {
+  color: var(--color-health-warning);
+}
+.risk-text-none {
+  color: var(--color-health-success);
+}
+
+/* ─── QR pass ─────────────────────────────────────────────────────── */
+.pd-qr-frame {
+  background: #ffffff;
+  border: 1px solid var(--color-health-border);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* ─── Responsive ──────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .app-header-inner {
+    padding: var(--space-2) 0;
+  }
+
+  .app-brand-sub {
+    display: none;
+  }
+
+  .pd-empty-pad {
+    padding: var(--space-6) var(--space-4);
+  }
+
+  .pd-strip {
+    padding: var(--space-4);
+  }
+
+  .pd-cta-pad {
+    padding: var(--space-5) var(--space-4);
+  }
+
+  .pd-med {
+    padding: var(--space-3);
+  }
+
+  .risk-summary-body {
+    gap: var(--space-4);
+  }
+}
+
+@media (max-width: 480px) {
+  .app-brand-tag {
+    display: none;
+  }
+
+  .pd-empty-actions .btn {
+    width: 100%;
+  }
+
+  .pd-med-action {
+    width: 100%;
+  }
+
+  .pd-med-action .btn {
+    width: 100%;
+  }
+}

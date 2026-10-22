@@ -17,10 +17,10 @@ export default function VerifiedFoodWarnings({ warnings }: Props) {
   if (warnings.length === 0) return null
 
   return (
-    <section className="card" style={{ borderColor: '#fde68a', background: '#fffbeb' }}>
+    <section className="card" style={{ borderColor: 'var(--color-health-warning-border)', background: 'var(--color-health-warning-soft)' }}>
       <div className="card-head">
         <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-          <Utensils size={18} style={{ color: '#b45309' }} />
+          <Utensils size={18} style={{ color: 'var(--color-health-warning)' }} />
           <div>
             <h2 className="card-title">Verified Food & Dietary Interactions</h2>
             <p className="card-sub">
@@ -39,7 +39,7 @@ export default function VerifiedFoodWarnings({ warnings }: Props) {
           </span>
         </div>
         {warnings.map((w, i) => (
-          <div key={w.id ?? i} className="card" style={{ boxShadow: 'none', background: 'var(--bg-surface)' }}>
+          <div key={w.id ?? i} className="card" style={{ boxShadow: 'none', background: 'var(--color-health-surface)' }}>
             <div className="card-pad" style={{ display: 'grid', gap: 8, padding: 14 }}>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, flexWrap: 'wrap' }}>
                 <span className="badge badge-moderate" style={{ fontSize: '0.6rem', flexShrink: 0 }}>
@@ -54,16 +54,16 @@ export default function VerifiedFoodWarnings({ warnings }: Props) {
                       Food: <b>{w.food}</b>
                     </span>
                   </div>
-                  <p className="small" style={{ color: 'var(--text-body)', lineHeight: 1.5 }}>
+                  <p className="small" style={{ color: 'var(--color-health-text-2)', lineHeight: 1.5 }}>
                     {w.warning}
                   </p>
-                  <p className="small" style={{ color: 'var(--text-muted)', fontStyle: 'italic', marginTop: 4 }}>
+                  <p className="small" style={{ color: 'var(--color-health-text-2)', fontStyle: 'italic', marginTop: 4 }}>
                     Effect: {w.effect}
                   </p>
                 </div>
               </div>
               <div className="verified-note" style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 4 }}>
-                <ShieldCheck size={12} style={{ color: '#b45309' }} />
+                <ShieldCheck size={12} style={{ color: 'var(--color-health-warning)' }} />
                 <span className="small">
                   Source: <b>{w.source?.organization ?? 'FDA'}</b> · Dataset: <b>{w.source?.dataset ?? 'openFDA Drug Labeling'}</b>
                 </span>

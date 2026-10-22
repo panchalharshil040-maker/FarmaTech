@@ -326,6 +326,7 @@ export default function App() {
   /* Authenticated: role is the backend-verified account role; nothing here
      can change it. */
   const role = auth.role
+  const firstName = (auth.fullName ?? '').trim().split(/\s+/)[0] || ''
 
   return (
     <>
@@ -338,27 +339,19 @@ export default function App() {
       />
       <main className="page">
         <div className="container">
-          <div style={{ marginBottom: 22 }}>
-            <span className="eyebrow">
+          <div className="dash-intro">
+            <span className="eyebrow dash-intro-eyebrow">
               {role === 'doctor' ? 'Doctor Dashboard' : 'Patient Dashboard'}
             </span>
-            <h2
-              style={{
-                fontSize: '1.5rem',
-                fontWeight: 800,
-                color: 'var(--text-strong)',
-                letterSpacing: '-0.02em',
-                marginTop: 2,
-              }}
-            >
+            <h2 className="dash-intro-title">
               {role === 'doctor'
                 ? 'Clinical Medication Safety Review'
-                : 'My Medication Safety Information'}
+                : `Welcome back${firstName ? `, ${firstName}` : ''}`}
             </h2>
-            <p className="small muted" style={{ marginTop: 4, maxWidth: 760, lineHeight: 1.55 }}>
+            <p className="dash-intro-sub">
               {role === 'doctor'
                 ? 'Enter a patient record, run the Safety Check, then use the What-if Simulator to compare proposed changes. The deterministic engine produces every finding.'
-                : 'View your medications, allergies and the verified safety information for your record.'}
+                : 'Your medicines, allergies and the verified safety information for your record — in one calm place. Decision support only; your clinician makes the calls.'}
             </p>
           </div>
 

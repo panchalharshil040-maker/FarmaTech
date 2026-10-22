@@ -95,7 +95,7 @@ export default function DoctorDashboard({
         <section className="card">
           <div className="card-head">
             <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-              <UserPlus size={18} style={{ color: 'var(--brand)' }} />
+              <UserPlus size={18} style={{ color: 'var(--color-health-teal)' }} />
               <div>
                 <h2 className="card-title">New Patient Record</h2>
                 <p className="card-sub">Enter patient identity, clinical context, and medications.</p>
@@ -116,7 +116,7 @@ export default function DoctorDashboard({
         <section className="card">
           <div className="card-head">
             <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-              <ScanLine size={18} style={{ color: 'var(--brand)' }} />
+              <ScanLine size={18} style={{ color: 'var(--color-health-teal)' }} />
               <div>
                 <h2 className="card-title">Or Scan Patient QR</h2>
                 <p className="card-sub">Load a patient record from a validated QR pass.</p>
