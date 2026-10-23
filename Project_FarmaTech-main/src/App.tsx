@@ -351,8 +351,8 @@ export default function App() {
                 </p>
               )}
               <p className="dash-intro-sub">
-                Enter a patient record, run the Safety Check, then use the What-if Simulator to compare
-                proposed changes. The deterministic engine produces every finding.
+                Enter a patient record, run the Safety Check, then test proposed changes in the What-if
+                Simulator. Every finding comes from the deterministic engine.
               </p>
             </div>
           )}

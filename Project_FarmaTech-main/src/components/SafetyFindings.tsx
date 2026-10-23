@@ -51,7 +51,9 @@ function FindingItem({
   accent?: string
   defaultOpen?: boolean
 }) {
-  const [open, setOpen] = useState(defaultOpen ?? Boolean(compact))
+  /* Collapsed by default everywhere: severity and mechanism stay visible,
+     clinical detail opens on demand. */
+  const [open, setOpen] = useState(defaultOpen ?? false)
   const sources = sourceLines(finding)
 
   return (

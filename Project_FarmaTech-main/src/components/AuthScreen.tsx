@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import {
-  Activity,
   ArrowLeft,
   Check,
   ChevronRight,
@@ -10,8 +9,6 @@ import {
   Loader2,
   Lock,
   Mail,
-  Pill,
-  ShieldCheck,
   Stethoscope,
   User,
   UserPlus,
@@ -45,7 +42,7 @@ const portalOptions: {
   {
     role: 'patient',
     label: 'Patient',
-    desc: 'Review your medicines, allergies, and safety information.',
+    desc: 'Review your medicines and safety information.',
     icon: User,
   },
   {
@@ -53,28 +50,6 @@ const portalOptions: {
     label: 'Clinician',
     desc: 'Review patient medication records and run safety checks.',
     icon: Stethoscope,
-  },
-]
-
-const features: {
-  title: string
-  desc: string
-  icon: typeof ShieldCheck
-}[] = [
-  {
-    title: 'Reconcile',
-    desc: 'Bring medicines from different sources into one active-ingredient view.',
-    icon: Pill,
-  },
-  {
-    title: 'Evaluate',
-    desc: 'Check the regimen against deterministic medication-safety rules.',
-    icon: Activity,
-  },
-  {
-    title: 'Review',
-    desc: 'Present understandable findings, evidence, and recommendations for human review.',
-    icon: ShieldCheck,
   },
 ]
 
@@ -187,67 +162,30 @@ export default function AuthScreen({ onAuthenticated }: Props) {
 
   return (
     <div className="auth-page">
-      {/* ── Left: brand experience ─────────────────────────────── */}
+      {/* ── Left: brand panel ──────────────────────────────────── */}
       <section className="auth-brand-panel">
-        <div className="auth-brand-top">
-          <div className="auth-brand-lockup">
-            <div className="auth-brand-mark">
-              <HeartPulse size={24} aria-hidden />
-            </div>
-            <div>
-              <div className="auth-brand-name">MediGuard</div>
-              <span className="auth-brand-tag">PharmaTech</span>
-            </div>
+        <div className="auth-brand-lockup">
+          <div className="auth-brand-mark">
+            <HeartPulse size={22} aria-hidden />
+          </div>
+          <div>
+            <div className="auth-brand-name">MediGuard</div>
+            <span className="auth-brand-tag">by FarmaTech</span>
           </div>
         </div>
 
-        <div className="auth-brand-mid">
+        <div className="auth-brand-copy">
           <h1 className="auth-headline">
-            Every medicine.
-            <br />
-            <em>One safer picture.</em>
+            Safer medication decisions.{' '}
+            <span className="auth-headline-accent">Clearer insights.</span>
           </h1>
           <p className="auth-lede">
-            A clinical decision support workspace for medication reconciliation,
-            interaction checking, duplicate-ingredient detection and what-if
-            simulation — with transparent, evidence-based safety findings.
+            Check medicine interactions, identify safety concerns, and review
+            evidence-backed findings in one place.
           </p>
-
-          <ul className="auth-features">
-            {features.map((f) => {
-              const Icon = f.icon
-              return (
-                <li className="auth-feature" key={f.title}>
-                  <span className="auth-feature-icon">
-                    <Icon size={16} aria-hidden />
-                  </span>
-                  <span>
-                    <span className="auth-feature-title">{f.title}</span>
-                    <span className="auth-feature-desc">{f.desc}</span>
-                  </span>
-                </li>
-              )
-            })}
-          </ul>
-        </div>
-
-        <div className="auth-brand-bottom">
-          <div className="auth-process" aria-hidden>
-            <span className="auth-process-step">
-              <span className="auth-process-num">1</span>
-              Reconcile
-            </span>
-            <ChevronRight size={13} className="auth-process-arrow" />
-            <span className="auth-process-step">
-              <span className="auth-process-num">2</span>
-              Evaluate
-            </span>
-            <ChevronRight size={13} className="auth-process-arrow" />
-            <span className="auth-process-step">
-              <span className="auth-process-num">3</span>
-              Review
-            </span>
-          </div>
+          <p className="auth-support">
+            Evidence-based checks. Transparent findings. Human clinical judgment.
+          </p>
         </div>
       </section>
 
@@ -259,8 +197,7 @@ export default function AuthScreen({ onAuthenticated }: Props) {
               <span className="auth-card-eyebrow">Sign in</span>
               <h2 className="auth-card-title">Choose your portal</h2>
               <p className="auth-card-sub">
-                Your role determines which workspace opens. It is confirmed by
-                the server after you sign in — not by this selection alone.
+                Your role is confirmed by the server after sign-in.
               </p>
 
               <div className="auth-portals">
@@ -287,7 +224,7 @@ export default function AuthScreen({ onAuthenticated }: Props) {
               </div>
 
               <p className="auth-switch">
-                New to MediGuard?{' '}
+                New to FarmaTech?{' '}
                 <button
                   type="button"
                   className="auth-link"
@@ -434,8 +371,7 @@ export default function AuthScreen({ onAuthenticated }: Props) {
               </span>
               <h2 className="auth-card-title">Create your account</h2>
               <p className="auth-card-sub">
-                Choose a portal, then register with an email and a password of
-                at least 8 characters.
+                Choose a portal, then register with your email.
               </p>
 
               {/* Role is re-confirmed here so registration never depends on a

@@ -8,10 +8,14 @@ import {
   Baby,
   Pill,
   CheckCircle2,
+  Loader2,
+  ShieldCheck,
+  TriangleAlert,
   User,
 } from 'lucide-react'
 import type { ExplainResponse } from '../api'
 import type { DemoScenario } from '../lib/demoCases'
+import { RISK_LABEL } from '../lib/clinical'
 import type { CheckResponse, Language, PatientRecord } from '../types'
 import { DEMO_SCENARIOS } from '../lib/demoCases'
 import MedicationOptimization from './MedicationOptimization'
@@ -27,6 +31,41 @@ const DEMO_PATIENTS: DemoScenario[] = [
   DEMO_SCENARIOS.find((s) => s.id === 'case-3')!,
   DEMO_SCENARIOS.find((s) => s.id === 'case-4')!,
 ]
+
+/**
+ * One glance-level status card for the review overview. Every value passed in
+ * comes from the active record or the backend response — nothing is computed
+ * medically here.
+ */
+function OverviewCard({
+  tone = '',
+  icon,
+  label,
+  value,
+  sub,
+}: {
+  tone?: 'dd-stat--info' | 'dd-stat--warning' | 'dd-stat--danger' | ''
+  icon: React.ReactNode
+  label: string
+  value: string
+  sub: string
+}) {
+  return (
+    <article className={`dd-stat ${tone}`}>
+      <span
+        className={`dd-stat-icon${tone === 'dd-stat--danger' ? ' dd-stat-icon--danger' : tone === 'dd-stat--warning' ? ' dd-stat-icon--warning' : tone === 'dd-stat--info' ? ' dd-stat-icon--info' : ''}`}
+        aria-hidden
+      >
+        {icon}
+      </span>
+      <div className="dd-stat-body">
+        <p className="eyebrow dd-stat-label">{label}</p>
+        <p className="dd-stat-value">{value}</p>
+        <p className="dd-stat-sub">{sub}</p>
+      </div>
+    </article>
+  )
+}
 
 type Phase = 'new-patient' | 'patient-loaded'
 
@@ -92,7 +131,7 @@ export default function DoctorDashboard({
   /* ── Phase 1: New Patient / Manual Entry ──────────────────────────── */
   if (phase === 'new-patient') {
     return (
-      <div className="stack">
+      <div className="stack dd-root">
         <RecordSetupForm
           title="New Patient Record"
           subtitle="Enter patient identity, clinical context, and medications."
@@ -232,6 +271,10 @@ export default function DoctorDashboard({
 
   /* ── Phase 2: Patient Loaded — Clinical Workflow ─────────────────── */
   const profile = activeRecord.profile
+  const findings = result?.findings ?? []
+  const majorCount = findings.filter(
+    (f) => f.severity === 'major' || f.severity === 'contraindication',
+  ).length
   const conditionTags = [
     profile.isPregnant && 'Pregnancy recorded',
     profile.hasRenalImpairment && 'Renal impairment',
@@ -239,8 +282,54 @@ export default function DoctorDashboard({
     profile.hasCardiacHistory && 'Cardiac history',
   ].filter((t): t is string => Boolean(t))
 
+  /* Overview status — honest states, every value sourced from the record or backend.
+     A result is shown as soon as it exists (the AI explanation may still be
+     loading behind it — the cards never hide a finished check). */
+  const safetyTone: 'dd-stat--info' | 'dd-stat--warning' | 'dd-stat--danger' | '' =
+    result
+      ? findings.length > 0
+        ? result.risk_level === 'high'
+          ? 'dd-stat--danger'
+          : 'dd-stat--warning'
+        : ''
+      : error
+      ? 'dd-stat--danger'
+      : loading
+      ? 'dd-stat--info'
+      : ''
+  const safetyValue = result
+    ? findings.length > 0
+      ? RISK_LABEL[result.risk_level] ?? '—'
+      : 'Checked · no findings'
+    : error
+    ? 'Check failed'
+    : loading
+    ? 'Checking…'
+    : 'Not run yet'
+  const safetySub = result
+    ? findings.length > 0
+      ? `${findings.length} verified finding${findings.length === 1 ? '' : 's'} to review below.`
+      : 'The verified database returned none. Not a safety guarantee.'
+    : error
+    ? 'The check could not complete. Run it again below.'
+    : loading
+    ? 'Analysing against the verified databases.'
+    : 'Run the safety check below to analyse this record.'
+  const warningsTone: 'dd-stat--info' | 'dd-stat--warning' | 'dd-stat--danger' | '' =
+    !result ? '' : majorCount > 0 ? 'dd-stat--danger' : ''
+  const warningsValue = !result
+    ? 'Not checked yet'
+    : majorCount > 0
+    ? String(majorCount)
+    : 'None returned'
+  const warningsSub = !result
+    ? 'Appears after the first safety check.'
+    : majorCount > 0
+    ? 'Major or contraindicated findings need review.'
+    : 'The last check returned no major warnings.'
+
   return (
-    <div className="stack">
+    <div className="stack dd-root">
       {loadedNotice && <div className="notice notice-safe">✓ {loadedNotice}</div>}
 
       {/* B — Patient context strip (record data only) */}
@@ -265,10 +354,6 @@ export default function DoctorDashboard({
             <div className="dd-strip-fact">
               <dt>Source</dt>
               <dd style={{ textTransform: 'capitalize' }}>{activeRecord.source}</dd>
-            </div>
-            <div className="dd-strip-fact">
-              <dt>Medications</dt>
-              <dd>{activeRecord.medicines.length}</dd>
             </div>
             <div className="dd-strip-fact">
               <dt>Allergies</dt>
@@ -301,6 +386,40 @@ export default function DoctorDashboard({
             <ArrowLeftRight size={14} /> Load different patient
           </button>
         </div>
+      </section>
+
+      {/* Overview — record & backend status at a glance */}
+      <section className="dd-overview" aria-label="Review overview">
+        <OverviewCard
+          icon={<Pill size={20} />}
+          label="Medications"
+          value={String(activeRecord.medicines.length)}
+          sub="In the active patient record"
+        />
+        <OverviewCard
+          tone={safetyTone}
+          icon={
+            result ? (
+              <ShieldCheck size={20} />
+            ) : error ? (
+              <AlertTriangle size={20} />
+            ) : loading ? (
+              <Loader2 size={20} className="spin" />
+            ) : (
+              <ShieldCheck size={20} />
+            )
+          }
+          label="Safety check"
+          value={safetyValue}
+          sub={safetySub}
+        />
+        <OverviewCard
+          tone={warningsTone}
+          icon={majorCount > 0 ? <TriangleAlert size={20} /> : <CheckCircle2 size={20} />}
+          label="Important warnings"
+          value={warningsValue}
+          sub={warningsSub}
+        />
       </section>
 
       {/* C — Medication review (record + allergies, built-in indicator hidden) */}

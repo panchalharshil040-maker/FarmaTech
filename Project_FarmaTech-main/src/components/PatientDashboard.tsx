@@ -235,11 +235,6 @@ export default function PatientDashboard({
             onCreate={(created) => onLoadRecord({ ...created, source: 'manual' }, 'Patient Record Loaded')}
           />
         )}
-
-        <div className="notice notice-warn pd-disclaimer">
-          <b>Decision support only.</b> Information is produced by a verified medication-safety engine.
-          Not a substitute for a doctor&rsquo;s or pharmacist&rsquo;s clinical judgment.
-        </div>
       </div>
     )
   }
@@ -325,9 +320,7 @@ export default function PatientDashboard({
         <div className="pd-stat-body">
           <p className="eyebrow pd-stat-label">Medicine safety</p>
           <p className="pd-stat-value">Checked · no findings</p>
-          <p className="pd-stat-sub">
-            The verified database returned no findings. This is not a safety guarantee.
-          </p>
+          <p className="pd-stat-sub">No verified finding was returned — details below.</p>
         </div>
       </article>
     )
@@ -609,9 +602,7 @@ export default function PatientDashboard({
               <h2 id="pd-medicines-title" className="card-title">
                 My Medicines
               </h2>
-              <p className="card-sub">
-                Exactly as entered on your record. Ask your doctor or pharmacist before changing anything.
-              </p>
+              <p className="card-sub">Ask your doctor or pharmacist before changing anything.</p>
             </div>
           </div>
           <span className="badge badge-neutral">{medCount}</span>
@@ -916,14 +907,6 @@ export default function PatientDashboard({
             )}
           </button>
         </div>
-        {!qrOpen && (
-          <div className="card-pad">
-            <p className="pd-lead">
-              Generate a QR pass with your current record. Clinics scan it to load your medicines —
-              only backend-validated tokens are ever accepted.
-            </p>
-          </div>
-        )}
       </section>
 
       {qrOpen && <QRPanel record={record} />}
@@ -960,12 +943,6 @@ export default function PatientDashboard({
       </section>
 
       {summaryOpen && <PatientSummary record={record} result={result} />}
-
-      <div className="notice notice-warn pd-disclaimer">
-        <b>Decision support only.</b> Findings are produced by a verified medication-safety engine over
-        clinical databases. Not a substitute for a doctor&rsquo;s or pharmacist&rsquo;s judgment. If you
-        feel unwell or think something is wrong, contact your clinician.
-      </div>
     </div>
   )
 }

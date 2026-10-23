@@ -38,9 +38,8 @@ export default function AiExplanation({ explain, loading, unavailable }: Props) 
 
       <div className="card-pad" style={{ display: 'grid', gap: 12 }}>
         <div className="notice notice-warn">
-          The verified findings above come from the deterministic medication-safety engine. The text below
-          only restates them — it does not introduce new medical facts, change a severity or risk score, or
-          prescribe treatment.
+          The AI text below only restates the verified findings — it never creates findings, changes
+          severities or risk scores, or prescribes treatment.
         </div>
 
         {loading && <p className="small muted">Generating plain-language explanation of the verified findings…</p>}

@@ -13,8 +13,8 @@ import {
   X,
 } from 'lucide-react'
 import { compareRegimens } from '../api'
-import { RISK_LABEL, deltaLabel, riskBadgeClass, riskTextClass } from '../lib/clinical'
-import type { ChangeKind, PatientRecord, RegimenChange, RegimenComparison } from '../types'
+import { RISK_LABEL, deltaLabel, riskBadgeClass } from '../lib/clinical'
+import type { ChangeKind, PatientRecord, RegimenChange, RegimenComparison, RiskLevel } from '../types'
 import { FindingList } from './SafetyFindings'
 import { SimulationDisclaimer } from './Footer'
 import MedicineSearch from './MedicineSearch'
@@ -36,38 +36,65 @@ function changeText(c: RegimenChange): string {
   return `Replaced: ${c.from} → ${c.to}`
 }
 
-function SafetyBlock({
-  title,
+/** One side of the compact current-vs-proposed summary. Values are backend outputs only. */
+function CompareSide({
+  label,
   score,
   level,
   findings,
-  emptyLabel,
+  note,
 }: {
-  title: string
+  label: string
   score: number | null
-  level: RegimenComparison['currentLevel'] | null
+  level: RiskLevel | null
   findings: number
-  emptyLabel: string
+  note: string
 }) {
   return (
-    <div className="stat-box" style={{ padding: 14 }}>
-      <div className="eyebrow" style={{ marginBottom: 6 }}>
-        {title}
-      </div>
-      <div className={`stat-value ${level && score !== null ? riskTextClass(level) : ''}`}>
+    <div className="mmo-side">
+      <span className="eyebrow">{label}</span>
+      <p className="mmo-score">
         {score === null ? '—' : score}
-        {score !== null && (
-          <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text-muted)' }}> / 100</span>
-        )}
-      </div>
-      <div style={{ marginTop: 6, display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+        {score !== null && <span className="mmo-score-out"> / 100</span>}
+      </p>
+      <p className="mmo-side-badges">
         {level ? <span className={riskBadgeClass(level)}>{RISK_LABEL[level]}</span> : <span className="badge badge-neutral">Not analysed</span>}
         <span className="badge badge-neutral">
           {findings} finding{findings === 1 ? '' : 's'}
         </span>
-      </div>
-      {findings === 0 && <p className="med-field" style={{ marginTop: 6 }}>{emptyLabel}</p>}
+      </p>
+      <p className="mmo-side-note">{note}</p>
     </div>
+  )
+}
+
+/** One compact comparison column. Findings stay collapsed; details open on demand. */
+function CompareColumn({
+  title,
+  hint,
+  count,
+  countClass,
+  accent,
+  findings,
+  emptyText,
+}: {
+  title: string
+  hint: string
+  count: number
+  countClass: string
+  accent: string
+  findings: RegimenComparison['resolved']
+  emptyText: string
+}) {
+  return (
+    <article className="mmo-col">
+      <header className="mmo-col-head">
+        <span className={countClass}>{count}</span>
+        <h3 className="mmo-col-title">{title}</h3>
+      </header>
+      <p className="mmo-col-hint">{hint}</p>
+      <FindingList findings={findings} accent={accent} emptyText={emptyText} />
+    </article>
   )
 }
 
@@ -157,6 +184,7 @@ export default function MedicationOptimization({ record, language }: Props) {
   const delta = activeComparison?.delta ?? null
   const deltaTone = delta === null ? 'badge badge-neutral' : delta > 0 ? 'badge badge-high' : delta < 0 ? 'badge badge-low' : 'badge badge-neutral'
   const DeltaIcon = delta === null || delta === 0 ? Equal : delta > 0 ? ArrowUpRight : ArrowDownRight
+  const proposedEmpty = proposed.length === 0
 
   return (
     <section className="card">
@@ -165,50 +193,40 @@ export default function MedicationOptimization({ record, language }: Props) {
           <FlaskConical size={18} style={{ color: 'var(--color-brand)' }} />
           <div>
             <h2 className="card-title">Medication Optimization</h2>
-            <p className="card-sub">
-              Test medication changes against this patient&rsquo;s current regimen before making a clinical
-              decision.
-            </p>
+            <p className="card-sub">Test medication changes in a simulation before a clinical decision.</p>
           </div>
         </div>
         {modified ? <span className="badge badge-info">Proposed regimen</span> : <span className="badge badge-neutral">Unchanged regimen</span>}
       </div>
 
-      <div className="card-pad" style={{ display: 'grid', gap: 14 }}>
+      <div className="card-pad mmo-body">
+        {/* The one simulation-only notice for this section */}
         <SimulationDisclaimer />
 
-        {/* Regimen editor */}
-        <div
-          className="card"
-          style={{ boxShadow: 'none', background: modified ? 'var(--color-brand-soft)' : 'var(--color-bg-surface)' }}
-        >
-          <div className="card-head" style={{ background: 'transparent', borderRadius: 0 }}>
-            <div>
-              <h3 className="card-title" style={{ fontSize: '0.88rem' }}>
-                {modified ? 'Proposed Regimen — Simulation Only' : 'Current Patient Regimen'}
-              </h3>
-              <p className="card-sub">
-                {modified
-                  ? 'Temporary regimen under review. The original patient record is unchanged.'
-                  : `${record.medicines.length} medication${record.medicines.length === 1 ? '' : 's'} in the active patient record.`}
-              </p>
-            </div>
-            <button type="button" className="btn btn-quiet btn-sm" onClick={reset} disabled={!modified && !comparison}>
-              <RotateCcw size={14} /> Reset Simulation
-            </button>
+        {/* Proposed regimen editor — flat, one compact block */}
+        <div className="mmo-editor">
+          <div className="mmo-editor-head">
+            <h3 className="mmo-editor-title">
+              {modified ? 'Proposed regimen' : 'Current patient regimen'}
+            </h3>
+            <span className="med-field">
+              {modified
+                ? `${proposed.length} medicine${proposed.length === 1 ? '' : 's'} — simulation only`
+                : `${record.medicines.length} medicine${record.medicines.length === 1 ? '' : 's'} in the active record`}
+            </span>
           </div>
 
-          <div className="card-pad" style={{ display: 'grid', gap: 8, paddingTop: 12 }}>
-            {proposed.length === 0 ? (
-              <div className="notice notice-warn">
-                The proposed regimen is empty. The deterministic engine still analyses it and will report the
-                findings it resolves, but an empty regimen is never proof that a medicine is safe to stop.
+          <div className="mmo-editor-body">
+            {proposedEmpty ? (
+              <div className="notice notice-warn mmo-empty">
+                The proposed regimen is empty. It can still be simulated, but an empty regimen is not a
+                treatment recommendation and never proves a medicine is safe to stop.
               </div>
             ) : (
               proposed.map((med) => {
                 const original = record.medicines.includes(med)
                 return (
-                  <div key={med} className="data-row" style={{ background: 'var(--color-bg-surface)' }}>
+                  <div key={med} className="data-row mmo-row">
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', minWidth: 0 }}>
                       <span className="med-name">{med}</span>
                       {!original && <span className="badge badge-info">Proposed</span>}
@@ -239,9 +257,8 @@ export default function MedicationOptimization({ record, language }: Props) {
 
                     {replacing === med && (
                       <div style={{ width: '100%', display: 'grid', gap: 8, paddingTop: 8, borderTop: '1px dashed var(--color-border-strong)' }}>
-                        <div className="notice notice-info">
-                          Current: <b>{med}</b> → Proposed: select the replacement medicine below. Nothing is
-                          written to the patient record.
+                        <div className="med-field">
+                          Replacing <b>{med}</b> — select the replacement below.
                         </div>
                         <MedicineSearch
                           exclude={proposed}
@@ -259,18 +276,13 @@ export default function MedicationOptimization({ record, language }: Props) {
               })
             )}
 
-            <div style={{ display: 'grid', gap: 8, paddingTop: 4 }}>
-              <MedicineSearch
-                exclude={proposed}
-                label="Add medicine to the proposed regimen"
-                placeholder="Search brand, generic or active ingredient…"
-                buttonLabel="Add to proposed"
-                onSelect={addMedicine}
-              />
-              <p className="med-field">
-                Added medicines are held in this simulation only. They are never saved to the patient record.
-              </p>
-            </div>
+            <MedicineSearch
+              exclude={proposed}
+              label="Add medicine to the proposed regimen"
+              placeholder="Search brand, generic or active ingredient…"
+              buttonLabel="Add to proposed"
+              onSelect={addMedicine}
+            />
 
             {changes.length > 0 && (
               <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
@@ -282,166 +294,107 @@ export default function MedicationOptimization({ record, language }: Props) {
                 ))}
               </div>
             )}
-
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={runSimulation}
-                disabled={running || record.medicines.length === 0}
-              >
-                <Beaker size={15} />
-                {running ? 'Running simulation…' : 'Run Simulation'}
-              </button>
-              <button type="button" className="btn btn-quiet" onClick={reset} disabled={!modified && !comparison}>
-                <RotateCcw size={14} /> Reset Simulation
-              </button>
-            </div>
-
-            {error && <div className="notice notice-danger">{error}</div>}
-            {stale && (
-              <div className="notice notice-warn">
-                The proposed regimen changed after this comparison was produced. Run the simulation again to
-                refresh the comparison.
-              </div>
-            )}
           </div>
         </div>
 
-        {/* Comparison */}
-        {activeComparison && (
-          <div style={{ display: 'grid', gap: 14 }}>
-            {activeComparison.proposed.length === 0 && (
-              <div className="notice notice-danger">
-                <b>The proposed regimen contains no medicines.</b> The engine reports no findings because there
-                is nothing left to analyse — that is not a safety result. Never stop a prescribed medicine
-                without the prescriber&rsquo;s decision.
-              </div>
-            )}
-            <div>
-              <div className="eyebrow" style={{ marginBottom: 8 }}>
-                Current vs proposed safety — backend results
-              </div>
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
-                  gap: 12,
-                  alignItems: 'stretch',
-                }}
-              >
-                <SafetyBlock
-                  title="Current safety"
-                  score={activeComparison.currentScore}
-                  level={activeComparison.currentLevel}
-                  findings={activeComparison.current.findings.length}
-                  emptyLabel="No verified finding returned for the current regimen."
-                />
-                <div style={{ display: 'grid', placeItems: 'center' }}>
-                  <ArrowRight size={20} style={{ color: 'var(--color-health-text-2)' }} />
-                </div>
-                <SafetyBlock
-                  title="Proposed safety"
-                  score={activeComparison.proposedScore}
-                  level={activeComparison.proposedLevel}
-                  findings={activeComparison.proposedReport?.findings.length ?? 0}
-                  emptyLabel={
-                    activeComparison.proposedReport
-                      ? 'No verified finding returned for the proposed regimen. Not a safety guarantee.'
-                      : 'The proposed regimen could not be analysed.'
-                  }
-                />
-              </div>
-            </div>
+        {/* Actions */}
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={runSimulation}
+            disabled={running || record.medicines.length === 0}
+          >
+            <Beaker size={15} />
+            {running ? 'Running simulation…' : 'Run Simulation'}
+          </button>
+          <button type="button" className="btn btn-quiet" onClick={reset} disabled={!modified && !comparison}>
+            <RotateCcw size={14} /> Reset Simulation
+          </button>
+        </div>
 
-            <div className="stat-box" style={{ display: 'flex', alignItems: 'center', gap: 18, flexWrap: 'wrap' }}>
-              <div className="eyebrow">Risk change</div>
-              <div style={{ display: 'flex', gap: 22, flexWrap: 'wrap', alignItems: 'center' }}>
-                <span className="small">
-                  Current <b style={{ fontSize: '1.05rem' }}>{activeComparison.currentScore}</b>
-                </span>
-                <span className="small">
-                  Proposed{' '}
-                  <b style={{ fontSize: '1.05rem' }}>
-                    {activeComparison.proposedScore === null ? '—' : activeComparison.proposedScore}
-                  </b>
-                </span>
-                <span className={deltaTone} style={{ fontSize: '0.85rem' }}>
+        {error && <div className="notice notice-danger">{error}</div>}
+        {stale && (
+          <div className="notice notice-warn">
+            The proposed regimen changed after this comparison was produced. Run the simulation again.
+          </div>
+        )}
+
+        {/* Comparison — backend results only */}
+        {activeComparison && (
+          <div className="mmo-results">
+            <div className="mmo-compare">
+              <CompareSide
+                label="Current regimen"
+                score={activeComparison.currentScore}
+                level={activeComparison.currentLevel}
+                findings={activeComparison.current.findings.length}
+                note="From the active patient record."
+              />
+              <span className="mmo-arrow" aria-hidden>
+                <ArrowRight size={18} />
+              </span>
+              <CompareSide
+                label="Proposed regimen"
+                score={activeComparison.proposedScore}
+                level={activeComparison.proposedLevel}
+                findings={activeComparison.proposedReport?.findings.length ?? 0}
+                note={
+                  proposedEmpty
+                    ? 'Empty regimen — nothing left to analyse.'
+                    : activeComparison.proposedReport
+                      ? 'No verified finding returned. Not a safety guarantee.'
+                      : 'The proposed regimen could not be analysed.'
+                }
+              />
+              <div className="mmo-delta">
+                <span className="eyebrow">Risk change</span>
+                <span className={deltaTone}>
                   <DeltaIcon size={13} /> Delta {deltaLabel(delta)}
                 </span>
               </div>
             </div>
 
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-                gap: 14,
-              }}
-            >
-              <div className="card" style={{ boxShadow: 'none' }}>
-                <div className="card-head" style={{ padding: '12px 14px' }}>
-                  <div>
-                    <h3 className="card-title" style={{ fontSize: '0.85rem' }}>
-                      Resolved Safety Findings
-                    </h3>
-                    <p className="card-sub">Present in the current regimen, not present in the proposal.</p>
-                  </div>
-                  <span className="badge badge-low">{activeComparison.resolved.length}</span>
-                </div>
-                <div className="card-pad" style={{ padding: 14 }}>
-                  <FindingList
-                    findings={activeComparison.resolved}
-                    accent="var(--color-success)"
-                    emptyText="No finding disappeared in this comparison."
-                  />
-                </div>
-              </div>
+            <p className="mmo-compare-note">
+              Simulated proposal only — nothing was prescribed or changed. A lower proposed score or fewer
+              findings never proves the proposal is safe; medication decisions remain with the clinician.
+            </p>
 
-              <div className="card" style={{ boxShadow: 'none' }}>
-                <div className="card-head" style={{ padding: '12px 14px' }}>
-                  <div>
-                    <h3 className="card-title" style={{ fontSize: '0.85rem' }}>
-                      Remaining Safety Findings
-                    </h3>
-                    <p className="card-sub">Still present in the proposed regimen.</p>
-                  </div>
-                  <span className="badge badge-moderate">{activeComparison.remaining.length}</span>
-                </div>
-                <div className="card-pad" style={{ padding: 14 }}>
-                  <FindingList
-                    findings={activeComparison.remaining}
-                    accent="var(--color-warning)"
-                    emptyText="No finding from the current regimen remains."
-                  />
-                </div>
+            {proposedEmpty && (
+              <div className="notice notice-warn">
+                The proposed regimen contains no medicines, so the engine has no proposal to analyse.
+                Never stop a prescribed medicine without the prescriber&rsquo;s decision.
               </div>
+            )}
 
-              <div className="card" style={{ boxShadow: 'none' }}>
-                <div className="card-head" style={{ padding: '12px 14px' }}>
-                  <div>
-                    <h3 className="card-title" style={{ fontSize: '0.85rem' }}>
-                      Newly Introduced Safety Findings
-                    </h3>
-                    <p className="card-sub">Reported by the engine for the proposed regimen only.</p>
-                  </div>
-                  <span className="badge badge-high">{activeComparison.introduced.length}</span>
-                </div>
-                <div className="card-pad" style={{ padding: 14 }}>
-                  <FindingList
-                    findings={activeComparison.introduced}
-                    accent="var(--color-danger)"
-                    emptyText="The proposed regimen introduced no new verified finding. This is not a safety guarantee."
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="notice notice-warn">
-              <b>Potentially resolved</b> findings above are the outcome of a simulated regimen only. Nothing
-              has been prescribed or changed: the patient record still contains the original{' '}
-              {record.medicines.length} medication{record.medicines.length === 1 ? '' : 's'}. Medication
-              decisions remain with the doctor/pharmacist.
+            <div className="mmo-cols">
+              <CompareColumn
+                title="Resolved findings"
+                hint="Present now, removed by the proposal."
+                count={activeComparison.resolved.length}
+                countClass="mmo-col-count mmo-col-count--low"
+                accent="var(--color-success)"
+                findings={activeComparison.resolved}
+                emptyText="No finding disappeared with this proposal."
+              />
+              <CompareColumn
+                title="Remaining findings"
+                hint="Still present in the proposal."
+                count={activeComparison.remaining.length}
+                countClass="mmo-col-count mmo-col-count--moderate"
+                accent="var(--color-warning)"
+                findings={activeComparison.remaining}
+                emptyText="No finding from the current regimen remains."
+              />
+              <CompareColumn
+                title="Newly introduced findings"
+                hint="Reported for the proposal only."
+                count={activeComparison.introduced.length}
+                countClass="mmo-col-count mmo-col-count--high"
+                accent="var(--color-danger)"
+                findings={activeComparison.introduced}
+                emptyText="The proposal introduced no new verified finding — this is not a safety guarantee."
+              />
             </div>
           </div>
         )}

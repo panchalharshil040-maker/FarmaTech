@@ -1209,11 +1209,6 @@
   color: var(--color-health-text);
 }
 
-/* ─── Disclaimer ──────────────────────────────────────────────────── */
-.pd-disclaimer {
-  line-height: 1.55;
-}
-
 /* ─── Patient-dashboard responsive ────────────────────────────────── */
 @media (max-width: 768px) {
   .pd-onboard {
@@ -1253,6 +1248,699 @@
   .pd-root *,
   .pd-root *::before,
   .pd-root *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   DOCTOR DASHBOARD REDESIGN (dd-) — clinical workspace hierarchy
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ─── Typography scope (~16px body, larger controls) ─────────────── */
+.dd-root {
+  font-size: 1rem;
+}
+
+.dd-root .card-sub,
+.dd-root .notice,
+.dd-root .small {
+  font-size: 1rem;
+}
+
+.dd-root .med-field {
+  font-size: 0.95rem;
+}
+
+.dd-root .eyebrow,
+.dd-root .section-label {
+  font-size: 0.75rem;
+}
+
+.dd-root .btn:not(.btn-sm) {
+  min-height: 44px;
+  font-size: 0.96875rem;
+}
+
+.dd-root .btn-sm {
+  min-height: 36px;
+  font-size: 0.875rem;
+}
+
+/* Visible focus for keyboard users across the workspace */
+.dd-root a:focus-visible,
+.dd-root button:focus-visible,
+.dd-root input:focus-visible,
+.dd-root select:focus-visible,
+.dd-root textarea:focus-visible,
+.dd-root [tabindex]:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* ─── Review overview (record & backend status at a glance) ──────── */
+.dd-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+  gap: var(--space-4);
+}
+
+.dd-stat {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-health-surface);
+  border: 1px solid var(--color-health-border);
+  border-radius: var(--radius-md);
+  box-shadow: none;
+  min-width: 0;
+}
+
+.dd-stat-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--color-health-teal-soft);
+  border: 1px solid var(--color-health-border);
+  color: var(--color-health-teal);
+}
+
+.dd-stat-icon--info {
+  background: var(--color-health-accent-soft);
+  border-color: var(--color-health-accent-border);
+  color: var(--color-health-accent);
+}
+
+.dd-stat-icon--warning {
+  background: var(--color-health-warning-soft);
+  border-color: var(--color-health-warning-border);
+  color: var(--color-health-warning);
+}
+
+.dd-stat-icon--danger {
+  background: var(--color-health-error-soft);
+  border-color: var(--color-health-error-border);
+  color: var(--color-health-error);
+}
+
+.dd-stat--warning {
+  border-color: var(--color-health-warning-border);
+}
+
+.dd-stat--danger {
+  border-color: var(--color-health-error-border);
+}
+
+.dd-stat-body {
+  min-width: 0;
+}
+
+.dd-stat-label {
+  margin-bottom: 2px;
+}
+
+.dd-stat-value {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--color-health-text);
+  overflow-wrap: anywhere;
+}
+
+.dd-stat--warning .dd-stat-value {
+  color: var(--color-health-warning);
+}
+
+.dd-stat--danger .dd-stat-value {
+  color: var(--color-health-error);
+}
+
+.dd-stat-sub {
+  margin: 4px 0 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--color-health-text-2);
+}
+
+/* ─── Safety workflow (CTA + results) ────────────────────────────── */
+.dd-safety {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.dd-cta {
+  border-color: var(--color-health-border-2);
+}
+
+.dd-cta-pad {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-5);
+}
+
+.dd-cta-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--color-health-teal-soft);
+  border: 1px solid var(--color-health-border);
+  color: var(--color-health-teal);
+}
+
+.dd-cta-icon--loading {
+  background: var(--color-health-accent-soft);
+  border-color: var(--color-health-accent-border);
+  color: var(--color-health-accent);
+}
+
+.dd-cta-copy {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.dd-cta-title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--color-health-text);
+}
+
+.dd-cta-text {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-health-text-2);
+}
+
+.dd-cta-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  margin: 2px 0 0;
+  padding: 0;
+}
+
+.dd-cta-action {
+  display: grid;
+  gap: var(--space-2);
+  justify-items: stretch;
+  min-width: 220px;
+  flex-shrink: 0;
+}
+
+.dd-cta-btn {
+  width: 100%;
+}
+
+.dd-cta-count {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--color-health-text-2);
+  text-align: center;
+}
+
+/* ─── Priority findings (major / contraindicated) ─────────────────── */
+.dd-priority {
+  border-color: var(--color-health-error-border);
+}
+
+.dd-head {
+  align-items: flex-start;
+}
+
+.dd-head-copy {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.dd-head-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--color-health-teal-soft);
+  border: 1px solid var(--color-health-border);
+  color: var(--color-health-teal);
+}
+
+.dd-head-icon--danger {
+  background: var(--color-health-error-soft);
+  border-color: var(--color-health-error-border);
+  color: var(--color-health-error);
+}
+
+.dd-priority-list {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.dd-priority-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--color-health-error-border);
+  border-left: 4px solid var(--color-health-error);
+  border-radius: var(--radius-md);
+  background: var(--color-health-error-soft);
+}
+
+.dd-priority-body {
+  min-width: 0;
+  flex: 1;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.dd-priority-title {
+  text-transform: none;
+  font-size: 1rem;
+  overflow-wrap: anywhere;
+}
+
+.dd-priority-mech {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-health-text-2);
+}
+
+.dd-priority-next {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: var(--color-health-text);
+  padding-top: var(--space-2);
+  border-top: 1px dashed var(--color-health-error-border);
+}
+
+.dd-priority-next b {
+  color: var(--color-health-error);
+}
+
+/* ─── Food summary rows + disclosure (doctor) ────────────────────── */
+.dd-food-list {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.dd-food-item {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-health-warning-border);
+  border-radius: var(--radius-md);
+  background: var(--color-health-warning-soft);
+}
+
+.dd-food-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.dd-food-med {
+  font-size: 1rem;
+}
+
+.dd-food-with {
+  font-size: 0.95rem;
+  color: var(--color-health-text-2);
+}
+
+.dd-food-warn {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-health-text);
+}
+
+.dd-disclosure {
+  justify-self: start;
+}
+
+/* ─── Compact medication rows (PatientRecordPanel) ────────────────── */
+.dd-med-list {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.dd-med-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-health-border);
+  border-radius: var(--radius-md);
+  background: var(--color-health-surface);
+  min-width: 0;
+}
+
+.dd-med-row--review {
+  border-color: var(--color-health-warning-border);
+  background: var(--color-health-warning-soft);
+}
+
+.dd-med-icon {
+  color: var(--color-health-teal);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.dd-med-body {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.dd-med-title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.dd-med-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-2) var(--space-4);
+  font-size: 0.95rem;
+  color: var(--color-health-text-2);
+}
+
+.dd-med-meta b {
+  color: var(--color-health-text);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-right: 4px;
+}
+
+.dd-med-empty {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  text-align: center;
+  padding: var(--space-6);
+}
+
+.dd-med-empty svg {
+  color: var(--color-health-text-2);
+}
+
+.dd-med-empty-title {
+  font-weight: 600;
+  color: var(--color-health-text);
+}
+
+.dd-disclaimer {
+  text-align: center;
+  font-style: italic;
+}
+
+/* ─── Doctor-dashboard responsive ─────────────────────────────────── */
+@media (max-width: 900px) {
+  .dd-cta-pad {
+    flex-wrap: wrap;
+  }
+
+  .dd-cta-action {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .dd-cta-pad {
+    padding: var(--space-4);
+  }
+
+  .dd-overview {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .dd-priority-item {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 560px) {
+  .dd-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .dd-stat {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .dd-cta-btn {
+    width: 100%;
+  }
+}
+
+/* ─── Doctor-dashboard reduced motion ────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .dd-root *,
+  .dd-root *::before,
+  .dd-root *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   MEDICATION OPTIMIZATION (mmo-) — compact simulation workspace
+   ══════════════════════════════════════════════════════════════════════ */
+.mmo-body {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.mmo-editor {
+  border: 1px solid var(--color-health-border);
+  background: var(--color-bg-surface);
+  border-radius: var(--radius-md);
+  min-width: 0;
+}
+
+.mmo-editor-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding: var(--space-3) var(--space-4) 0;
+}
+
+.mmo-editor-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--color-health-text);
+}
+
+.mmo-editor-body {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  min-width: 0;
+}
+
+.mmo-empty {
+  margin: 0;
+}
+
+/* Current vs proposed summary — one strip, no nested stat cards */
+.mmo-compare {
+  display: flex;
+  align-items: stretch;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-health-border);
+  border-radius: var(--radius-md);
+  background: var(--color-health-surface);
+  min-width: 0;
+}
+
+.mmo-side {
+  flex: 1;
+  min-width: 150px;
+  display: grid;
+  gap: 4px;
+  align-content: start;
+}
+
+.mmo-score {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--color-health-text);
+  overflow-wrap: anywhere;
+}
+
+.mmo-score-out {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-health-text-2);
+}
+
+.mmo-side-badges {
+  margin: 0;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.mmo-side-note {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--color-health-text-2);
+}
+
+.mmo-arrow {
+  align-self: center;
+  color: var(--color-health-text-2);
+  flex-shrink: 0;
+}
+
+.mmo-delta {
+  display: grid;
+  gap: 6px;
+  align-content: center;
+  justify-items: start;
+  padding-left: var(--space-3);
+  border-left: 1px dashed var(--color-health-border);
+  min-width: 110px;
+}
+
+.mmo-compare-note {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--color-health-text-2);
+}
+
+.mmo-results {
+  display: grid;
+  gap: var(--space-3);
+}
+
+/* Three compact comparison columns */
+.mmo-cols {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.mmo-col {
+  border: 1px solid var(--color-health-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-surface);
+  padding: var(--space-3) var(--space-4);
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+  min-width: 0;
+}
+
+.mmo-col-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.mmo-col-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 6px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.mmo-col-count--low {
+  background: var(--color-health-success-soft);
+  color: var(--color-health-success);
+}
+
+.mmo-col-count--moderate {
+  background: var(--color-health-warning-soft);
+  color: var(--color-health-warning);
+}
+
+.mmo-col-count--high {
+  background: var(--color-health-error-soft);
+  color: var(--color-health-error);
+}
+
+.mmo-col-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-health-text);
+}
+
+.mmo-col-hint {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--color-health-text-2);
+}
+
+/* ─── Medication-optimization responsive ─────────────────────────── */
+@media (max-width: 900px) {
+  .mmo-cols {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .mmo-delta {
+    border-left: none;
+    border-top: 1px dashed var(--color-health-border);
+    padding-left: 0;
+    padding-top: var(--space-2);
+    width: 100%;
+    justify-items: start;
+  }
+
+  .mmo-arrow {
+    display: none;
+  }
+}
+
+/* ─── Medication-optimization reduced motion ─────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .mmo-body *,
+  .mmo-editor *,
+  .mmo-compare *,
+  .mmo-col * {
     transition: none !important;
     animation: none !important;
   }
