@@ -1,8 +1,10 @@
 import base64
+from contextlib import asynccontextmanager
 import hashlib
 import hmac
 import httpx
 import json
+import logging
 import os
 import re
 import secrets
@@ -18,11 +20,21 @@ from dotenv import load_dotenv
 from data import TEMPLATES
 from database import MEDICINES_DB, INTERACTIONS_DB, CONTRAINDICATIONS_DB, DUPLICATE_THERAPY_DB, FOOD_WARNINGS_DB
 
-load_dotenv()
-load_dotenv(os.path.join(os.path.dirname(__file__), "Data", ".env"))
-load_dotenv("Data/.env")
+logger = logging.getLogger("mediguard")
 
-app = FastAPI(title="MediGuard API", version="0.1.0")
+_BACKEND_DIR = os.path.dirname(os.path.abspath(__file__))
+load_dotenv(os.path.join(_BACKEND_DIR, ".env"))
+load_dotenv(os.path.join(_BACKEND_DIR, "Data", ".env"))
+load_dotenv("Data/.env")
+load_dotenv()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Ensure database schema is created immediately upon app startup."""
+    _get_db()
+    yield
+
+app = FastAPI(title="MediGuard API", version="0.1.0", lifespan=lifespan)
 
 # ─── CORS ────────────────────────────────────────────────────────────────────
 # Cookie-based sessions require credentialed CORS: the browser only accepts a
@@ -39,11 +51,18 @@ _cors_kwargs = dict(
     allow_headers=["*"],
     allow_credentials=True,
 )
+LAN_ORIGIN_REGEX = r"^https?://(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+)(:\d+)?$"
+
 if "*" in _allowed_origins:
     # Starlette reflects the request origin when allow_origins is ["*"].
     app.add_middleware(CORSMiddleware, allow_origins=["*"], **_cors_kwargs)
 else:
-    app.add_middleware(CORSMiddleware, allow_origins=_allowed_origins, **_cors_kwargs)
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=_allowed_origins,
+        allow_origin_regex=LAN_ORIGIN_REGEX,
+        **_cors_kwargs
+    )
 
 # ─── Secrets ────────────────────────────────────────────────────────────────
 # AUTH_SECRET signs session cookies. QR_SECRET remains the QR-payload secret.
@@ -73,6 +92,8 @@ def _get_db() -> sqlite3.Connection:
     if _db_conn is None:
         _db_conn = sqlite3.connect(_AUTH_DB_PATH, check_same_thread=False)
         _db_conn.row_factory = sqlite3.Row
+        _db_conn.execute("PRAGMA journal_mode=WAL")
+        _db_conn.execute("PRAGMA busy_timeout=5000")
         _db_conn.execute(
             "CREATE TABLE IF NOT EXISTS users ("
             "id INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -93,6 +114,8 @@ def _get_db() -> sqlite3.Connection:
         )
         _db_conn.commit()
     return _db_conn
+
+
 
 WEIGHT = {"major": 40, "moderate": 20, "minor": 5, "duplicate": 25, "contraindication": 40}
 LANG = {"en": "English", "hi": "Hindi", "gu": "Gujarati"}
@@ -830,7 +853,7 @@ def call_groq(findings: list[dict], view: str, language: str) -> dict:
         "Content-Type": "application/json"
     }
 
-    response = httpx.post(url, json=payload, headers=headers, timeout=30.0)
+    response = httpx.post(url, json=payload, headers=headers, timeout=20.0)
     response.raise_for_status()
 
     data = response.json()
@@ -853,14 +876,14 @@ def explain_endpoint(req: ExplainReq):
         try:
             result = call_gemini(req.findings, req.view, req.language)
             return {**result, "ai_used": True, "provider": "gemini"}
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Gemini AI explanation failed (%s); fallback to deterministic", e)
     else:
         try:
             result = call_groq(req.findings, req.view, req.language)
             return {**result, "ai_used": True, "provider": "groq"}
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Groq AI explanation failed (%s); fallback to deterministic", e)
 
     explanations = []
     for f in req.findings:

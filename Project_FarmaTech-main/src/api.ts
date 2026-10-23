@@ -16,7 +16,18 @@ import {
   localSearch,
 } from './data/localEngine'
 
-const BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8000'
+function resolveApiBase(): string {
+  const envUrl = import.meta.env.VITE_API_URL
+  if (typeof envUrl === 'string' && envUrl.trim().length > 0) {
+    return envUrl.trim().replace(/\/+$/, '')
+  }
+  if (typeof window !== 'undefined') {
+    return ''
+  }
+  return 'http://localhost:8000'
+}
+
+const BASE = resolveApiBase()
 
 const BACKEND_DOWN =
   'Backend API unavailable. No verified findings were produced — medical findings cannot be generated on the client. Start the FastAPI backend and try again.'
@@ -278,7 +289,7 @@ export async function explainFindings(
         method: 'POST',
         body: JSON.stringify({ findings, view, language }),
       },
-      15000,
+      25000,
     )
   } catch {
     return null
