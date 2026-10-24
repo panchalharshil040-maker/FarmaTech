@@ -33,18 +33,6 @@ export const LOCAL_CLASSES: Record<string, string> = {
   atorvastatin: 'Statin',
 }
 
-/**
- * General lifestyle text (diet, timing). Informational only.
- * NOT a medical finding source and NOT derived from the verified JSON databases.
- */
-export const LOCAL_FOOD_WARNINGS: Record<string, string> = {
-  atorvastatin: 'Avoid Grapefruit juice (inhibits CYP3A4 metabolism, drastically increasing drug exposure).',
-  lipitor: 'Avoid Grapefruit juice (inhibits CYP3A4 metabolism, drastically increasing drug exposure).',
-  warfarin: 'Maintain steady intake of Vitamin K foods (spinach, kale, broccoli). Avoid alcohol & cranberries.',
-  atenolol: 'Avoid high alcohol consumption (can cause severe orthostatic hypotension).',
-  amlong: 'Avoid Grapefruit juice (can enhance blood pressure lowering effect excessively).',
-  ciprofloxacin: 'Avoid taking with dairy products (milk, yogurt) or calcium-fortified juice (reduces absorption).',
-}
 
 export function localSearch(query: string): DrugSearchResult[] {
   const q = query.toLowerCase().trim()
@@ -93,14 +81,6 @@ export function localAdvisories(
   }
 
   const foodWarnings: string[] = []
-  const typedNames = medicines.map((m) => m.toLowerCase().trim())
-  for (const [key, warning] of Object.entries(LOCAL_FOOD_WARNINGS)) {
-    const mentioned =
-      resolvedIngredients.has(key) || typedNames.some((n) => n.includes(key))
-    if (mentioned && !foodWarnings.includes(warning)) {
-      foodWarnings.push(warning)
-    }
-  }
 
   const patientWarnings: string[] = []
   if (patient?.isPregnant) {

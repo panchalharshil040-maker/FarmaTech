@@ -220,7 +220,7 @@ def find_medicine(name: str) -> dict | None:
         return None
     raw_clean = re.sub(r"\s+", " ", name.lower().strip())
     norm = normalize_name(name)
-    
+
     # 1. Exact match on id, genericName, indianGenericName, brandNames, indianBrandNames, activeIngredientIds, rxcui
     for med in MEDICINES_DB:
         med_id = med.get("id", "").lower().strip()
@@ -456,7 +456,7 @@ def analyze(meds: list[str], patient: PatientProfile | None = None) -> tuple[lis
     resolved = []
     unresolved = []
     resolved_meds: list[tuple[str, dict]] = []
-    
+
     unique_meds = []
     for m in meds:
         if m not in unique_meds:
@@ -545,7 +545,7 @@ def analyze(meds: list[str], patient: PatientProfile | None = None) -> tuple[lis
 
                 int_a = (interaction.get("ingredientAId") or get_canonical_id(interaction.get("drugA", ""))).lower()
                 int_b = (interaction.get("ingredientBId") or get_canonical_id(interaction.get("drugB", ""))).lower()
-                
+
                 match_forward = (int_a in med1_ings and int_b in med2_ings)
                 match_reverse = (int_a in med2_ings and int_b in med1_ings)
 
@@ -629,13 +629,13 @@ def explain(f: dict, view: str, lang: str) -> str:
 def report(meds: list[str], view: str, lang: str, patient: PatientProfile | None = None) -> dict:
     """Build a full safety report for a list of medicines."""
     resolved, unresolved, findings, food_warnings = analyze(meds, patient)
-    
+
     for x in findings:
         x["explanation"] = explain(x, view, lang)
 
     score = min(100, sum(WEIGHT.get(x["severity"], 0) for x in findings))
     has_major = any(x["severity"] == "major" or x["severity"] == "contraindication" for x in findings)
-    
+
     if score == 0:
         level = "no_risk"
     elif score >= 40 or has_major:
@@ -837,7 +837,7 @@ def search(q: str):
 
 
 @app.post("/api/check", dependencies=[Depends(auth)])
-def check(r: CheckReq): 
+def check(r: CheckReq):
     # Check if empty or duplicate logic handled in analyze
     return report(r.medicines, r.view, r.language, r.patient)
 
@@ -901,11 +901,11 @@ def simulate(r: SimReq):
 def call_gemini(findings: list[dict], view: str, language: str) -> dict:
     if not GEMINI_API_KEY:
         raise ValueError("Missing GEMINI_API_KEY")
-    
+
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_API_KEY}"
-    
+
     prompt = f"Explain these findings for a {view} in {language} language:\n{json.dumps(findings)}"
-    
+
     payload = {
         "system_instruction": {
             "parts": [{"text": GEMINI_SYSTEM_INSTRUCTION}]
@@ -938,10 +938,10 @@ def call_gemini(findings: list[dict], view: str, language: str) -> dict:
             }
         }
     }
-    
+
     response = httpx.post(url, json=payload, timeout=10.0)
     response.raise_for_status()
-    
+
     data = response.json()
     content = data["candidates"][0]["content"]["parts"][0]["text"]
     return json.loads(content)
