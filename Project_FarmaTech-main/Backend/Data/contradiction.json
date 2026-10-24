@@ -27,7 +27,8 @@
         "effectiveTime": "2024-12-24",
         "evidenceDrug": "warfarin sodium",
         "splId": "b49cb9cd-efdd-4c66-9384-0353562b83e9"
-      }
+      },
+      "medicineId": "warfarin"
     },
     {
       "id": "clopidogrel-active-bleeding",
@@ -43,7 +44,8 @@
         "effectiveTime": "2025-11-12",
         "evidenceDrug": "clopidogrel bisulfate",
         "splId": "0b4edca9-12af-4534-baad-4fa5c1cc9ac8"
-      }
+      },
+      "medicineId": "clopidogrel"
     },
     {
       "id": "ibuprofen-nsaid-hypersensitivity",
@@ -59,7 +61,8 @@
         "effectiveTime": "2023-11-24",
         "evidenceDrug": "ibuprofen",
         "splId": "928aea26-2b55-4e1c-9a7d-9aeddfdb32a5"
-      }
+      },
+      "medicineId": "ibuprofen"
     },
     {
       "id": "ibuprofen-cabg",
@@ -75,7 +78,8 @@
         "effectiveTime": "2023-11-24",
         "evidenceDrug": "ibuprofen",
         "splId": "928aea26-2b55-4e1c-9a7d-9aeddfdb32a5"
-      }
+      },
+      "medicineId": "ibuprofen"
     },
     {
       "id": "naproxen-nsaid-hypersensitivity",
@@ -91,7 +95,8 @@
         "effectiveTime": "2022-11-01",
         "evidenceDrug": "naproxen sodium",
         "splId": "58d04fa7-f30f-4f9e-834c-f63b2c0431a9"
-      }
+      },
+      "medicineId": "naproxen-sodium"
     },
     {
       "id": "diclofenac-nsaid-hypersensitivity",
@@ -107,7 +112,8 @@
         "effectiveTime": "2022-05-02",
         "evidenceDrug": "diclofenac sodium",
         "splId": "840fbe22-2b9d-40c5-bf0c-30ed391273aa"
-      }
+      },
+      "medicineId": "diclofenac"
     },
     {
       "id": "diclofenac-cabg",
@@ -123,7 +129,8 @@
         "effectiveTime": "2022-05-02",
         "evidenceDrug": "diclofenac sodium",
         "splId": "840fbe22-2b9d-40c5-bf0c-30ed391273aa"
-      }
+      },
+      "medicineId": "diclofenac"
     },
     {
       "id": "metformin-severe-renal-impairment",
@@ -139,7 +146,8 @@
         "effectiveTime": "2021-04-27",
         "evidenceDrug": "metformin hydrochloride",
         "splId": "f2b2e161-6f49-4a65-970e-017b5c4dcd74"
-      }
+      },
+      "medicineId": "metformin"
     },
     {
       "id": "levothyroxine-adrenal-insufficiency",
@@ -155,25 +163,10 @@
         "effectiveTime": "2023-12-12",
         "evidenceDrug": "levothyroxine sodium",
         "splId": "25169406-e7c1-42dd-85c0-93af09fe2e65"
-      }
+      },
+      "medicineId": "levothyroxine"
     },
-    {
-      "id": "atorvastatin-acute-liver-disease",
-      "drug": "atorvastatin calcium",
-      "condition": "acute liver failure or decompensated cirrhosis",
-      "type": "patient-condition",
-      "rule": "Contraindicated in acute liver failure or decompensated cirrhosis.",
-      "source": {
-        "organization": "U.S. Food and Drug Administration (FDA)",
-        "dataset": "openFDA Drug Labeling",
-        "datasetPart": "drug-label-0004-of-0014.json.zip",
-        "setId": "e52b4b11-9618-4787-ae67-44e4a3166dfb",
-        "effectiveTime": "2024-04-10",
-        "evidenceDrug": "atorvastatin calcium",
-        "splId": "9718196e-47d1-410e-8038-e5a8db1ebaaa"
-      }
-    },
-    {
+      {
       "id": "bupropion-seizure-disorder",
       "drug": "bupropion hydrochloride",
       "condition": "seizure disorder",
@@ -187,7 +180,8 @@
         "effectiveTime": "2024-05-31",
         "evidenceDrug": "bupropion hydrochloride",
         "splId": "56dd9f39-2249-497c-a9e7-dc51cb479929"
-      }
+      },
+      "medicineId": "bupropion-hydrochloride"
     },
     {
       "id": "sertraline-maoi",
@@ -203,7 +197,8 @@
         "effectiveTime": "2022-06-24",
         "evidenceDrug": "sertraline hydrochloride",
         "splId": "a189f92d-a14a-45be-8f55-4b81fe2dce92"
-      }
+      },
+      "medicineId": "sertraline"
     },
     {
       "id": "escitalopram-maoi",
@@ -219,7 +214,8 @@
         "effectiveTime": "2022-04-01",
         "evidenceDrug": "escitalopram oxalate",
         "splId": "bfd7c6f5-24c7-4491-b4f8-d501a2393fec"
-      }
+      },
+      "medicineId": "escitalopram-oxalate"
     },
     {
       "id": "omeprazole-rilpivirine",
@@ -235,23 +231,8 @@
         "effectiveTime": "2023-11-22",
         "evidenceDrug": "omeprazole",
         "splId": "6c19a1df-221e-479c-bee0-f3c8cdabd210"
-      }
-    },
-    {
-      "id": "amoxicillin-beta-lactam-hypersensitivity",
-      "drug": "amoxicillin",
-      "condition": "serious hypersensitivity to amoxicillin or other beta-lactam antibiotics",
-      "type": "patient-condition",
-      "rule": "Contraindicated in patients with a history of serious hypersensitivity reactions such as anaphylaxis or Stevens-Johnson syndrome to amoxicillin or other beta-lactams.",
-      "source": {
-        "organization": "U.S. Food and Drug Administration (FDA)",
-        "dataset": "openFDA Drug Labeling",
-        "datasetPart": "drug-label-0004-of-0014.json.zip",
-        "setId": "de792ac6-4b3d-4d34-8e50-030b5bd830d7",
-        "effectiveTime": "2022-06-01",
-        "evidenceDrug": "amoxicillin",
-        "splId": "336edd44-77fc-48f7-987c-3432ae79ffa1"
-      }
+      },
+      "medicineId": "omeprazole"
     },
     {
       "id": "pregabalin-hypersensitivity",
@@ -267,7 +248,8 @@
         "effectiveTime": "2024-04-12",
         "evidenceDrug": "pregabalin",
         "splId": "15ea723e-8c08-7ccf-e063-6294a90aaf61"
-      }
+      },
+      "medicineId": "pregabalin"
     },
     {
       "id": "prednisone-systemic-fungal-infection",
@@ -283,7 +265,8 @@
         "effectiveTime": "2024-02-29",
         "evidenceDrug": "prednisone",
         "splId": "1289ccc0-8def-ceab-e063-6294a90ac106"
-      }
+      },
+      "medicineId": "prednisone"
     },
     {
       "id": "ciprofloxacin-tizanidine",
@@ -299,7 +282,8 @@
         "effectiveTime": "2025-07-18",
         "evidenceDrug": "ciprofloxacin",
         "splId": null
-      }
+      },
+      "medicineId": "ciprofloxacin"
     },
     {
       "id": "ciprofloxacin-quinolone-hypersensitivity",
@@ -315,40 +299,10 @@
         "effectiveTime": "2025-07-18",
         "evidenceDrug": "ciprofloxacin",
         "splId": null
-      }
+      },
+      "medicineId": "ciprofloxacin"
     },
-    {
-      "id": "ondansetron-apomorphine",
-      "drug": "ondansetron hydrochloride",
-      "condition": "concomitant apomorphine use",
-      "type": "drug-condition",
-      "rule": "Contraindicated because of the risk of profound hypotension and loss of consciousness.",
-      "source": {
-        "organization": "U.S. Food and Drug Administration (FDA)",
-        "dataset": "openFDA Drug Labeling",
-        "datasetPart": "drug-label-0005-of-0014.json.zip",
-        "setId": "3a76bae2-04c2-ee2d-e063-6394a90ad4c8",
-        "effectiveTime": "2025-07-21",
-        "evidenceDrug": "ondansetron hydrochloride",
-        "splId": null
-      }
-    },
-    {
-      "id": "ondansetron-hypersensitivity",
-      "drug": "ondansetron hydrochloride",
-      "condition": "hypersensitivity to ondansetron or formulation components",
-      "type": "patient-condition",
-      "rule": "Contraindicated in patients with known hypersensitivity to ondansetron or its components.",
-      "source": {
-        "organization": "U.S. Food and Drug Administration (FDA)",
-        "dataset": "openFDA Drug Labeling",
-        "datasetPart": "drug-label-0005-of-0014.json.zip",
-        "setId": "3a76bae2-04c2-ee2d-e063-6394a90ad4c8",
-        "effectiveTime": "2025-07-21",
-        "evidenceDrug": "ondansetron hydrochloride",
-        "splId": null
-      }
-    },
+
     {
       "id": "furosemide-anuria",
       "drug": "furosemide",
@@ -363,7 +317,8 @@
         "effectiveTime": "2025-07-15",
         "evidenceDrug": "furosemide",
         "splId": null
-      }
+      },
+      "medicineId": "furosemide"
     },
     {
       "id": "furosemide-hypersensitivity",
@@ -379,7 +334,8 @@
         "effectiveTime": "2025-07-15",
         "evidenceDrug": "furosemide",
         "splId": null
-      }
+      },
+      "medicineId": "furosemide"
     },
     {
       "id": "rivaroxaban-active-bleeding",
@@ -395,7 +351,8 @@
         "effectiveTime": "2023-11-10",
         "evidenceDrug": "rivaroxaban",
         "splId": null
-      }
+      },
+      "medicineId": "rivaroxaban"
     },
     {
       "id": "rivaroxaban-hypersensitivity",
@@ -411,7 +368,8 @@
         "effectiveTime": "2023-11-10",
         "evidenceDrug": "rivaroxaban",
         "splId": null
-      }
+      },
+      "medicineId": "rivaroxaban"
     },
     {
       "id": "insulin-glargine-hypoglycemia",
@@ -427,7 +385,8 @@
         "effectiveTime": "2023-04-27",
         "evidenceDrug": "insulin glargine",
         "splId": null
-      }
+      },
+      "medicineId": "insulin-glargine"
     },
     {
       "id": "insulin-glargine-hypersensitivity",
@@ -443,7 +402,8 @@
         "effectiveTime": "2023-04-27",
         "evidenceDrug": "insulin glargine",
         "splId": null
-      }
+      },
+      "medicineId": "insulin-glargine"
     },
     {
       "id": "glipizide-type1-diabetes",
@@ -459,7 +419,8 @@
         "effectiveTime": "2024-06-06",
         "evidenceDrug": "glipizide",
         "splId": null
-      }
+      },
+      "medicineId": "glipizide"
     },
     {
       "id": "glipizide-diabetic-ketoacidosis",
@@ -475,7 +436,8 @@
         "effectiveTime": "2024-06-06",
         "evidenceDrug": "glipizide",
         "splId": null
-      }
+      },
+      "medicineId": "glipizide"
     },
     {
       "id": "glipizide-hypersensitivity",
@@ -491,39 +453,8 @@
         "effectiveTime": "2024-06-06",
         "evidenceDrug": "glipizide",
         "splId": null
-      }
-    },
-    {
-      "id": "alprazolam-cyp3a-inhibitors",
-      "drug": "alprazolam",
-      "condition": "concomitant strong CYP3A inhibitor use",
-      "type": "drug-condition",
-      "rule": "Contraindicated with strong CYP3A inhibitors except the specific ritonavir exception described in the label.",
-      "source": {
-        "organization": "U.S. Food and Drug Administration (FDA)",
-        "dataset": "openFDA Drug Labeling",
-        "datasetPart": "drug-label-0005-of-0014.json.zip",
-        "setId": "f95f4030-e8e0-416f-951d-c4dac09f386a",
-        "effectiveTime": "2023-09-15",
-        "evidenceDrug": "alprazolam",
-        "splId": null
-      }
-    },
-    {
-      "id": "alprazolam-benzodiazepine-hypersensitivity",
-      "drug": "alprazolam",
-      "condition": "hypersensitivity to alprazolam or other benzodiazepines",
-      "type": "patient-condition",
-      "rule": "Contraindicated in patients with known hypersensitivity to alprazolam or other benzodiazepines.",
-      "source": {
-        "organization": "U.S. Food and Drug Administration (FDA)",
-        "dataset": "openFDA Drug Labeling",
-        "datasetPart": "drug-label-0005-of-0014.json.zip",
-        "setId": "f95f4030-e8e0-416f-951d-c4dac09f386a",
-        "effectiveTime": "2023-09-15",
-        "evidenceDrug": "alprazolam",
-        "splId": null
-      }
+      },
+      "medicineId": "glipizide"
     },
     {
       "id": "montelukast-hypersensitivity",
@@ -539,7 +470,8 @@
         "effectiveTime": "2025-04-30",
         "evidenceDrug": "montelukast sodium",
         "splId": null
-      }
+      },
+      "medicineId": "montelukast"
     },
     {
       "id": "simvastatin-strong-cyp3a4-inhibitors",
@@ -555,7 +487,8 @@
         "effectiveTime": "2024-04-05",
         "evidenceDrug": "simvastatin",
         "splId": "1553d57f-414d-2c66-e063-6294a90af8e0"
-      }
+      },
+      "medicineId": "simvastatin"
     },
     {
       "id": "digoxin-ventricular-fibrillation",
@@ -571,7 +504,8 @@
         "effectiveTime": "2026-03-18",
         "evidenceDrug": "digoxin",
         "splId": "be6f84d6-d95b-4e39-8c32-26176f5c98ef"
-      }
+      },
+      "medicineId": "digoxin"
     },
     {
       "id": "amiodarone-av-block",
@@ -587,7 +521,8 @@
         "effectiveTime": "2026-02-12",
         "evidenceDrug": "amiodarone",
         "splId": "84ad18a0-1887-4b62-8ac1-94ace3433366"
-      }
+      },
+      "medicineId": "amiodarone"
     },
     {
       "id": "fluconazole-qtc-cyp3a4",
@@ -603,7 +538,8 @@
         "effectiveTime": "2026-02-10",
         "evidenceDrug": "fluconazole",
         "splId": "4a80ede2-17c6-ce12-e063-6294a90a38cf"
-      }
+      },
+      "medicineId": "fluconazole"
     },
     {
       "id": "clarithromycin-pimozide",
@@ -619,7 +555,8 @@
         "effectiveTime": "2026-03-04",
         "evidenceDrug": "clarithromycin",
         "splId": "4c34fe6f-2144-d0e9-e063-6294a90a3e8d"
-      }
+      },
+      "medicineId": "clarithromycin"
     },
     {
       "id": "tramadol-respiratory-depression",
@@ -635,7 +572,8 @@
         "effectiveTime": "2025-12-29",
         "evidenceDrug": "tramadol",
         "splId": "50c36ee9-b6f1-4f50-a276-cfbfa49ba588"
-      }
+      },
+      "medicineId": "tramadol"
     },
     {
       "id": "atorvastatin-liver-failure",
@@ -651,7 +589,8 @@
         "effectiveTime": "2025-06-10",
         "evidenceDrug": "atorvastatin",
         "splId": "bb421bfa-9f89-41eb-a0b8-f235bec19554"
-      }
+      },
+      "medicineId": "atorvastatin"
     },
     {
       "id": "lisinopril-angioedema-history",
@@ -667,7 +606,8 @@
         "effectiveTime": "2026-01-01",
         "evidenceDrug": "lisinopril",
         "splId": "490f6c09-302b-c01e-e063-6294a90ab25c"
-      }
+      },
+      "medicineId": "lisinopril"
     },
     {
       "id": "lisinopril-neprilysin-inhibitor",
@@ -683,7 +623,8 @@
         "effectiveTime": "2026-01-01",
         "evidenceDrug": "lisinopril",
         "splId": "490f6c09-302b-c01e-e063-6294a90ab25c"
-      }
+      },
+      "medicineId": "lisinopril"
     },
     {
       "id": "azithromycin-macrolide-hypersensitivity",
@@ -699,7 +640,8 @@
         "effectiveTime": "2026-02-17",
         "evidenceDrug": "azithromycin",
         "splId": "52447b25-1d4a-4d01-a863-83d92bf33388"
-      }
+      },
+      "medicineId": "azithromycin"
     },
     {
       "id": "amoxicillin-betalactam-hypersensitivity",
@@ -715,7 +657,8 @@
         "effectiveTime": "2024-03-01",
         "evidenceDrug": "amoxicillin",
         "splId": "59bdb6eb-6f58-457d-9d49-ade53d7b626d"
-      }
+      },
+      "medicineId": "amoxicillin"
     },
     {
       "id": "aspirin-reye-syndrome",
@@ -732,7 +675,8 @@
         "effectiveTime": "2017-10-30",
         "evidenceDrug": "aspirin",
         "splId": "5cc8bd8c-1d8c-180b-e053-2a91aa0ac490"
-      }
+      },
+      "medicineId": "aspirin"
     }
   ]
 }

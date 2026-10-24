@@ -211,10 +211,49 @@ def normalize_name(name: str) -> str:
     """Normalize medicine names before matching."""
     name = name.lower().strip()
     name = re.sub(r"\s+", " ", name)
-    name = re.sub(r"\s*\d+(\.\d+)?\s*(mg|mcg|g)?$", "", name)
+    name = re.sub(r"\s*\d+(\.\d+)?\s*(mg|mcg|g|%)?$", "", name)
     return name.strip()
 
+def find_medicine(name: str) -> dict | None:
+    """Find a medicine record by brand, Indian brand, generic, Indian generic, id, active ingredients, or RxCUI."""
+    if not name or not isinstance(name, str):
+        return None
+    raw_clean = re.sub(r"\s+", " ", name.lower().strip())
+    norm = normalize_name(name)
+    
+    # 1. Exact match on id, genericName, indianGenericName, brandNames, indianBrandNames, activeIngredientIds, rxcui
+    for med in MEDICINES_DB:
+        med_id = med.get("id", "").lower().strip()
+        gen = med.get("genericName", "").lower().strip()
+        ind_gen = med.get("indianGenericName", "").lower().strip()
+        brands = [b.lower().strip() for b in med.get("brandNames", [])]
+        ind_brands = [b.lower().strip() for b in med.get("indianBrandNames", [])]
+        active_ings = [i.lower().strip() for i in med.get("activeIngredientIds", [])]
+        rxcuis = [str(r).lower().strip() for r in med.get("rxcui", [])]
+
+        if raw_clean in (med_id, gen, ind_gen) or raw_clean in brands or raw_clean in ind_brands:
+            return med
+        if raw_clean in active_ings or raw_clean in rxcuis:
+            return med
+
+    # 2. Normalized match (dosage/strength removed)
+    if norm:
+        for med in MEDICINES_DB:
+            med_id = normalize_name(med.get("id", ""))
+            gen = normalize_name(med.get("genericName", ""))
+            ind_gen = normalize_name(med.get("indianGenericName", ""))
+            brands = [normalize_name(b) for b in med.get("brandNames", [])]
+            ind_brands = [normalize_name(b) for b in med.get("indianBrandNames", [])]
+
+            if norm in (med_id, gen, ind_gen) or norm in brands or norm in ind_brands:
+                return med
+
+    return None
+
 def get_canonical_id(name: str) -> str:
+    med = find_medicine(name)
+    if med:
+        return med.get("id", "").lower()
     norm = name.lower().strip()
     for med in MEDICINES_DB:
         med_id = med.get("id", "").lower()
@@ -225,15 +264,11 @@ def get_canonical_id(name: str) -> str:
 
 def resolve(name: str) -> list[str] | None:
     """Resolve a brand/generic medicine name to its list of active ingredient IDs."""
-    norm = normalize_name(name)
-    ids = set()
-    for med in MEDICINES_DB:
-        med_id = med.get("id", "").lower()
-        gen = med.get("genericName", "").lower()
-        brands = [b.lower().strip() for b in med.get("brandNames", [])]
-        if norm == gen or norm in brands or norm == med_id:
-            ids.add(med_id)
-    return list(ids) if ids else None
+    med = find_medicine(name)
+    if med:
+        return med.get("activeIngredientIds") or [med.get("id", "").lower()]
+    return None
+
 
 class PatientProfile(BaseModel):
     ageGroup: Literal['adult', 'elderly', 'pediatric'] = 'adult'
@@ -420,7 +455,7 @@ def match_condition(db_condition: str, patient_conditions: list[str]) -> bool:
 def analyze(meds: list[str], patient: PatientProfile | None = None) -> tuple[list, list, list, list]:
     resolved = []
     unresolved = []
-    owner = {}
+    resolved_meds: list[tuple[str, dict]] = []
     
     unique_meds = []
     for m in meds:
@@ -428,60 +463,99 @@ def analyze(meds: list[str], patient: PatientProfile | None = None) -> tuple[lis
             unique_meds.append(m)
 
     for m in unique_meds:
-        ings = resolve(m)
-        if ings is None:
+        med = find_medicine(m)
+        if med is None:
             unresolved.append(m)
             continue
+        ings = med.get("activeIngredientIds") or [med.get("id", "").lower()]
         resolved.append({"input": m, "ingredients": ings})
-        for i in ings:
-            owner.setdefault(i, []).append(m)
+        resolved_meds.append((m, med))
 
     findings = []
+    seen_finding_ids = set()
 
-    # 1. Duplicate therapy (same ingredient)
-    for ing, brands in owner.items():
-        if len(brands) > 1:
-            findings.append({
-                "id": f"duplicate-{ing}",
-                "type": "duplicate_ingredient",
-                "severity": "duplicate",
-                "drugs": [ing],
-                "medicines": brands,
-                "mechanism": f"'{ing}' is present in multiple prescribed products.",
-                "watch": "Signs of overdose",
-                "verified_status": "verified"
-            })
+    # Track inputs by ingredient and by medicine ID
+    ing_owner: dict[str, list[str]] = {}
+    med_owner: dict[str, list[str]] = {}
+    for input_name, med in resolved_meds:
+        med_id = med.get("id", "").lower()
+        med_owner.setdefault(med_id, []).append(input_name)
+        for ing in (med.get("activeIngredientIds") or [med_id]):
+            ing_owner.setdefault(ing.lower(), []).append(input_name)
 
-    # 1b. Duplicate therapy (explicit JSON rules)
+    # 1. Duplicate therapy (explicit JSON rules first)
     for dup_rule in DUPLICATE_THERAPY_DB:
-        med_a = get_canonical_id(dup_rule.get("medicineA", ""))
-        med_b = get_canonical_id(dup_rule.get("medicineB", ""))
-        if med_a in owner and med_b in owner and med_a != med_b:
-            findings.append({
-                "id": dup_rule.get("id"),
-                "type": "class_duplicate" if dup_rule.get("type") == "drug-class-overlap" else "duplicate_ingredient",
-                "severity": "duplicate",
-                "drugs": [med_a, med_b],
-                "mechanism": dup_rule.get("rule"),
-                "watch": dup_rule.get("importantLimit", "Duplicate therapy risks"),
-                "recommendation": "Review concurrent therapy",
-                "source": dup_rule.get("sourceA", {}),
-                "verified_status": "verified"
-            })
+        rule_id = dup_rule.get("id")
+        med_a = (dup_rule.get("medicineAId") or get_canonical_id(dup_rule.get("medicineA", ""))).lower()
+        med_b = (dup_rule.get("medicineBId") or get_canonical_id(dup_rule.get("medicineB", ""))).lower()
+        if med_a in med_owner and med_b in med_owner and med_a != med_b:
+            if rule_id not in seen_finding_ids:
+                seen_finding_ids.add(rule_id)
+                findings.append({
+                    "id": rule_id,
+                    "type": "class_duplicate" if dup_rule.get("type") == "drug-class-overlap" else "duplicate_ingredient",
+                    "severity": "duplicate",
+                    "drugs": [med_a, med_b],
+                    "medicines": [med_owner[med_a][0], med_owner[med_b][0]],
+                    "mechanism": dup_rule.get("rule"),
+                    "watch": dup_rule.get("importantLimit", "Duplicate therapy risks"),
+                    "recommendation": "Review concurrent therapy",
+                    "source": dup_rule.get("sourceA", {}),
+                    "verified_status": "verified"
+                })
+
+    # 1b. Duplicate therapy (active ingredient overlap across multiple products without explicit rule)
+    for ing, brands in ing_owner.items():
+        if len(brands) > 1:
+            dup_id = f"duplicate-{ing}"
+            if dup_id not in seen_finding_ids:
+                # Check if all pairs in brands are already covered by an explicit rule
+                covered = False
+                for f in findings:
+                    if f.get("type") == "duplicate_ingredient" and set(brands).issubset(set(f.get("medicines", []))):
+                        covered = True
+                        break
+                if not covered:
+                    seen_finding_ids.add(dup_id)
+                    findings.append({
+                        "id": dup_id,
+                        "type": "duplicate_ingredient",
+                        "severity": "duplicate",
+                        "drugs": [ing],
+                        "medicines": brands,
+                        "mechanism": f"'{ing}' is present in multiple prescribed products.",
+                        "watch": "Signs of overdose",
+                        "verified_status": "verified"
+                    })
 
     # 2. Drug interactions
-    ings_list = list(owner.keys())
-    for i, a in enumerate(ings_list):
-        for b in ings_list[i + 1:]:
+    for i, (m1_input, med1) in enumerate(resolved_meds):
+        for m2_input, med2 in resolved_meds[i + 1:]:
+            med1_id = med1.get("id", "").lower()
+            med2_id = med2.get("id", "").lower()
+            if med1_id == med2_id:
+                continue
+            med1_ings = {ing.lower() for ing in med1.get("activeIngredientIds", [])} | {med1_id}
+            med2_ings = {ing.lower() for ing in med2.get("activeIngredientIds", [])} | {med2_id}
+
             for interaction in INTERACTIONS_DB:
-                drug_a = get_canonical_id(interaction.get("drugA", ""))
-                drug_b = get_canonical_id(interaction.get("drugB", ""))
-                if {a, b} == {drug_a, drug_b}:
+                rule_id = interaction.get("id")
+                if rule_id in seen_finding_ids:
+                    continue
+
+                int_a = (interaction.get("ingredientAId") or get_canonical_id(interaction.get("drugA", ""))).lower()
+                int_b = (interaction.get("ingredientBId") or get_canonical_id(interaction.get("drugB", ""))).lower()
+                
+                match_forward = (int_a in med1_ings and int_b in med2_ings)
+                match_reverse = (int_a in med2_ings and int_b in med1_ings)
+
+                if match_forward or match_reverse:
+                    seen_finding_ids.add(rule_id)
                     findings.append({
-                        "id": interaction.get("id"),
+                        "id": rule_id,
                         "type": "interaction",
                         "severity": "major",
-                        "drugs": [a, b],
+                        "drugs": [int_a, int_b],
                         "mechanism": interaction.get("risk", "Interaction detected"),
                         "watch": interaction.get("action", "Monitor"),
                         "recommendation": interaction.get("action", ""),
@@ -491,17 +565,25 @@ def analyze(meds: list[str], patient: PatientProfile | None = None) -> tuple[lis
 
     # 3. Patient conditions
     patient_conds = extract_patient_conditions(patient)
-    for a in ings_list:
+    for input_name, med in resolved_meds:
+        med_id = med.get("id", "").lower()
+        med_ings = {ing.lower() for ing in med.get("activeIngredientIds", [])} | {med_id}
+
         for contra in CONTRAINDICATIONS_DB:
-            drug = get_canonical_id(contra.get("drug", ""))
-            if a == drug:
+            rule_id = contra.get("id")
+            if rule_id in seen_finding_ids:
+                continue
+
+            target_drug = (contra.get("medicineId") or get_canonical_id(contra.get("drug", ""))).lower()
+            if target_drug in med_ings:
                 cond = contra.get("condition", "")
                 if match_condition(cond, patient_conds):
+                    seen_finding_ids.add(rule_id)
                     findings.append({
-                        "id": contra.get("id"),
+                        "id": rule_id,
                         "type": "contraindication",
                         "severity": "major",
-                        "drugs": [a],
+                        "drugs": [target_drug],
                         "condition": cond,
                         "mechanism": contra.get("rule", ""),
                         "watch": "Contraindication",
@@ -511,13 +593,20 @@ def analyze(meds: list[str], patient: PatientProfile | None = None) -> tuple[lis
 
     # 4. Food warnings (verified from foodwarning.json)
     food_warnings = []
-    for fw in FOOD_WARNINGS_DB:
-        med_id = fw.get("medicineId", "").lower()
-        # Check if any resolved ingredient matches this medicine
-        for ing in owner.keys():
-            if ing == med_id or med_id in ing or ing in med_id:
+    seen_fw_ids = set()
+    for input_name, med in resolved_meds:
+        med_id = med.get("id", "").lower()
+        med_ings = {ing.lower() for ing in med.get("activeIngredientIds", [])} | {med_id}
+
+        for fw in FOOD_WARNINGS_DB:
+            fw_id = fw.get("id")
+            if fw_id in seen_fw_ids:
+                continue
+            target_med = fw.get("medicineId", "").lower()
+            if target_med in med_ings:
+                seen_fw_ids.add(fw_id)
                 food_warnings.append({
-                    "id": fw.get("id"),
+                    "id": fw_id,
                     "medicine": fw.get("genericName"),
                     "food": fw.get("food"),
                     "warning": fw.get("warning"),
@@ -525,7 +614,6 @@ def analyze(meds: list[str], patient: PatientProfile | None = None) -> tuple[lis
                     "source": fw.get("source", {}),
                     "verified_status": "verified"
                 })
-                break
 
     return resolved, unresolved, findings, food_warnings
 
@@ -709,13 +797,43 @@ def delete_my_record(user: dict = Depends(get_current_user)):
 @app.get("/api/drugs/search", dependencies=[Depends(auth)])
 def search(q: str):
     q = q.lower().strip()
+    if not q:
+        return []
     results = []
+    seen_names = set()
     for med in MEDICINES_DB:
-        name = med.get("genericName", "")
+        gen = med.get("genericName", "")
+        ind_gen = med.get("indianGenericName", "")
         brands = med.get("brandNames", [])
-        if q in name.lower() or any(q in b.lower() for b in brands):
-            results.append({"name": brands[0] if brands else name, "ingredients": [name]})
+        ind_brands = med.get("indianBrandNames", [])
+        med_id = med.get("id", "")
+        active_ings = med.get("activeIngredientIds", [])
+        rxcuis = [str(r).lower().strip() for r in med.get("rxcui", [])]
+
+        matched = False
+        display_name = None
+        if q in gen.lower():
+            matched = True
+            display_name = brands[0] if brands else gen
+        elif any(q in b.lower() for b in brands):
+            matched = True
+            display_name = next((b for b in brands if q in b.lower()), brands[0])
+        elif any(q in ib.lower() for ib in ind_brands):
+            matched = True
+            display_name = next((ib for ib in ind_brands if q in ib.lower()), ind_brands[0])
+        elif q in ind_gen.lower() or q in med_id.lower() or any(q in ai.lower() for ai in active_ings) or any(q in r for r in rxcuis):
+            matched = True
+            display_name = brands[0] if brands else (ind_brands[0] if ind_brands else gen)
+
+        if matched and display_name:
+            if display_name.lower() not in seen_names:
+                seen_names.add(display_name.lower())
+                results.append({
+                    "name": display_name,
+                    "ingredients": active_ings if active_ings else [gen]
+                })
     return results[:10]
+
 
 
 @app.post("/api/check", dependencies=[Depends(auth)])

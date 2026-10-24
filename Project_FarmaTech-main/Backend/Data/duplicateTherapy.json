@@ -1,10 +1,14 @@
+
 [
   {
     "id": "acetaminophen-overlap",
     "activeIngredient": "acetaminophen",
+    "ingredientId": "paracetamol",
     "type": "active-ingredient-overlap",
     "medicineA": "acetaminophen",
     "medicineB": "acetaminophen-codeine",
+    "medicineAId": "acetaminophen",
+    "medicineBId": "acetaminophen-codeine",
     "rule": "Both cited products contain acetaminophen; a deterministic engine can flag the active-ingredient overlap for review.",
     "sourceA": {
       "organization": "U.S. Food and Drug Administration (FDA)",
@@ -27,9 +31,12 @@
   {
     "id": "ibuprofen-aspirin-nsaid-overlap",
     "sharedClass": "NSAID (both affect gastric mucosa and platelet function)",
+    "classId": "nsaid",
     "type": "drug-class-overlap",
     "medicineA": "ibuprofen",
     "medicineB": "aspirin",
+    "medicineAId": "ibuprofen",
+    "medicineBId": "aspirin",
     "rule": "Ibuprofen's OTC Drug Facts label lists concomitant use of another NSAID, including aspirin, as one of the factors that raises the chance of serious stomach bleeding; a deterministic engine can flag concurrent NSAID-class therapy for review.",
     "sourceA": {
       "organization": "U.S. Food and Drug Administration (FDA)",
@@ -54,9 +61,12 @@
   {
     "id": "metoprolol-formulation-overlap",
     "activeIngredient": "metoprolol",
+    "ingredientId": "metoprolol",
     "type": "active-ingredient-overlap",
     "medicineA": "metoprolol tartrate",
     "medicineB": "metoprolol succinate",
+    "medicineAId": "metoprolol-tartrate",
+    "medicineBId": "metoprolol-succinate",
     "rule": "Both cited products contain metoprolol; a deterministic engine can flag duplicate active-ingredient therapy when both formulations appear in the same medication list.",
     "sourceA": {
       "organization": "U.S. Food and Drug Administration (FDA)",
@@ -81,9 +91,12 @@
   {
     "id": "simvastatin-rosuvastatin-overlap",
     "sharedClass": "statin",
+    "classId": "statin",
     "type": "drug-class-overlap",
     "medicineA": "simvastatin",
     "medicineB": "rosuvastatin calcium",
+    "medicineAId": "simvastatin",
+    "medicineBId": "rosuvastatin",
     "rule": "Both cited medicines are HMG-CoA reductase inhibitors; a deterministic engine can flag concurrent statin-class therapy for review.",
     "sourceA": {
       "organization": "U.S. Food and Drug Administration (FDA)",
@@ -108,9 +121,12 @@
   {
     "id": "furosemide-hydrochlorothiazide-overlap",
     "sharedClass": "diuretic",
+    "classId": "diuretic",
     "type": "drug-class-overlap",
     "medicineA": "furosemide",
     "medicineB": "hydrochlorothiazide",
+    "medicineAId": "furosemide",
+    "medicineBId": "hydrochlorothiazide",
     "rule": "Both cited medicines have diuretic activity; a deterministic engine can flag concurrent diuretic therapy for review.",
     "sourceA": {
       "organization": "U.S. Food and Drug Administration (FDA)",
@@ -131,32 +147,5 @@
       "splId": "0965a94d-06e5-460f-8edc-d402412da5ee"
     },
     "importantLimit": "Concurrent diuretic therapy may be clinically intentional. Dose, indication, renal function, electrolytes and monitoring requirements must be assessed clinically."
-  },
-  {
-    "id": "clonazepam-benzodiazepine-overlap",
-    "sharedClass": "benzodiazepine",
-    "type": "drug-class-overlap",
-    "medicineA": "clonazepam",
-    "medicineB": "alprazolam",
-    "rule": "Both cited medicines belong to the benzodiazepine class; a deterministic engine can flag concurrent benzodiazepine therapy for review.",
-    "sourceA": {
-      "organization": "U.S. Food and Drug Administration (FDA)",
-      "dataset": "openFDA Drug Labeling",
-      "datasetPart": "drug-label-0005-of-0014.json.zip",
-      "setId": "6960e994-e9ea-4a4a-b674-7e6124d8b381",
-      "effectiveTime": "2023-05-25",
-      "evidenceDrug": "clonazepam",
-      "splId": "fc896ba0-b3e2-aefa-e053-6294a90a9d47"
-    },
-    "sourceB": {
-      "organization": "U.S. Food and Drug Administration (FDA)",
-      "dataset": "openFDA Drug Labeling",
-      "datasetPart": "drug-label-0005-of-0014.json.zip",
-      "setId": "f95f4030-e8e0-416f-951d-c4dac09f386a",
-      "effectiveTime": "2023-09-15",
-      "evidenceDrug": "alprazolam",
-      "splId": null
-    },
-    "importantLimit": "This is a class-overlap rule. It does not establish that concurrent use is always inappropriate; indication, dose, duration and tapering/transition plans must be assessed clinically."
   }
 ]

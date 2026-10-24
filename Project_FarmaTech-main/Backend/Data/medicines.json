@@ -2,41 +2,46 @@
   {
     "id": "warfarin",
     "genericName": "warfarin sodium",
-    "brandNames": ["Warfarin Sodium"],
-    "rxcui": ["855318"],
+    "indianGenericName": "warfarin sodium",
+    "brandNames": [
+      "Warfarin Sodium"
+    ],
+    "indianBrandNames": [
+      "Warf",
+      "Uniwarfin"
+    ],
+    "activeIngredientIds": [
+      "warfarin"
+    ],
+    "rxcui": [
+      "855318"
+    ],
     "source": {
       "setId": "bd6ea120-5d1c-4815-94f2-81e28dc6b7a9",
       "splId": "58b1b2a2-c989-f37f-e063-6394a90a3972",
       "effectiveTime": "2026-08-10"
     }
   },
-  {
-    "id": "metformin-er",
-    "genericName": "metformin hydrochloride extended-release",
-    "brandNames": ["Metformin ER 500 mg", "Metformin ER 750 mg"],
-    "rxcui": ["860975", "860981"],
-    "source": {
-      "setId": "b857eccf-b9ff-45ba-8241-f47f5caada2a",
-      "splId": "56cbdf81-acdf-940c-e063-6394a90ad166",
-      "effectiveTime": "2026-07-17"
-    }
-  },
-  {
-    "id": "clopidogrel",
-    "genericName": "clopidogrel bisulfate",
-    "brandNames": ["Clopidogrel"],
-    "rxcui": ["749196"],
-    "source": {
-      "setId": "4cd07a3c-9673-4aa0-b76a-d79df2399ee1",
-      "splId": "188c5658-7bc2-4331-a794-a2194863953c",
-      "effectiveTime": "2025-09-08"
-    }
-  },
-  {
+    {
     "id": "simvastatin",
     "genericName": "simvastatin",
-    "brandNames": ["Simvastatin"],
-    "rxcui": ["198211", "200345", "312961", "312962", "314231"],
+    "indianGenericName": "simvastatin",
+    "brandNames": [
+      "Simvastatin"
+    ],
+    "indianBrandNames": [
+      "Simvotin"
+    ],
+    "activeIngredientIds": [
+      "simvastatin"
+    ],
+    "rxcui": [
+      "198211",
+      "200345",
+      "312961",
+      "312962",
+      "314231"
+    ],
     "source": {
       "setId": "751b79c6-bba8-4d29-b69c-a2ac6453fec8",
       "splId": "1553d57f-414d-2c66-e063-6294a90af8e0",
@@ -46,8 +51,19 @@
   {
     "id": "digoxin",
     "genericName": "digoxin",
-    "brandNames": ["Digoxin"],
-    "rxcui": ["197606"],
+    "indianGenericName": "digoxin",
+    "brandNames": [
+      "Digoxin"
+    ],
+    "indianBrandNames": [
+      "Lanoxin"
+    ],
+    "activeIngredientIds": [
+      "digoxin"
+    ],
+    "rxcui": [
+      "197606"
+    ],
     "source": {
       "setId": "dcf9b23b-5840-46ff-bb61-c57a02831a03",
       "splId": "be6f84d6-d95b-4e39-8c32-26176f5c98ef",
@@ -57,8 +73,19 @@
   {
     "id": "amiodarone",
     "genericName": "amiodarone hydrochloride",
-    "brandNames": ["Amiodarone Hydrochloride"],
-    "rxcui": ["833528"],
+    "indianGenericName": "amiodarone hydrochloride",
+    "brandNames": [
+      "Amiodarone Hydrochloride"
+    ],
+    "indianBrandNames": [
+      "Cordarone"
+    ],
+    "activeIngredientIds": [
+      "amiodarone"
+    ],
+    "rxcui": [
+      "833528"
+    ],
     "source": {
       "setId": "7ae393d1-7469-432a-9f21-f5ebab1207d1",
       "splId": "84ad18a0-1887-4b62-8ac1-94ace3433366",
@@ -68,8 +95,23 @@
   {
     "id": "fluconazole",
     "genericName": "fluconazole",
-    "brandNames": ["Fluconazole"],
-    "rxcui": ["197698", "197699", "197700", "197701"],
+    "indianGenericName": "fluconazole",
+    "brandNames": [
+      "Fluconazole"
+    ],
+    "indianBrandNames": [
+      "Forcan",
+      "Zocon"
+    ],
+    "activeIngredientIds": [
+      "fluconazole"
+    ],
+    "rxcui": [
+      "197698",
+      "197699",
+      "197700",
+      "197701"
+    ],
     "source": {
       "setId": "c2c7242d-d172-4733-e053-2995a90acb2e",
       "splId": "4a80ede2-17c6-ce12-e063-6294a90a38cf",
@@ -79,8 +121,19 @@
   {
     "id": "clarithromycin",
     "genericName": "clarithromycin",
-    "brandNames": ["Clarithromycin"],
-    "rxcui": ["197517"],
+    "indianGenericName": "clarithromycin",
+    "brandNames": [
+      "Clarithromycin"
+    ],
+    "indianBrandNames": [
+      "Claribid"
+    ],
+    "activeIngredientIds": [
+      "clarithromycin"
+    ],
+    "rxcui": [
+      "197517"
+    ],
     "source": {
       "setId": "fa69ea92-0b41-43fb-918f-ed80e0dedf04",
       "splId": "4c34fe6f-2144-d0e9-e063-6294a90a3e8d",
@@ -90,8 +143,20 @@
   {
     "id": "sertraline",
     "genericName": "sertraline hydrochloride",
-    "brandNames": ["Sertraline HCl"],
-    "rxcui": ["251201", "410584"],
+    "indianGenericName": "sertraline hydrochloride",
+    "brandNames": [
+      "Sertraline HCl"
+    ],
+    "indianBrandNames": [
+      "Daxid"
+    ],
+    "activeIngredientIds": [
+      "sertraline"
+    ],
+    "rxcui": [
+      "251201",
+      "410584"
+    ],
     "source": {
       "setId": "a6d0f35c-f4f4-456d-b8d9-d56297261ad6",
       "splId": "593a87ef-14dc-60e8-e063-6394a90a4e8a",
@@ -101,8 +166,24 @@
   {
     "id": "tramadol",
     "genericName": "tramadol hydrochloride",
-    "brandNames": ["ConZip"],
-    "rxcui": ["1148478", "1148482", "1148485", "1148487", "1148489", "1148491"],
+    "indianGenericName": "tramadol hydrochloride",
+    "brandNames": [
+      "ConZip"
+    ],
+    "indianBrandNames": [
+      "Tramazac"
+    ],
+    "activeIngredientIds": [
+      "tramadol"
+    ],
+    "rxcui": [
+      "1148478",
+      "1148482",
+      "1148485",
+      "1148487",
+      "1148489",
+      "1148491"
+    ],
     "source": {
       "setId": "a65b4d05-3a1c-4aa1-848a-d20ac9aaf62f",
       "splId": "50c36ee9-b6f1-4f50-a276-cfbfa49ba588",
@@ -112,7 +193,17 @@
   {
     "id": "amlodipine",
     "genericName": "amlodipine besylate",
-    "brandNames": ["Amlodipine Besylate"],
+    "indianGenericName": "amlodipine besilate",
+    "brandNames": [
+      "Amlodipine Besylate"
+    ],
+    "indianBrandNames": [
+      "Amlong",
+      "Stamlo"
+    ],
+    "activeIngredientIds": [
+      "amlodipine"
+    ],
     "rxcui": [],
     "source": {
       "setId": "b1151904-5085-49bd-94ec-cb2894f4eb10",
@@ -123,7 +214,19 @@
   {
     "id": "acetaminophen",
     "genericName": "acetaminophen",
-    "brandNames": ["Acetaminophen"],
+    "indianGenericName": "paracetamol",
+    "brandNames": [
+      "Acetaminophen"
+    ],
+    "indianBrandNames": [
+      "Dolo 650",
+      "Crocin",
+      "Calpol",
+      "P 650"
+    ],
+    "activeIngredientIds": [
+      "paracetamol"
+    ],
     "rxcui": [],
     "source": {
       "setId": "1098d0e7-8202-4018-a2d2-b0c80ee58b56",
@@ -131,10 +234,44 @@
       "effectiveTime": "2026-08-19"
     }
   },
+
+
+{
+  "id": "clopidogrel",
+  "genericName": "clopidogrel bisulfate",
+  "indianGenericName": "clopidogrel bisulfate",
+  "brandNames": [
+    "Clopidogrel"
+  ],
+  "indianBrandNames": [
+    "Clopilet",
+    "Clopivas"
+  ],
+  "activeIngredientIds": [
+    "clopidogrel"
+  ],
+  "rxcui": [
+    "749196"
+  ],
+  "source": {
+    "setId": "4cd07a3c-9673-4aa0-b76a-d79df2399ee1",
+    "splId": "188c5658-7bc2-4331-a794-a2194863953c",
+    "effectiveTime": "2025-09-08"
+  }
+},
+
   {
     "id": "acetaminophen-codeine",
     "genericName": "acetaminophen and codeine phosphate",
-    "brandNames": ["ACETAMINOPHEN AND CODEINE PHOSPHATE"],
+    "indianGenericName": "paracetamol and codeine phosphate",
+    "brandNames": [
+      "ACETAMINOPHEN AND CODEINE PHOSPHATE"
+    ],
+    "indianBrandNames": [],
+    "activeIngredientIds": [
+      "paracetamol",
+      "codeine"
+    ],
     "rxcui": [],
     "source": {
       "setId": "eadc80fa-13c3-471a-a22f-6fe7e1ab290f",
@@ -145,8 +282,20 @@
   {
     "id": "atorvastatin",
     "genericName": "atorvastatin calcium",
-    "brandNames": ["Atorvastatin Calcium"],
-    "rxcui": ["617312"],
+    "indianGenericName": "atorvastatin calcium",
+    "brandNames": [
+      "Atorvastatin Calcium"
+    ],
+    "indianBrandNames": [
+      "Atorva",
+      "Tonact"
+    ],
+    "activeIngredientIds": [
+      "atorvastatin"
+    ],
+    "rxcui": [
+      "617312"
+    ],
     "source": {
       "setId": "ac98cfd7-fd4c-4fe1-91f3-50a0e232364f",
       "splId": "bb421bfa-9f89-41eb-a0b8-f235bec19554",
@@ -156,8 +305,19 @@
   {
     "id": "omeprazole",
     "genericName": "omeprazole",
-    "brandNames": ["Omeprazole"],
-    "rxcui": ["198051"],
+    "indianGenericName": "omeprazole",
+    "brandNames": [
+      "Omeprazole"
+    ],
+    "indianBrandNames": [
+      "Omez"
+    ],
+    "activeIngredientIds": [
+      "omeprazole"
+    ],
+    "rxcui": [
+      "198051"
+    ],
     "source": {
       "setId": "3b19d724-821b-61dc-e063-6294a90aa4d3",
       "splId": "3b19d244-3cd1-0813-e063-6394a90ac153",
@@ -167,8 +327,17 @@
   {
     "id": "lisinopril",
     "genericName": "lisinopril",
-    "brandNames": ["Lisinopril"],
-    "rxcui": ["311354"],
+    "indianGenericName": "lisinopril",
+    "brandNames": [
+      "Lisinopril"
+    ],
+    "indianBrandNames": [],
+    "activeIngredientIds": [
+      "lisinopril"
+    ],
+    "rxcui": [
+      "311354"
+    ],
     "source": {
       "setId": "dac0c8f1-e3cf-11e6-e053-2a95a90adbcb",
       "splId": "490f6c09-302b-c01e-e063-6294a90ab25c",
@@ -178,8 +347,20 @@
   {
     "id": "azithromycin",
     "genericName": "azithromycin",
-    "brandNames": ["Azithromycin"],
-    "rxcui": ["141963"],
+    "indianGenericName": "azithromycin",
+    "brandNames": [
+      "Azithromycin"
+    ],
+    "indianBrandNames": [
+      "Azithral",
+      "Azee"
+    ],
+    "activeIngredientIds": [
+      "azithromycin"
+    ],
+    "rxcui": [
+      "141963"
+    ],
     "source": {
       "setId": "405ab07f-7d1d-4552-ad3b-2a03be8e9949",
       "splId": "52447b25-1d4a-4d01-a863-83d92bf33388",
@@ -189,8 +370,20 @@
   {
     "id": "ciprofloxacin",
     "genericName": "ciprofloxacin",
-    "brandNames": ["Ciprofloxacin"],
-    "rxcui": ["197511", "309309"],
+    "indianGenericName": "ciprofloxacin",
+    "brandNames": [
+      "Ciprofloxacin"
+    ],
+    "indianBrandNames": [
+      "Ciplox"
+    ],
+    "activeIngredientIds": [
+      "ciprofloxacin"
+    ],
+    "rxcui": [
+      "197511",
+      "309309"
+    ],
     "source": {
       "setId": "6fd3da0b-7428-ac8f-e053-2a91aa0aed9f",
       "splId": "47236eca-557e-1b27-e063-6394a90acd14",
@@ -200,8 +393,23 @@
   {
     "id": "rivaroxaban",
     "genericName": "rivaroxaban",
-    "brandNames": ["Rivaroxaban"],
-    "rxcui": ["1114198", "1232082", "1232086", "1549682", "2059015"],
+    "indianGenericName": "rivaroxaban",
+    "brandNames": [
+      "Rivaroxaban"
+    ],
+    "indianBrandNames": [
+      "Xarelto"
+    ],
+    "activeIngredientIds": [
+      "rivaroxaban"
+    ],
+    "rxcui": [
+      "1114198",
+      "1232082",
+      "1232086",
+      "1549682",
+      "2059015"
+    ],
     "source": {
       "setId": "5524f30f-789d-4f5c-8f7c-d03a475b6d34",
       "splId": "4b61dc52-0593-4ef0-8246-a82ff6972842",
@@ -211,8 +419,20 @@
   {
     "id": "levothyroxine",
     "genericName": "levothyroxine sodium",
-    "brandNames": ["Levothyroxine Sodium"],
-    "rxcui": ["966221"],
+    "indianGenericName": "levothyroxine sodium",
+    "brandNames": [
+      "Levothyroxine Sodium"
+    ],
+    "indianBrandNames": [
+      "Thyronorm",
+      "Eltroxin"
+    ],
+    "activeIngredientIds": [
+      "levothyroxine"
+    ],
+    "rxcui": [
+      "966221"
+    ],
     "source": {
       "setId": "70dddaf0-f495-495f-95de-36e9efa2e373",
       "splId": "e20e1904-abd8-4c36-86f5-41d2c549a5c2",
@@ -222,8 +442,20 @@
   {
     "id": "amoxicillin",
     "genericName": "amoxicillin",
-    "brandNames": ["Amoxicillin"],
-    "rxcui": ["313797"],
+    "indianGenericName": "amoxicillin",
+    "brandNames": [
+      "Amoxicillin"
+    ],
+    "indianBrandNames": [
+      "Mox",
+      "Novamox"
+    ],
+    "activeIngredientIds": [
+      "amoxicillin"
+    ],
+    "rxcui": [
+      "313797"
+    ],
     "source": {
       "setId": "6a9cfa97-3715-4b75-a1e3-932a34a942d4",
       "splId": "59bdb6eb-6f58-457d-9d49-ade53d7b626d",
@@ -233,8 +465,20 @@
   {
     "id": "ibuprofen",
     "genericName": "ibuprofen",
-    "brandNames": ["Ibuprofen"],
-    "rxcui": ["310965"],
+    "indianGenericName": "ibuprofen",
+    "brandNames": [
+      "Ibuprofen"
+    ],
+    "indianBrandNames": [
+      "Brufen",
+      "Ibugesic"
+    ],
+    "activeIngredientIds": [
+      "ibuprofen"
+    ],
+    "rxcui": [
+      "310965"
+    ],
     "source": {
       "setId": "0fbe42d0-b5f2-0780-e063-6394a90a4ecb",
       "splId": "15f79179-4066-b851-e063-6394a90af38e",
@@ -244,8 +488,20 @@
   {
     "id": "aspirin",
     "genericName": "aspirin",
-    "brandNames": ["Aspirin"],
-    "rxcui": ["308416"],
+    "indianGenericName": "aspirin",
+    "brandNames": [
+      "Aspirin"
+    ],
+    "indianBrandNames": [
+      "Ecosprin",
+      "Disprin"
+    ],
+    "activeIngredientIds": [
+      "aspirin"
+    ],
+    "rxcui": [
+      "308416"
+    ],
     "source": {
       "setId": "8977b821-2843-4436-bd3b-bb902a4b787e",
       "splId": "5cc8bd8c-1d8c-180b-e053-2a91aa0ac490",
@@ -255,8 +511,20 @@
   {
     "id": "metformin",
     "genericName": "metformin hydrochloride",
-    "brandNames": ["METFORMIN HYDROCHLORIDE"],
-    "rxcui": ["860975"],
+    "indianGenericName": "metformin hydrochloride",
+    "brandNames": [
+      "METFORMIN HYDROCHLORIDE"
+    ],
+    "indianBrandNames": [
+      "Glycomet",
+      "Glyciphage"
+    ],
+    "activeIngredientIds": [
+      "metformin"
+    ],
+    "rxcui": [
+      "860975"
+    ],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
       "dataset": "openFDA Drug Labeling",
@@ -269,8 +537,20 @@
   {
     "id": "gabapentin",
     "genericName": "gabapentin",
-    "brandNames": ["Gabapentin"],
-    "rxcui": ["310433", "310434"],
+    "indianGenericName": "gabapentin",
+    "brandNames": [
+      "Gabapentin"
+    ],
+    "indianBrandNames": [
+      "Gabapin"
+    ],
+    "activeIngredientIds": [
+      "gabapentin"
+    ],
+    "rxcui": [
+      "310433",
+      "310434"
+    ],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
       "dataset": "openFDA Drug Labeling",
@@ -283,8 +563,19 @@
   {
     "id": "loratadine",
     "genericName": "loratadine",
-    "brandNames": ["LORATADINE"],
-    "rxcui": ["311373"],
+    "indianGenericName": "loratadine",
+    "brandNames": [
+      "LORATADINE"
+    ],
+    "indianBrandNames": [
+      "Lorfast"
+    ],
+    "activeIngredientIds": [
+      "loratadine"
+    ],
+    "rxcui": [
+      "311373"
+    ],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
       "dataset": "openFDA Drug Labeling",
@@ -297,8 +588,17 @@
   {
     "id": "prednisone",
     "genericName": "prednisone",
-    "brandNames": ["PredniSONE"],
-    "rxcui": ["312617"],
+    "indianGenericName": "prednisone",
+    "brandNames": [
+      "PredniSONE"
+    ],
+    "indianBrandNames": [],
+    "activeIngredientIds": [
+      "prednisone"
+    ],
+    "rxcui": [
+      "312617"
+    ],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
       "dataset": "openFDA Drug Labeling",
@@ -311,8 +611,19 @@
   {
     "id": "diclofenac",
     "genericName": "diclofenac sodium",
-    "brandNames": ["Diclofenac Sodium"],
-    "rxcui": ["857700"],
+    "indianGenericName": "diclofenac sodium",
+    "brandNames": [
+      "Diclofenac Sodium"
+    ],
+    "indianBrandNames": [
+      "Voveran"
+    ],
+    "activeIngredientIds": [
+      "diclofenac"
+    ],
+    "rxcui": [
+      "857700"
+    ],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
       "dataset": "openFDA Drug Labeling",
@@ -325,7 +636,14 @@
   {
     "id": "hydrocortisone",
     "genericName": "hydrocortisone",
-    "brandNames": ["FifthPulse Hydrocortisone 4oz"],
+    "indianGenericName": "hydrocortisone",
+    "brandNames": [
+      "FifthPulse Hydrocortisone 4oz"
+    ],
+    "indianBrandNames": [],
+    "activeIngredientIds": [
+      "hydrocortisone"
+    ],
     "rxcui": [],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
@@ -339,7 +657,16 @@
   {
     "id": "minoxidil",
     "genericName": "minoxidil",
-    "brandNames": ["5% Minoxidil and 5% Rosemary for Hair Care"],
+    "indianGenericName": "minoxidil",
+    "brandNames": [
+      "5% Minoxidil and 5% Rosemary for Hair Care"
+    ],
+    "indianBrandNames": [
+      "Mintop"
+    ],
+    "activeIngredientIds": [
+      "minoxidil"
+    ],
     "rxcui": [],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
@@ -353,8 +680,17 @@
   {
     "id": "diphenhydramine-hcl",
     "genericName": "diphenhydramine hcl",
-    "brandNames": ["Allergy"],
-    "rxcui": ["1049630"],
+    "indianGenericName": "diphenhydramine hcl",
+    "brandNames": [
+      "Allergy"
+    ],
+    "indianBrandNames": [],
+    "activeIngredientIds": [
+      "diphenhydramine"
+    ],
+    "rxcui": [
+      "1049630"
+    ],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
       "dataset": "openFDA Drug Labeling",
@@ -367,8 +703,19 @@
   {
     "id": "famotidine",
     "genericName": "famotidine",
-    "brandNames": ["famotidine"],
-    "rxcui": ["310274"],
+    "indianGenericName": "famotidine",
+    "brandNames": [
+      "famotidine"
+    ],
+    "indianBrandNames": [
+      "Famocid"
+    ],
+    "activeIngredientIds": [
+      "famotidine"
+    ],
+    "rxcui": [
+      "310274"
+    ],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
       "dataset": "openFDA Drug Labeling",
@@ -378,25 +725,27 @@
       "effectiveTime": "2022-09-17"
     }
   },
-  {
-    "id": "atorvastatin-calcium",
-    "genericName": "atorvastatin calcium",
-    "brandNames": ["Atorvastatin Calcium"],
-    "rxcui": ["259255"],
-    "source": {
-      "organization": "U.S. Food and Drug Administration (FDA)",
-      "dataset": "openFDA Drug Labeling",
-      "datasetPart": "drug-label-0004-of-0014.json.zip",
-      "setId": "e52b4b11-9618-4787-ae67-44e4a3166dfb",
-      "splId": "9718196e-47d1-410e-8038-e5a8db1ebaaa",
-      "effectiveTime": "2024-04-10"
-    }
-  },
-  {
+    {
     "id": "naproxen-sodium",
     "genericName": "naproxen sodium",
-    "brandNames": ["Naproxen Sodium", "Naproxen"],
-    "rxcui": ["198012", "198013", "198014", "849398", "849431"],
+    "indianGenericName": "naproxen sodium",
+    "brandNames": [
+      "Naproxen Sodium",
+      "Naproxen"
+    ],
+    "indianBrandNames": [
+      "Naprosyn"
+    ],
+    "activeIngredientIds": [
+      "naproxen"
+    ],
+    "rxcui": [
+      "198012",
+      "198013",
+      "198014",
+      "849398",
+      "849431"
+    ],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
       "dataset": "openFDA Drug Labeling",
@@ -409,7 +758,16 @@
   {
     "id": "clotrimazole",
     "genericName": "clotrimazole",
-    "brandNames": ["Clotrimazole"],
+    "indianGenericName": "clotrimazole",
+    "brandNames": [
+      "Clotrimazole"
+    ],
+    "indianBrandNames": [
+      "Candid"
+    ],
+    "activeIngredientIds": [
+      "clotrimazole"
+    ],
     "rxcui": [],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
@@ -423,8 +781,20 @@
   {
     "id": "cetirizine-hydrochloride",
     "genericName": "cetirizine hydrochloride",
-    "brandNames": ["All Day Allergy"],
-    "rxcui": ["1014673"],
+    "indianGenericName": "cetirizine hydrochloride",
+    "brandNames": [
+      "All Day Allergy"
+    ],
+    "indianBrandNames": [
+      "Cetzine",
+      "Alerid"
+    ],
+    "activeIngredientIds": [
+      "cetirizine"
+    ],
+    "rxcui": [
+      "1014673"
+    ],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
       "dataset": "openFDA Drug Labeling",
@@ -434,25 +804,22 @@
       "effectiveTime": "2020-06-18"
     }
   },
-  {
-    "id": "levothyroxine-sodium",
-    "genericName": "levothyroxine sodium",
-    "brandNames": ["Levothyroxine Sodium"],
-    "rxcui": ["966225"],
-    "source": {
-      "organization": "U.S. Food and Drug Administration (FDA)",
-      "dataset": "openFDA Drug Labeling",
-      "datasetPart": "drug-label-0004-of-0014.json.zip",
-      "setId": "3e77de84-6f59-40ac-a1a4-7bfe30387823",
-      "splId": "25169406-e7c1-42dd-85c0-93af09fe2e65",
-      "effectiveTime": "2023-12-12"
-    }
-  },
-  {
+    {
     "id": "pregabalin",
     "genericName": "pregabalin",
-    "brandNames": ["Pregabalin"],
-    "rxcui": ["483448"],
+    "indianGenericName": "pregabalin",
+    "brandNames": [
+      "Pregabalin"
+    ],
+    "indianBrandNames": [
+      "Pregaba"
+    ],
+    "activeIngredientIds": [
+      "pregabalin"
+    ],
+    "rxcui": [
+      "483448"
+    ],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
       "dataset": "openFDA Drug Labeling",
@@ -465,8 +832,17 @@
   {
     "id": "guaifenesin",
     "genericName": "guaifenesin",
-    "brandNames": ["DG Health Mucus ER"],
-    "rxcui": ["636522"],
+    "indianGenericName": "guaifenesin",
+    "brandNames": [
+      "DG Health Mucus ER"
+    ],
+    "indianBrandNames": [],
+    "activeIngredientIds": [
+      "guaifenesin"
+    ],
+    "rxcui": [
+      "636522"
+    ],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
       "dataset": "openFDA Drug Labeling",
@@ -479,7 +855,16 @@
   {
     "id": "miconazole-nitrate",
     "genericName": "miconazole nitrate",
-    "brandNames": ["Micotrin AP"],
+    "indianGenericName": "miconazole nitrate",
+    "brandNames": [
+      "Micotrin AP"
+    ],
+    "indianBrandNames": [
+      "Daktarin"
+    ],
+    "activeIngredientIds": [
+      "miconazole"
+    ],
     "rxcui": [],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
@@ -493,8 +878,19 @@
   {
     "id": "oxymetazoline-hydrochloride",
     "genericName": "oxymetazoline hydrochloride",
-    "brandNames": ["Leader Nasal Decongestant"],
-    "rxcui": ["1000990"],
+    "indianGenericName": "oxymetazoline hydrochloride",
+    "brandNames": [
+      "Leader Nasal Decongestant"
+    ],
+    "indianBrandNames": [
+      "Nasivion"
+    ],
+    "activeIngredientIds": [
+      "oxymetazoline"
+    ],
+    "rxcui": [
+      "1000990"
+    ],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
       "dataset": "openFDA Drug Labeling",
@@ -507,7 +903,14 @@
   {
     "id": "simethicone",
     "genericName": "simethicone",
-    "brandNames": ["Foster and Thrive infants Gas relief"],
+    "indianGenericName": "simethicone",
+    "brandNames": [
+      "Foster and Thrive infants Gas relief"
+    ],
+    "indianBrandNames": [],
+    "activeIngredientIds": [
+      "simethicone"
+    ],
     "rxcui": [],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
@@ -521,8 +924,19 @@
   {
     "id": "bupropion-hydrochloride",
     "genericName": "bupropion hydrochloride",
-    "brandNames": ["BUPROPION HYDROCHLORIDE"],
-    "rxcui": ["993518"],
+    "indianGenericName": "bupropion hydrochloride",
+    "brandNames": [
+      "BUPROPION HYDROCHLORIDE"
+    ],
+    "indianBrandNames": [
+      "Bupron"
+    ],
+    "activeIngredientIds": [
+      "bupropion"
+    ],
+    "rxcui": [
+      "993518"
+    ],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
       "dataset": "openFDA Drug Labeling",
@@ -535,8 +949,19 @@
   {
     "id": "albuterol-sulfate",
     "genericName": "albuterol sulfate",
-    "brandNames": ["Albuterol Sulfate"],
-    "rxcui": ["630208"],
+    "indianGenericName": "salbutamol sulfate",
+    "brandNames": [
+      "Albuterol Sulfate"
+    ],
+    "indianBrandNames": [
+      "Asthalin"
+    ],
+    "activeIngredientIds": [
+      "salbutamol"
+    ],
+    "rxcui": [
+      "630208"
+    ],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
       "dataset": "openFDA Drug Labeling",
@@ -549,8 +974,19 @@
   {
     "id": "escitalopram-oxalate",
     "genericName": "escitalopram oxalate",
-    "brandNames": ["Escitalopram"],
-    "rxcui": ["349332"],
+    "indianGenericName": "escitalopram oxalate",
+    "brandNames": [
+      "Escitalopram"
+    ],
+    "indianBrandNames": [
+      "Nexito"
+    ],
+    "activeIngredientIds": [
+      "escitalopram"
+    ],
+    "rxcui": [
+      "349332"
+    ],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
       "dataset": "openFDA Drug Labeling",
@@ -561,24 +997,21 @@
     }
   },
   {
-    "id": "sertraline-hydrochloride",
-    "genericName": "sertraline hydrochloride",
-    "brandNames": ["SERTRALINE HYDROCHLORIDE"],
-    "rxcui": ["312938"],
-    "source": {
-      "organization": "U.S. Food and Drug Administration (FDA)",
-      "dataset": "openFDA Drug Labeling",
-      "datasetPart": "drug-label-0004-of-0014.json.zip",
-      "setId": "68c94fb4-3018-44af-b982-2b4b6d461e6f",
-      "splId": "a189f92d-a14a-45be-8f55-4b81fe2dce92",
-      "effectiveTime": "2022-06-24"
-    }
-  },
-  {
     "id": "losartan",
     "genericName": "losartan potassium",
-    "brandNames": ["Losartan Potassium"],
-    "rxcui": ["979485"],
+    "indianGenericName": "losartan potassium",
+    "brandNames": [
+      "Losartan Potassium"
+    ],
+    "indianBrandNames": [
+      "Losar"
+    ],
+    "activeIngredientIds": [
+      "losartan"
+    ],
+    "rxcui": [
+      "979485"
+    ],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
       "dataset": "openFDA Drug Labeling",
@@ -591,8 +1024,19 @@
   {
     "id": "hydrochlorothiazide",
     "genericName": "hydrochlorothiazide",
-    "brandNames": ["Hydrochlorothiazide"],
-    "rxcui": ["197770"],
+    "indianGenericName": "hydrochlorothiazide",
+    "brandNames": [
+      "Hydrochlorothiazide"
+    ],
+    "indianBrandNames": [
+      "Hydrazide"
+    ],
+    "activeIngredientIds": [
+      "hydrochlorothiazide"
+    ],
+    "rxcui": [
+      "197770"
+    ],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
       "dataset": "openFDA Drug Labeling",
@@ -605,8 +1049,20 @@
   {
     "id": "pantoprazole",
     "genericName": "pantoprazole sodium",
-    "brandNames": ["Pantoprazole Sodium"],
-    "rxcui": ["283669"],
+    "indianGenericName": "pantoprazole sodium",
+    "brandNames": [
+      "Pantoprazole Sodium"
+    ],
+    "indianBrandNames": [
+      "Pantocid",
+      "Pan 40"
+    ],
+    "activeIngredientIds": [
+      "pantoprazole"
+    ],
+    "rxcui": [
+      "283669"
+    ],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
       "dataset": "openFDA Drug Labeling",
@@ -619,8 +1075,19 @@
   {
     "id": "furosemide",
     "genericName": "furosemide",
-    "brandNames": ["Furosemide"],
-    "rxcui": ["310429"],
+    "indianGenericName": "furosemide",
+    "brandNames": [
+      "Furosemide"
+    ],
+    "indianBrandNames": [
+      "Lasix"
+    ],
+    "activeIngredientIds": [
+      "furosemide"
+    ],
+    "rxcui": [
+      "310429"
+    ],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
       "dataset": "openFDA Drug Labeling",
@@ -633,8 +1100,20 @@
   {
     "id": "doxycycline",
     "genericName": "doxycycline hyclate",
-    "brandNames": ["DOXYCYCLINE HYCLATE"],
-    "rxcui": ["1649425", "1650446"],
+    "indianGenericName": "doxycycline hyclate",
+    "brandNames": [
+      "DOXYCYCLINE HYCLATE"
+    ],
+    "indianBrandNames": [
+      "Doxicip"
+    ],
+    "activeIngredientIds": [
+      "doxycycline"
+    ],
+    "rxcui": [
+      "1649425",
+      "1650446"
+    ],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
       "dataset": "openFDA Drug Labeling",
@@ -645,10 +1124,21 @@
     }
   },
   {
-    "id": "metoprolol",
+    "id": "metoprolol-tartrate",
     "genericName": "metoprolol tartrate",
-    "brandNames": ["Metoprolol Tartrate"],
-    "rxcui": ["866514"],
+    "indianGenericName": "metoprolol tartrate",
+    "brandNames": [
+      "Metoprolol Tartrate"
+    ],
+    "indianBrandNames": [
+      "Betaloc"
+    ],
+    "activeIngredientIds": [
+      "metoprolol"
+    ],
+    "rxcui": [
+      "866514"
+    ],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
       "dataset": "openFDA Drug Labeling",
@@ -658,11 +1148,39 @@
       "effectiveTime": "2024-06-14"
     }
   },
+{
+  "id": "metoprolol-succinate",
+  "genericName": "metoprolol succinate",
+  "indianGenericName": "metoprolol succinate",
+  "brandNames": ["Metoprolol Succinate"],
+  "indianBrandNames": [],
+  "activeIngredientIds": ["metoprolol"],
+  "rxcui": [],
+  "source": {
+    "organization": "U.S. Food and Drug Administration (FDA)",
+    "dataset": "openFDA Drug Labeling",
+    "datasetPart": "drug-label-0005-of-0014.json.zip",
+    "setId": "6f5fd6cb-d8ee-40d0-ac1d-dd6c657b42a2",
+    "splId": "6f5fd6cb-d8ee-40d0-ac1d-dd6c657b42a2",
+    "effectiveTime": "2023-12-14"
+  }
+},
   {
     "id": "glipizide",
     "genericName": "glipizide",
-    "brandNames": ["Glipizide"],
-    "rxcui": ["310488"],
+    "indianGenericName": "glipizide",
+    "brandNames": [
+      "Glipizide"
+    ],
+    "indianBrandNames": [
+      "Glynase"
+    ],
+    "activeIngredientIds": [
+      "glipizide"
+    ],
+    "rxcui": [
+      "310488"
+    ],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
       "dataset": "openFDA Drug Labeling",
@@ -675,8 +1193,21 @@
   {
     "id": "insulin-glargine",
     "genericName": "insulin glargine",
-    "brandNames": ["TOUJEO"],
-    "rxcui": ["1604539", "1604544"],
+    "indianGenericName": "insulin glargine",
+    "brandNames": [
+      "TOUJEO"
+    ],
+    "indianBrandNames": [
+      "Lantus",
+      "Basalog"
+    ],
+    "activeIngredientIds": [
+      "insulin-glargine"
+    ],
+    "rxcui": [
+      "1604539",
+      "1604544"
+    ],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
       "dataset": "openFDA Drug Labeling",
@@ -689,8 +1220,26 @@
   {
     "id": "montelukast",
     "genericName": "montelukast sodium",
-    "brandNames": ["SINGULAIR"],
-    "rxcui": ["153892", "153893", "200224", "242438", "261367", "311759", "351246", "404406"],
+    "indianGenericName": "montelukast sodium",
+    "brandNames": [
+      "SINGULAIR"
+    ],
+    "indianBrandNames": [
+      "Montair"
+    ],
+    "activeIngredientIds": [
+      "montelukast"
+    ],
+    "rxcui": [
+      "153892",
+      "153893",
+      "200224",
+      "242438",
+      "261367",
+      "311759",
+      "351246",
+      "404406"
+    ],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
       "dataset": "openFDA Drug Labeling",
@@ -703,8 +1252,20 @@
   {
     "id": "rosuvastatin",
     "genericName": "rosuvastatin calcium",
-    "brandNames": ["ROSUVASTATIN CALCIUM"],
-    "rxcui": ["859424"],
+    "indianGenericName": "rosuvastatin calcium",
+    "brandNames": [
+      "ROSUVASTATIN CALCIUM"
+    ],
+    "indianBrandNames": [
+      "Rozavel",
+      "Rosuvas"
+    ],
+    "activeIngredientIds": [
+      "rosuvastatin"
+    ],
+    "rxcui": [
+      "859424"
+    ],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
       "dataset": "openFDA Drug Labeling",
@@ -717,8 +1278,20 @@
   {
     "id": "clonazepam",
     "genericName": "clonazepam",
-    "brandNames": ["Clonazepam"],
-    "rxcui": ["197527"],
+    "indianGenericName": "clonazepam",
+    "brandNames": [
+      "Clonazepam"
+    ],
+    "indianBrandNames": [
+      "Rivotril",
+      "Clonotril"
+    ],
+    "activeIngredientIds": [
+      "clonazepam"
+    ],
+    "rxcui": [
+      "197527"
+    ],
     "source": {
       "organization": "U.S. Food and Drug Administration (FDA)",
       "dataset": "openFDA Drug Labeling",
