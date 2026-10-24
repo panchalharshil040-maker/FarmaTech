@@ -1,17 +1,21 @@
 import { useState } from 'react'
 import {
-  ClipboardList,
+  ArrowLeftRight,
   FlaskConical,
   ScanLine,
-  UserPlus,
   ChevronRight,
   AlertTriangle,
   Baby,
   Pill,
   CheckCircle2,
+  Loader2,
+  ShieldCheck,
+  TriangleAlert,
+  User,
 } from 'lucide-react'
 import type { ExplainResponse } from '../api'
 import type { DemoScenario } from '../lib/demoCases'
+import { RISK_LABEL } from '../lib/clinical'
 import type { CheckResponse, Language, PatientRecord } from '../types'
 import { DEMO_SCENARIOS } from '../lib/demoCases'
 import MedicationOptimization from './MedicationOptimization'
@@ -27,6 +31,41 @@ const DEMO_PATIENTS: DemoScenario[] = [
   DEMO_SCENARIOS.find((s) => s.id === 'case-3')!,
   DEMO_SCENARIOS.find((s) => s.id === 'case-4')!,
 ]
+
+/**
+ * One glance-level status card for the review overview. Every value passed in
+ * comes from the active record or the backend response — nothing is computed
+ * medically here.
+ */
+function OverviewCard({
+  tone = '',
+  icon,
+  label,
+  value,
+  sub,
+}: {
+  tone?: 'dd-stat--info' | 'dd-stat--warning' | 'dd-stat--danger' | ''
+  icon: React.ReactNode
+  label: string
+  value: string
+  sub: string
+}) {
+  return (
+    <article className={`dd-stat ${tone}`}>
+      <span
+        className={`dd-stat-icon${tone === 'dd-stat--danger' ? ' dd-stat-icon--danger' : tone === 'dd-stat--warning' ? ' dd-stat-icon--warning' : tone === 'dd-stat--info' ? ' dd-stat-icon--info' : ''}`}
+        aria-hidden
+      >
+        {icon}
+      </span>
+      <div className="dd-stat-body">
+        <p className="eyebrow dd-stat-label">{label}</p>
+        <p className="dd-stat-value">{value}</p>
+        <p className="dd-stat-sub">{sub}</p>
+      </div>
+    </article>
+  )
+}
 
 type Phase = 'new-patient' | 'patient-loaded'
 
@@ -73,6 +112,7 @@ export default function DoctorDashboard({
 
   const handleNewPatientCancel = () => {
     setMode('none')
+    if (record) setPhase('patient-loaded')
   }
 
   const loadDemoPatient = (scenario: DemoScenario) => {
@@ -91,46 +131,38 @@ export default function DoctorDashboard({
   /* ── Phase 1: New Patient / Manual Entry ──────────────────────────── */
   if (phase === 'new-patient') {
     return (
-      <div className="stack">
-        <section className="card">
-          <div className="card-head">
-            <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-              <UserPlus size={18} style={{ color: 'var(--brand)' }} />
-              <div>
-                <h2 className="card-title">New Patient Record</h2>
-                <p className="card-sub">Enter patient identity, clinical context, and medications.</p>
-              </div>
-            </div>
-          </div>
-          <div className="card-pad">
-            <RecordSetupForm
-              title="Patient Information"
-              subtitle="Enter the patient exactly as written on the clinical document."
-              defaultAgeGroup="adult"
-              onCreate={handleNewPatientSubmit}
-              onCancel={handleNewPatientCancel}
-            />
-          </div>
-        </section>
+      <div className="stack dd-root">
+        <RecordSetupForm
+          title="New Patient Record"
+          subtitle="Enter patient identity, clinical context, and medications."
+          defaultAgeGroup="adult"
+          onCreate={handleNewPatientSubmit}
+          onCancel={handleNewPatientCancel}
+        />
 
+        {/* QR import — single toggle row, panel renders its own card */}
         <section className="card">
-          <div className="card-head">
-            <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-              <ScanLine size={18} style={{ color: 'var(--brand)' }} />
+          <div className="card-pad dd-or-pad">
+            <div className="dd-or-copy">
+              <span className="dd-or-icon" aria-hidden>
+                <ScanLine size={18} />
+              </span>
               <div>
-                <h2 className="card-title">Or Scan Patient QR</h2>
-                <p className="card-sub">Load a patient record from a validated QR pass.</p>
+                <div className="dd-or-title">Or load from a patient QR pass</div>
+                <p className="dd-or-text">
+                  Scan the patient&rsquo;s MediGuard QR pass with the camera, or paste the token from it.
+                  Only a backend-validated token loads a record.
+                </p>
               </div>
             </div>
-          </div>
-          <div className="card-pad">
             <button
               type="button"
               className="btn btn-secondary"
-              onClick={() => setMode('scan')}
-              style={{ width: '100%' }}
+              onClick={() => setMode(mode === 'scan' ? 'none' : 'scan')}
+              aria-expanded={mode === 'scan'}
             >
-              <ScanLine size={16} /> Scan with Camera or Paste Token
+              <ScanLine size={16} />
+              {mode === 'scan' ? 'Hide QR import' : 'Scan Patient QR'}
             </button>
           </div>
         </section>
@@ -237,12 +269,163 @@ export default function DoctorDashboard({
     )
   }
 
-/* ── Phase 2: Patient Loaded — Linear Clinical Workflow ───────────── */
+  /* ── Phase 2: Patient Loaded — Clinical Workflow ─────────────────── */
+  const profile = activeRecord.profile
+  const findings = result?.findings ?? []
+  const majorCount = findings.filter(
+    (f) => f.severity === 'major' || f.severity === 'contraindication',
+  ).length
+  const conditionTags = [
+    profile.isPregnant && 'Pregnancy recorded',
+    profile.hasRenalImpairment && 'Renal impairment',
+    profile.hasLiverDisease && 'Liver disease',
+    profile.hasCardiacHistory && 'Cardiac history',
+  ].filter((t): t is string => Boolean(t))
+
+  /* Overview status — honest states, every value sourced from the record or backend.
+     A result is shown as soon as it exists (the AI explanation may still be
+     loading behind it — the cards never hide a finished check). */
+  const safetyTone: 'dd-stat--info' | 'dd-stat--warning' | 'dd-stat--danger' | '' =
+    result
+      ? findings.length > 0
+        ? result.risk_level === 'high'
+          ? 'dd-stat--danger'
+          : 'dd-stat--warning'
+        : ''
+      : error
+      ? 'dd-stat--danger'
+      : loading
+      ? 'dd-stat--info'
+      : ''
+  const safetyValue = result
+    ? findings.length > 0
+      ? RISK_LABEL[result.risk_level] ?? '—'
+      : 'Checked · no findings'
+    : error
+    ? 'Check failed'
+    : loading
+    ? 'Checking…'
+    : 'Not run yet'
+  const safetySub = result
+    ? findings.length > 0
+      ? `${findings.length} verified finding${findings.length === 1 ? '' : 's'} to review below.`
+      : 'The verified database returned none. Not a safety guarantee.'
+    : error
+    ? 'The check could not complete. Run it again below.'
+    : loading
+    ? 'Analysing against the verified databases.'
+    : 'Run the safety check below to analyse this record.'
+  const warningsTone: 'dd-stat--info' | 'dd-stat--warning' | 'dd-stat--danger' | '' =
+    !result ? '' : majorCount > 0 ? 'dd-stat--danger' : ''
+  const warningsValue = !result
+    ? 'Not checked yet'
+    : majorCount > 0
+    ? String(majorCount)
+    : 'None returned'
+  const warningsSub = !result
+    ? 'Appears after the first safety check.'
+    : majorCount > 0
+    ? 'Major or contraindicated findings need review.'
+    : 'The last check returned no major warnings.'
+
   return (
-    <div className="stack">
+    <div className="stack dd-root">
       {loadedNotice && <div className="notice notice-safe">✓ {loadedNotice}</div>}
 
-      {/* Safety Check Section */}
+      {/* B — Patient context strip (record data only) */}
+      <section className="card dd-strip" aria-label="Active patient context">
+        <div className="dd-strip-id">
+          <span className="dd-strip-avatar" aria-hidden>
+            <User size={18} />
+          </span>
+          <dl className="dd-strip-facts">
+            <div className="dd-strip-fact">
+              <dt>Patient</dt>
+              <dd>{activeRecord.name || 'Unnamed patient'}</dd>
+            </div>
+            <div className="dd-strip-fact">
+              <dt>ID</dt>
+              <dd>{activeRecord.patientId || '—'}</dd>
+            </div>
+            <div className="dd-strip-fact">
+              <dt>Age</dt>
+              <dd>{activeRecord.age || profile.ageGroup}</dd>
+            </div>
+            <div className="dd-strip-fact">
+              <dt>Source</dt>
+              <dd style={{ textTransform: 'capitalize' }}>{activeRecord.source}</dd>
+            </div>
+            <div className="dd-strip-fact">
+              <dt>Allergies</dt>
+              <dd>{profile.allergies.length ? profile.allergies.join(', ') : 'None recorded'}</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div className="dd-strip-tags">
+          {conditionTags.length === 0 ? (
+            <span className="badge badge-neutral">No recorded conditions</span>
+          ) : (
+            conditionTags.map((tag) => (
+              <span key={tag} className="badge badge-info" style={{ textTransform: 'none' }}>
+                {tag}
+              </span>
+            ))
+          )}
+        </div>
+
+        <div className="dd-strip-actions">
+          <button
+            type="button"
+            className="btn btn-secondary btn-sm"
+            onClick={() => {
+              setMode('none')
+              setPhase('new-patient')
+            }}
+          >
+            <ArrowLeftRight size={14} /> Load different patient
+          </button>
+        </div>
+      </section>
+
+      {/* Overview — record & backend status at a glance */}
+      <section className="dd-overview" aria-label="Review overview">
+        <OverviewCard
+          icon={<Pill size={20} />}
+          label="Medications"
+          value={String(activeRecord.medicines.length)}
+          sub="In the active patient record"
+        />
+        <OverviewCard
+          tone={safetyTone}
+          icon={
+            result ? (
+              <ShieldCheck size={20} />
+            ) : error ? (
+              <AlertTriangle size={20} />
+            ) : loading ? (
+              <Loader2 size={20} className="spin" />
+            ) : (
+              <ShieldCheck size={20} />
+            )
+          }
+          label="Safety check"
+          value={safetyValue}
+          sub={safetySub}
+        />
+        <OverviewCard
+          tone={warningsTone}
+          icon={majorCount > 0 ? <TriangleAlert size={20} /> : <CheckCircle2 size={20} />}
+          label="Important warnings"
+          value={warningsValue}
+          sub={warningsSub}
+        />
+      </section>
+
+      {/* C — Medication review (record + allergies, built-in indicator hidden) */}
+      <PatientRecordPanel record={activeRecord} result={result} showIndicator={false} />
+
+      {/* D/E — Primary safety action + verified results */}
       <SafetyCheckPanel
         record={activeRecord}
         view="doctor"
@@ -258,22 +441,10 @@ export default function DoctorDashboard({
       {/* What-if Medication Optimization Simulator */}
       <MedicationOptimization record={activeRecord} language={language} />
 
-      {/* Patient Record & Outputs */}
-      <div className="card" style={{ borderColor: 'var(--color-info-border)' }}>
-        <div className="card-head">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-            <ClipboardList size={18} style={{ color: 'var(--color-brand)' }} />
-            <div>
-              <h2 className="card-title">Patient Record & Outputs</h2>
-              <p className="card-sub">Medication reconciliation, summary report, and QR pass.</p>
-            </div>
-          </div>
-        </div>
-        <div className="card-pad" style={{ display: 'grid', gap: 16 }}>
-          <PatientRecordPanel record={activeRecord} result={result} />
-          <PatientSummary record={activeRecord} result={result} />
-          <QRPanel record={activeRecord} />
-        </div>
+      {/* Record tools: printable summary + QR pass */}
+      <div className="dd-outputs">
+        <PatientSummary record={activeRecord} result={result} />
+        <QRPanel record={activeRecord} />
       </div>
     </div>
   )

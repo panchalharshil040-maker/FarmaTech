@@ -120,7 +120,7 @@ export default function RecordSetupForm({
             alignItems: 'center',
             gap: 9,
             padding: '9px 12px',
-            border: '1px solid var(--border-base)',
+            border: '1px solid var(--color-health-border)',
             borderRadius: 'var(--radius-md)',
             cursor: 'pointer',
             width: 'fit-content',
@@ -132,7 +132,7 @@ export default function RecordSetupForm({
             checked={isPregnant}
             onChange={(e) => setIsPregnant(e.target.checked)}
           />
-          <span className="small" style={{ fontWeight: 600, color: 'var(--text-strong)' }}>
+          <span className="small" style={{ fontWeight: 600, color: 'var(--color-health-text)' }}>
             Pregnancy recorded
           </span>
         </label>

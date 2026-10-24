@@ -17,11 +17,19 @@ export default function RiskSummaryCard({ result, view }: Props) {
   const groups = groupFindings(result.findings)
   const noVerifiedMatch = result.findings.length === 0
 
+  const chips = [
+    { label: 'Major', value: counts.major, tone: counts.major ? 'high' : 'none', Icon: ShieldAlert },
+    { label: 'Moderate', value: counts.moderate, tone: counts.moderate ? 'moderate' : 'none', Icon: ShieldAlert },
+    { label: 'Interactions', value: groups.interaction.length, tone: groups.interaction.length ? 'high' : 'none', Icon: ShieldAlert },
+    { label: 'Duplicates', value: groups.duplicate.length, tone: groups.duplicate.length ? 'moderate' : 'none', Icon: Copy },
+    { label: 'Contraindications', value: groups.contraindication.length, tone: groups.contraindication.length ? 'high' : 'none', Icon: ShieldAlert },
+  ] as const
+
   return (
     <section className="card">
       <div className="card-head">
         <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-          <Stethoscope size={18} style={{ color: 'var(--brand)' }} />
+          <Stethoscope size={18} style={{ color: 'var(--color-health-teal)' }} />
           <div>
             <h2 className="card-title">Prescription Safety Summary</h2>
             <p className="card-sub">
@@ -33,32 +41,38 @@ export default function RiskSummaryCard({ result, view }: Props) {
         <span className={riskBadgeClass(result.risk_level)}>{RISK_LABEL[result.risk_level]}</span>
       </div>
 
-      <div
-        className="card-pad"
-        style={{ display: 'flex', gap: 24, alignItems: 'center', flexWrap: 'wrap' }}
-      >
+      <div className="card-pad risk-summary-body">
         <RiskGauge
           score={result.risk_score}
           riskLevel={result.risk_level}
           hasFindings={!noVerifiedMatch}
         />
 
-        <div style={{ flex: 1, minWidth: 260 }}>
+        <div className="risk-summary-main">
           <div className="stat-grid">
-            <div className="stat-box" style={{ background: riskSoftBg(result.risk_level), borderColor: 'transparent' }}>
+            <div
+              className="stat-box"
+              style={{ background: riskSoftBg(result.risk_level), borderColor: 'transparent' }}
+            >
               <div className="eyebrow" style={{ marginBottom: 4 }}>
                 Risk score
               </div>
               <div className={`stat-value ${noVerifiedMatch ? '' : riskTextClass(result.risk_level)}`}>
                 {result.risk_score}
-                <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-muted)' }}> / 100</span>
+                <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-health-text-2)' }}>
+                  {' '}
+                  / 100
+                </span>
               </div>
             </div>
             <div className="stat-box">
               <div className="eyebrow" style={{ marginBottom: 4 }}>
                 Risk level
               </div>
-              <div className={`stat-value ${noVerifiedMatch ? '' : riskTextClass(result.risk_level)}`} style={{ fontSize: '1.4rem' }}>
+              <div
+                className={`stat-value ${noVerifiedMatch ? '' : riskTextClass(result.risk_level)}`}
+                style={{ fontSize: '1.4rem' }}
+              >
                 {RISK_LABEL[result.risk_level]}
               </div>
             </div>
@@ -72,59 +86,23 @@ export default function RiskSummaryCard({ result, view }: Props) {
             </div>
           </div>
 
-          <div className="stat-grid" style={{ marginTop: 12 }}>
-            <div className="stat-box">
-              <div className="eyebrow" style={{ marginBottom: 6 }}>
-                Major risks
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <ShieldAlert size={15} style={{ color: counts.major ? 'var(--color-danger)' : 'var(--color-text-muted)' }} />
-                <span className="med-name">{counts.major}</span>
-                <span className={counts.major ? 'badge badge-high' : 'badge badge-neutral'}>
-                  {counts.major === 0 ? 'None' : 'Reported'}
-                </span>
-              </div>
-            </div>
-            <div className="stat-box">
-              <div className="eyebrow" style={{ marginBottom: 6 }}>
-                Moderate risks
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <ShieldAlert size={15} style={{ color: counts.moderate ? 'var(--color-warning)' : 'var(--color-text-muted)' }} />
-                <span className="med-name">{counts.moderate}</span>
-                <span className={counts.moderate ? 'badge badge-moderate' : 'badge badge-neutral'}>
-                  {counts.moderate === 0 ? 'None' : 'Reported'}
-                </span>
-              </div>
-            </div>
-            <div className="stat-box">
-              <div className="eyebrow" style={{ marginBottom: 6 }}>
-                Drug–drug interactions
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <ShieldAlert size={15} style={{ color: groups.interaction.length ? 'var(--color-danger)' : 'var(--color-text-muted)' }} />
-                <span className="med-name">{groups.interaction.length}</span>
-              </div>
-            </div>
-            <div className="stat-box">
-              <div className="eyebrow" style={{ marginBottom: 6 }}>
-                Duplicate therapy
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Copy size={15} style={{ color: groups.duplicate.length ? 'var(--color-warning)' : 'var(--color-text-muted)' }} />
-                <span className="med-name">{groups.duplicate.length}</span>
-              </div>
-            </div>
-            <div className="stat-box">
-              <div className="eyebrow" style={{ marginBottom: 6 }}>
-                Contraindications
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <ShieldAlert size={15} style={{ color: groups.contraindication.length ? 'var(--color-danger)' : 'var(--color-text-muted)' }} />
-                <span className="med-name">{groups.contraindication.length}</span>
-              </div>
-            </div>
-          </div>
+          <ul className="pd-count-chips" aria-label="Findings by category">
+            {chips.map(({ label, value, tone, Icon }) => (
+              <li
+                key={label}
+                className={
+                  tone === 'high'
+                    ? 'pd-count-chip pd-count-chip--high'
+                    : tone === 'moderate'
+                      ? 'pd-count-chip pd-count-chip--moderate'
+                      : 'pd-count-chip'
+                }
+              >
+                <Icon size={13} aria-hidden />
+                {label} <b>{value}</b>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 

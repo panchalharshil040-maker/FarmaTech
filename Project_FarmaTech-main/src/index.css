@@ -7,56 +7,80 @@
    ═══════════════════════════════════════════════════════════════════ */
 
 :root {
-  /* ─── Color: Background ─── */
-  --color-bg-canvas: #f6f8fb;
-  --color-bg-surface: #ffffff;
-  --color-bg-elevated: #f8fafc;
-  --color-bg-subtle: #f1f5f9;
+  /* ─── Healthcare palette — SINGLE SOURCE OF TRUTH ────────────────────
+     Calm clinical teal + sage. Every core --color-* token below aliases
+     these, so auth and dashboards share one palette with no duplicates. */
+  --color-health-page: #f4f7f5;
+  --color-health-surface: #ffffff;
+  --color-health-elevated: #f8faf8;
+  --color-health-subtle: #edf3f0;
+  --color-health-text: #18332f;
+  --color-health-text-2: #647570;
+  --color-health-teal: #167d72;
+  --color-health-teal-hover: #11675e;
+  --color-health-teal-soft: #e7f3ef;
+  --color-health-border: #dce6e1;
+  --color-health-border-2: #c5d6ce;
+  --color-health-sage: #a9c7b8;
+  --color-health-accent: #477c94;
+  --color-health-accent-soft: #e9f1f5;
+  --color-health-accent-border: #c5d9e2;
+  --color-health-accent-text: #2d5668;
+  --color-health-success: #267a52;
+  --color-health-success-soft: #eaf5ef;
+  --color-health-success-border: #c4e0d2;
+  --color-health-warning: #95651b;
+  --color-health-warning-soft: #f8f3e6;
+  --color-health-warning-border: #e4d5ae;
+  --color-health-error: #b54747;
+  --color-health-error-soft: #f9eded;
+  --color-health-error-border: #eacfce;
+  /* Foreground for the solid teal brand mark (white on teal in light). */
+  --color-health-mark-fg: #ffffff;
+  --color-health-ring: rgba(22, 125, 114, 0.26);
 
-  /* ─── Color: Text ─── */
-  --color-text-primary: #0f172a;
-  --color-text-secondary: #334155;
-  --color-text-muted: #64748b;
-  --color-text-on-subtle: #475569;
+  /* ─── Core tokens — aliases of the health palette ─── */
+  --color-bg-canvas: var(--color-health-page);
+  --color-bg-surface: var(--color-health-surface);
+  --color-bg-elevated: var(--color-health-elevated);
+  --color-bg-subtle: var(--color-health-subtle);
 
-  /* ─── Color: Border ─── */
-  --color-border-subtle: #e2e8f0;
-  --color-border-emphasis: #cbd5e1;
-  --color-border-strong: #94a3b8;
+  --color-text-primary: var(--color-health-text);
+  --color-text-secondary: var(--color-health-text-2);
+  --color-text-muted: var(--color-health-text-2);
+  --color-text-on-subtle: var(--color-health-text-2);
 
-  /* ─── Color: Brand ─── */
-  --color-brand: #1d4ed8;
-  --color-brand-hover: #1e3a8a;
-  --color-brand-soft: #eff6ff;
-  --color-brand-text: #1e3a8a;
+  --color-border-subtle: var(--color-health-border);
+  --color-border-emphasis: var(--color-health-border-2);
+  --color-border-strong: var(--color-health-sage);
 
-  /* ─── Color: Success (Safe/No Risk) ─── */
-  --color-success: #047857;
-  --color-success-soft: #ecfdf5;
-  --color-success-border: #a7f3d0;
-  --color-success-text: #065f46;
+  --color-brand: var(--color-health-teal);
+  --color-brand-hover: var(--color-health-teal-hover);
+  --color-brand-soft: var(--color-health-teal-soft);
+  --color-brand-text: var(--color-health-teal-hover);
 
-  /* ─── Color: Warning (Moderate/Caution) ─── */
-  --color-warning: #b45309;
-  --color-warning-soft: #fffbeb;
-  --color-warning-border: #fde68a;
-  --color-warning-text: #92400e;
+  --color-success: var(--color-health-success);
+  --color-success-soft: var(--color-health-success-soft);
+  --color-success-border: var(--color-health-success-border);
+  --color-success-text: var(--color-health-success);
 
-  /* ─── Color: Danger (High Risk) ─── */
-  --color-danger: #b91c1c;
-  --color-danger-soft: #fef2f2;
-  --color-danger-border: #fecaca;
-  --color-danger-text: #991b1b;
+  --color-warning: var(--color-health-warning);
+  --color-warning-soft: var(--color-health-warning-soft);
+  --color-warning-border: var(--color-health-warning-border);
+  --color-warning-text: var(--color-health-warning);
 
-  /* ─── Color: Info ─── */
-  --color-info: #1d4ed8;
-  --color-info-soft: #eff6ff;
-  --color-info-border: #bfdbfe;
-  --color-info-text: #1e3a8a;
+  --color-danger: var(--color-health-error);
+  --color-danger-soft: var(--color-health-error-soft);
+  --color-danger-border: var(--color-health-error-border);
+  --color-danger-text: var(--color-health-error);
 
-  /* ─── Color: Focus ─── */
-  --color-focus: #1d4ed8;
-  --color-focus-ring: rgba(29, 78, 216, 0.24);
+  --color-info: var(--color-health-accent);
+  --color-info-soft: var(--color-health-accent-soft);
+  --color-info-border: var(--color-health-accent-border);
+  --color-info-text: var(--color-health-accent-text);
+
+  --color-focus: var(--color-health-teal);
+  --color-focus-ring: var(--color-health-ring);
 
   /* ─── Radius ─── */
   --radius-sm: 6px;
@@ -64,10 +88,10 @@
   --radius-lg: 14px;
   --radius-full: 999px;
 
-  /* ─── Shadows ─── */
-  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
-  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
-  --shadow-lg: 0 8px 24px rgba(15, 23, 42, 0.1);
+  /* ─── Shadows (green-charcoal tinted) ─── */
+  --shadow-sm: 0 1px 2px rgba(24, 51, 47, 0.06);
+  --shadow-md: 0 4px 12px rgba(24, 51, 47, 0.08);
+  --shadow-lg: 0 8px 24px rgba(24, 51, 47, 0.1);
 
   /* ─── Spacing ─── */
   --space-1: 4px;
@@ -95,56 +119,80 @@
 
 /* ─── Dark Theme ─── */
 [data-theme="dark"] {
-  /* ─── Color: Background ─── */
-  --color-bg-canvas: #0b1220;
-  --color-bg-surface: #111827;
-  --color-bg-elevated: #1e293b;
-  --color-bg-subtle: #1e293b;
+  /* ─── Healthcare palette — dark ─────────────────────────────────────
+     Deep green-charcoal surfaces, soft off-white text, muted teal/sage.
+     No orange accents; warnings stay a calm amber for clinical meaning. */
+  --color-health-page: #101b19;
+  --color-health-surface: #1d2d29;
+  --color-health-elevated: #192724;
+  --color-health-subtle: #22332e;
+  --color-health-text: #f0f6f3;
+  --color-health-text-2: #b0c2bb;
+  --color-health-teal: #68b9a8;
+  --color-health-teal-hover: #83ccba;
+  --color-health-teal-soft: #263b35;
+  --color-health-border: #344640;
+  --color-health-border-2: #43564f;
+  --color-health-sage: #5e7d70;
+  --color-health-accent: #7fa9be;
+  --color-health-accent-soft: #21333c;
+  --color-health-accent-border: #3a5261;
+  --color-health-accent-text: #a7c8d8;
+  --color-health-success: #8fd0ae;
+  --color-health-success-soft: #1c3328;
+  --color-health-success-border: #2e5240;
+  --color-health-warning: #d4a24e;
+  --color-health-warning-soft: #372d1a;
+  --color-health-warning-border: #5c4a26;
+  --color-health-error: #efb4b4;
+  --color-health-error-soft: #33201f;
+  --color-health-error-border: #553231;
+  /* Dark icon on the light teal brand mark. */
+  --color-health-mark-fg: #101b19;
+  --color-health-ring: rgba(104, 185, 168, 0.32);
 
-  /* ─── Color: Text ─── */
-  --color-text-primary: #f8fafc;
-  --color-text-secondary: #e2e8f0;
-  --color-text-muted: #94a3b8;
-  --color-text-on-subtle: #cbd5e1;
+  /* ─── Core tokens — aliases of the dark health palette ─── */
+  --color-bg-canvas: var(--color-health-page);
+  --color-bg-surface: var(--color-health-surface);
+  --color-bg-elevated: var(--color-health-elevated);
+  --color-bg-subtle: var(--color-health-subtle);
 
-  /* ─── Color: Border ─── */
-  --color-border-subtle: #1e293b;
-  --color-border-emphasis: #334155;
-  --color-border-strong: #475569;
+  --color-text-primary: var(--color-health-text);
+  --color-text-secondary: var(--color-health-text-2);
+  --color-text-muted: var(--color-health-text-2);
+  --color-text-on-subtle: var(--color-health-text-2);
 
-  /* ─── Color: Brand ─── */
-  --color-brand: #3b82f6;
-  --color-brand-hover: #60a5fa;
-  --color-brand-soft: #1e3a5f;
-  --color-brand-text: #93c5fd;
+  --color-border-subtle: var(--color-health-border);
+  --color-border-emphasis: var(--color-health-border-2);
+  --color-border-strong: var(--color-health-sage);
 
-  /* ─── Color: Success ─── */
-  --color-success: #10b981;
-  --color-success-soft: #064e3b;
-  --color-success-border: #065f46;
-  --color-success-text: #6ee7b7;
+  --color-brand: var(--color-health-teal);
+  --color-brand-hover: var(--color-health-teal-hover);
+  --color-brand-soft: var(--color-health-teal-soft);
+  --color-brand-text: var(--color-health-teal);
 
-  /* ─── Color: Warning ─── */
-  --color-warning: #f59e0b;
-  --color-warning-soft: #78350f;
-  --color-warning-border: #92400e;
-  --color-warning-text: #fde047;
+  --color-success: var(--color-health-success);
+  --color-success-soft: var(--color-health-success-soft);
+  --color-success-border: var(--color-health-success-border);
+  --color-success-text: var(--color-health-success);
 
-  /* ─── Color: Danger ─── */
-  --color-danger: #ef4444;
-  --color-danger-soft: #7f1d1d;
-  --color-danger-border: #991b1b;
-  --color-danger-text: #fca5a5;
+  --color-warning: var(--color-health-warning);
+  --color-warning-soft: var(--color-health-warning-soft);
+  --color-warning-border: var(--color-health-warning-border);
+  --color-warning-text: var(--color-health-warning);
 
-  /* ─── Color: Info ─── */
-  --color-info: #3b82f6;
-  --color-info-soft: #1e3a5f;
-  --color-info-border: #3b82f6;
-  --color-info-text: #93c5fd;
+  --color-danger: var(--color-health-error);
+  --color-danger-soft: var(--color-health-error-soft);
+  --color-danger-border: var(--color-health-error-border);
+  --color-danger-text: var(--color-health-error);
 
-  /* ─── Color: Focus ─── */
-  --color-focus: #3b82f6;
-  --color-focus-ring: rgba(59, 130, 246, 0.3);
+  --color-info: var(--color-health-accent);
+  --color-info-soft: var(--color-health-accent-soft);
+  --color-info-border: var(--color-health-accent-border);
+  --color-info-text: var(--color-health-accent-text);
+
+  --color-focus: var(--color-health-teal);
+  --color-focus-ring: var(--color-health-ring);
 
   /* ─── Shadows ─── */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);

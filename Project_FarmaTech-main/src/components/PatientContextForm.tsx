@@ -54,7 +54,7 @@ export default function PatientContextForm({ profile, onChange, title, hint }: P
     <section className="card">
       <div className="card-head">
         <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-          <UserCheck size={18} style={{ color: 'var(--brand)' }} />
+          <UserCheck size={18} style={{ color: 'var(--color-health-teal)' }} />
           <div>
             <h2 className="card-title">{title ?? 'Patient Clinical Context'}</h2>
             <p className="card-sub">
@@ -84,47 +84,62 @@ export default function PatientContextForm({ profile, onChange, title, hint }: P
         </div>
       </div>
 
-      <div className="card-pad" style={{ display: 'grid', gap: 12 }}>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
-            gap: 10,
-          }}
-        >
-          {CONDITION_FIELDS.map(({ key, label, detail, Icon }) => {
-            const active = profile[key]
-            return (
-              <button
-                key={key}
-                type="button"
-                onClick={() => toggle(key)}
-                aria-pressed={active}
-                className="data-row"
-                style={{
-                  textAlign: 'left',
-                  cursor: 'pointer',
-                  alignItems: 'flex-start',
-                  background: active ? 'var(--color-danger-soft)' : 'var(--color-bg-surface)',
-                  borderColor: active ? 'var(--color-danger-border)' : 'var(--color-border-subtle)',
-                }}
-              >
-                <Icon size={16} style={{ color: active ? 'var(--color-danger)' : 'var(--color-text-muted)', flexShrink: 0, marginTop: 2 }} />
-                <span style={{ minWidth: 0 }}>
-                  <span style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-strong)' }}>
-                    {label}
+      <div className="card-pad">
+        <div className="pd-form-section">
+          <div className="pd-form-section-title">Recorded conditions</div>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
+              gap: 10,
+            }}
+          >
+            {CONDITION_FIELDS.map(({ key, label, detail, Icon }) => {
+              const active = profile[key]
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => toggle(key)}
+                  aria-pressed={active}
+                  className={active ? 'data-row pd-cond pd-cond-active' : 'data-row pd-cond'}
+                >
+                  <Icon
+                    size={16}
+                    style={{
+                      color: active ? 'var(--color-health-teal)' : 'var(--color-health-text-2)',
+                      flexShrink: 0,
+                      marginTop: 2,
+                    }}
+                  />
+                  <span style={{ minWidth: 0 }}>
+                    <span className="pd-cond-label">{label}</span>
+                    <span className="med-field">{detail}</span>
                   </span>
-                  <span className="med-field">{detail}</span>
-                </span>
-                <span className={active ? 'badge badge-high' : 'badge badge-neutral'}>
-                  {active ? 'Yes' : 'No'}
-                </span>
-              </button>
-            )
-          })}
+                  <span className={active ? 'badge badge-info' : 'badge badge-neutral'}>
+                    {active ? 'Yes' : 'No'}
+                  </span>
+                </button>
+              )
+            })}
+          </div>
         </div>
 
-        <div>
+        <div className="pd-form-section">
+          <div className="pd-form-section-title">Allergies</div>
+          {profile.allergies.length > 0 && (
+            <div className="pd-allergy-chips">
+              {profile.allergies.map((a) => (
+                <span
+                  key={a}
+                  className="badge badge-safe"
+                  style={{ textTransform: 'none', fontSize: '0.76rem' }}
+                >
+                  {a}
+                </span>
+              ))}
+            </div>
+          )}
           <label className="section-label" htmlFor="allergy-input" style={{ display: 'block', marginBottom: 6 }}>
             Allergies (comma-separated)
           </label>

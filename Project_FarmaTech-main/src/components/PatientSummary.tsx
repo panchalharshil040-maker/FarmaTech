@@ -19,7 +19,7 @@ export default function PatientSummary({ record, result }: Props) {
     <section className="card">
       <div className="card-head no-print">
         <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-          <FileText size={18} style={{ color: 'var(--brand)' }} />
+          <FileText size={18} style={{ color: 'var(--color-health-teal)' }} />
           <div>
             <h2 className="card-title">Patient Summary Report</h2>
             <p className="card-sub">Built from the active patient record and the latest backend result.</p>

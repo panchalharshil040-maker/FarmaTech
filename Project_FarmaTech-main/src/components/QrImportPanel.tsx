@@ -137,7 +137,7 @@ export default function QrImportPanel({ onLoaded, compact = false }: Props) {
     <div className="card">
       <div className="card-head">
         <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-          <QrCode size={18} style={{ color: 'var(--brand)' }} />
+          <QrCode size={18} style={{ color: 'var(--color-health-teal)' }} />
           <div>
             <h2 className="card-title">Scan Patient QR</h2>
             <p className="card-sub">

@@ -2,7 +2,7 @@ import { ShieldCheck } from 'lucide-react'
 
 export function FooterDisclaimer() {
   return (
-    <p className="small" style={{ color: 'var(--text-muted)' }}>
+    <p className="small" style={{ color: 'var(--color-health-text-2)' }}>
       <ShieldCheck size={13} style={{ verticalAlign: '-2px', marginRight: 5 }} />
       Decision support only. Not a substitute for a doctor&rsquo;s or pharmacist&rsquo;s clinical judgment.
     </p>
@@ -26,24 +26,24 @@ export default function Footer() {
   return (
     <footer
       style={{
-        borderTop: '1px solid var(--border-base)',
-        background: 'var(--bg-surface)',
-        padding: '20px 0',
+        borderTop: '1px solid var(--color-health-border)',
+        background: 'var(--color-health-surface)',
+        padding: '12px 0',
       }}
     >
       <div className="container" style={{ textAlign: 'center' }}>
-        <p style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-strong)' }}>
-          MediGuard by PharmaTech — Clinical Decision Support &amp; Patient Safety
+        <p style={{ fontSize: '0.84rem', fontWeight: 700, color: 'var(--color-health-text)', margin: 0 }}>
+          FarmaTech — Medication Safety Decision Support
         </p>
-        <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 4 }}>
-          Decision support only. Not a substitute for a doctor&rsquo;s or pharmacist&rsquo;s clinical judgment.
-        </p>
-        <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: 2 }}>
-          Simulation only. Final medication decisions remain with the doctor/pharmacist.
-        </p>
-        <p style={{ fontSize: '0.7rem', color: '#94a3b8', marginTop: 6 }}>
-          Safety findings are produced only by the deterministic medication-safety engine and verified
-          databases. The AI explanation layer does not create or modify them.
+        <p
+          style={{
+            fontSize: '0.82rem',
+            color: 'var(--color-health-text-2)',
+            margin: '3px 0 0',
+            lineHeight: 1.45,
+          }}
+        >
+          For clinical decision support only. Medication decisions remain with the doctor or pharmacist.
         </p>
       </div>
     </footer>

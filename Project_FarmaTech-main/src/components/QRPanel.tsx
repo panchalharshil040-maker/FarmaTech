@@ -49,7 +49,7 @@ export default function QRPanel({ record }: Props) {
       <section className="card">
         <div className="card-head">
           <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-            <QrCode size={18} style={{ color: 'var(--brand)' }} />
+            <QrCode size={18} style={{ color: 'var(--color-health-teal)' }} />
             <h2 className="card-title">QR Patient Record</h2>
           </div>
         </div>
@@ -67,7 +67,7 @@ export default function QRPanel({ record }: Props) {
     <section className="card">
       <div className="card-head">
         <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-          <QrCode size={18} style={{ color: 'var(--brand)' }} />
+          <QrCode size={18} style={{ color: 'var(--color-health-teal)' }} />
           <div>
             <h2 className="card-title">QR Patient Record</h2>
             <p className="card-sub">
@@ -88,17 +88,8 @@ export default function QRPanel({ record }: Props) {
 
         {token && (
           <div className="data-row" style={{ alignItems: 'flex-start', gap: 18 }}>
-            <div
-              style={{
-                background: 'var(--color-bg-surface)',
-                border: '1px solid var(--color-border-subtle)',
-                borderRadius: 'var(--radius-md)',
-                padding: 12,
-                textAlign: 'center',
-                flexShrink: 0,
-              }}
-            >
-              <QRCodeSVG value={token} size={168} level="M" includeMargin={false} />
+            <div className="pd-qr-frame">
+              <QRCodeSVG value={token} size={168} level="M" includeMargin={false} bgColor="#ffffff" />
               <div className="eyebrow" style={{ marginTop: 6, fontSize: '0.58rem' }}>
                 Scan for clinical data
               </div>
@@ -108,7 +99,7 @@ export default function QRPanel({ record }: Props) {
               <div className="eyebrow" style={{ marginBottom: 6 }}>
                 Encoded record
               </div>
-              <p className="small" style={{ color: 'var(--text-body)', lineHeight: 1.5 }}>
+              <p className="small" style={{ color: 'var(--color-health-text-2)', lineHeight: 1.5 }}>
                 <b>Patient:</b> {record.name || 'Unnamed'} {record.patientId ? `(${record.patientId})` : ''}
                 <br />
                 <b>Medications ({record.medicines.length}):</b>{' '}

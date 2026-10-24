@@ -311,7 +311,7 @@ export default function App() {
       <div className="auth-loading">
         <div className="auth-loading-inner">
           <div className="auth-loading-mark">
-            <HeartPulse size={26} color="#ffffff" />
+            <HeartPulse size={26} aria-hidden />
           </div>
           <span className="auth-loading-text">Restoring your session…</span>
         </div>
@@ -326,6 +326,7 @@ export default function App() {
   /* Authenticated: role is the backend-verified account role; nothing here
      can change it. */
   const role = auth.role
+  const fullName = (auth.fullName ?? '').trim()
 
   return (
     <>
@@ -338,29 +339,23 @@ export default function App() {
       />
       <main className="page">
         <div className="container">
-          <div style={{ marginBottom: 22 }}>
-            <span className="eyebrow">
-              {role === 'doctor' ? 'Doctor Dashboard' : 'Patient Dashboard'}
-            </span>
-            <h2
-              style={{
-                fontSize: '1.5rem',
-                fontWeight: 800,
-                color: 'var(--text-strong)',
-                letterSpacing: '-0.02em',
-                marginTop: 2,
-              }}
-            >
-              {role === 'doctor'
-                ? 'Clinical Medication Safety Review'
-                : 'My Medication Safety Information'}
-            </h2>
-            <p className="small muted" style={{ marginTop: 4, maxWidth: 760, lineHeight: 1.55 }}>
-              {role === 'doctor'
-                ? 'Enter a patient record, run the Safety Check, then use the What-if Simulator to compare proposed changes. The deterministic engine produces every finding.'
-                : 'View your medications, allergies and the verified safety information for your record.'}
-            </p>
-          </div>
+          {/* Doctor intro stays here; the patient welcome lives inside
+              PatientDashboard so the patient layout owns its full structure. */}
+          {role === 'doctor' && (
+            <div className="dash-intro">
+              <span className="eyebrow dash-intro-eyebrow">Doctor Dashboard</span>
+              <h2 className="dash-intro-title">Clinical Medication Safety Review</h2>
+              {fullName && (
+                <p className="dash-intro-sub" style={{ marginTop: 2 }}>
+                  Signed in as <b>{fullName}</b>
+                </p>
+              )}
+              <p className="dash-intro-sub">
+                Enter a patient record, run the Safety Check, then test proposed changes in the What-if
+                Simulator. Every finding comes from the deterministic engine.
+              </p>
+            </div>
+          )}
 
           {role === 'doctor' ? (
             <DoctorDashboard
@@ -380,6 +375,7 @@ export default function App() {
           ) : (
             <PatientDashboard
               record={record}
+              patientName={fullName}
               loadedNotice={loadedNotice}
               onLoadRecord={loadRecord}
               onEditRecord={editRecord}

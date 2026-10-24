@@ -1,0 +1,1947 @@
+/* ══════════════════════════════════════════════════════════════════
+   MediGuard dashboard — SCOPED styles.
+
+   Every selector is prefixed (app- / dash- / pd- / dd- / risk-) so nothing
+   here can reach the authentication screens or shared primitives.
+   Colors come only from the shared --color-health-* tokens in
+   index.css, which flip with the existing data-theme dark mode.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ─── App header ──────────────────────────────────────────────────── */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--color-health-surface);
+  border-bottom: 1px solid var(--color-health-border);
+}
+
+.app-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+}
+
+.app-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.app-brand-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--color-health-teal);
+  color: var(--color-health-mark-fg);
+  box-shadow: 0 4px 12px rgba(22, 125, 114, 0.2);
+}
+
+.app-brand-name {
+  font-size: 1.16rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--color-health-text);
+}
+
+.app-brand-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.app-brand-tag {
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-health-border);
+  background: var(--color-health-teal-soft);
+  color: var(--color-health-teal);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.app-brand-sub {
+  margin-top: 2px;
+  font-size: 0.7rem;
+  color: var(--color-health-text-2);
+  letter-spacing: 0.01em;
+}
+
+.app-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.app-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 11px;
+  border: 1px solid var(--color-health-border);
+  border-radius: var(--radius-full);
+  background: var(--color-health-elevated);
+  color: var(--color-health-text);
+  font-size: 0.74rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.app-pill-label {
+  color: var(--color-health-text-2);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.app-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-left: 10px;
+  border: 1px solid var(--color-health-border);
+  border-radius: var(--radius-full);
+  background: var(--color-health-elevated);
+  color: var(--color-health-text-2);
+}
+
+.app-lang select {
+  width: auto;
+  padding: 6px 6px 6px 0;
+  border: none;
+  background: transparent;
+  color: var(--color-health-text);
+  font-size: 0.78rem;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+}
+
+.app-engine {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-health-success-border);
+  background: var(--color-health-success-soft);
+  color: var(--color-health-success);
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.app-engine--down {
+  border-color: var(--color-health-error-border);
+  background: var(--color-health-error-soft);
+  color: var(--color-health-error);
+}
+
+/* ─── Dashboard intro (shared by both roles) ──────────────────────── */
+.dash-intro {
+  margin-bottom: var(--space-5);
+  max-width: 760px;
+}
+
+.dash-intro-eyebrow {
+  color: var(--color-health-teal);
+}
+
+.dash-intro-title {
+  margin-top: 3px;
+  font-size: var(--text-h1);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--color-health-text);
+}
+
+.dash-intro-sub {
+  margin-top: 5px;
+  font-size: var(--text-small);
+  line-height: 1.55;
+  color: var(--color-health-text-2);
+}
+
+/* ─── Patient: empty onboarding state ─────────────────────────────── */
+.pd-empty {
+  background:
+    radial-gradient(560px 260px at 82% -10%, rgba(169, 199, 184, 0.28), transparent 70%),
+    var(--color-health-surface);
+}
+
+.pd-empty-pad {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  padding: var(--space-8) var(--space-5);
+  text-align: center;
+}
+
+.pd-empty-mark {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: var(--color-health-teal-soft);
+  border: 1px solid var(--color-health-border);
+  color: var(--color-health-teal);
+}
+
+.pd-empty-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  color: var(--color-health-text);
+}
+
+.pd-empty-text {
+  max-width: 520px;
+  font-size: var(--text-small);
+  line-height: 1.55;
+  color: var(--color-health-text-2);
+}
+
+.pd-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+}
+
+/* ─── Patient: record strip ───────────────────────────────────────── */
+.pd-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-health-surface);
+}
+
+.pd-strip-id {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.pd-strip-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--color-health-teal-soft);
+  border: 1px solid var(--color-health-border);
+  color: var(--color-health-teal);
+}
+
+.pd-strip-name {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--color-health-text);
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.pd-strip-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-5);
+  margin: 0;
+}
+
+.pd-strip-fact {
+  min-width: 0;
+}
+
+.pd-strip-fact dt {
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--color-health-text-2);
+}
+
+.pd-strip-fact dd {
+  margin: 1px 0 0;
+  font-size: var(--text-small);
+  font-weight: 700;
+  color: var(--color-health-text);
+  overflow-wrap: anywhere;
+}
+
+/* ─── Patient: safety call-to-action band ─────────────────────────── */
+.pd-cta {
+  background:
+    radial-gradient(640px 220px at 90% -20%, rgba(22, 125, 114, 0.12), transparent 70%),
+    var(--color-health-teal-soft);
+  border-color: var(--color-health-border);
+}
+
+.pd-cta-pad {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  padding: var(--space-6) var(--space-5);
+  text-align: center;
+}
+
+.pd-cta-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: var(--color-health-teal);
+  color: var(--color-health-mark-fg);
+  box-shadow: 0 6px 16px rgba(22, 125, 114, 0.22);
+}
+
+.pd-cta-title {
+  font-size: 1.06rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--color-health-text);
+}
+
+.pd-cta-text {
+  max-width: 520px;
+  font-size: var(--text-small);
+  line-height: 1.55;
+  color: var(--color-health-text-2);
+}
+
+.pd-cta-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pd-cta-btn {
+  width: 100%;
+  max-width: 340px;
+}
+
+.pd-cta-count {
+  font-size: var(--text-small);
+  color: var(--color-health-text-2);
+}
+
+/* ─── Patient: medicine list ──────────────────────────────────────── */
+.pd-meds {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.pd-meds-empty {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  padding: var(--space-6) var(--space-4);
+  border: 1px dashed var(--color-health-border-2);
+  border-radius: var(--radius-md);
+  background: var(--color-health-elevated);
+  text-align: center;
+  color: var(--color-health-text-2);
+  font-size: var(--text-small);
+}
+
+.pd-med-list {
+  list-style: none;
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+}
+
+.pd-med {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-health-border);
+  border-radius: var(--radius-md);
+  background: var(--color-health-surface);
+}
+
+.pd-med--review {
+  border-color: var(--color-health-warning-border);
+  background: var(--color-health-warning-soft);
+}
+
+.pd-med-main {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  min-width: 0;
+  flex: 1;
+}
+
+.pd-med-icon {
+  flex-shrink: 0;
+  margin-top: 3px;
+  color: var(--color-health-teal);
+}
+
+.pd-med--review .pd-med-icon {
+  color: var(--color-health-warning);
+}
+
+.pd-med-body {
+  min-width: 0;
+  flex: 1;
+}
+
+.pd-med-title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.pd-med-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 2px var(--space-4);
+  margin-top: 4px;
+  font-size: var(--text-small);
+  color: var(--color-health-text-2);
+  line-height: 1.45;
+}
+
+.pd-med-details b {
+  display: block;
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-health-text-2);
+}
+
+.pd-med-action {
+  flex-shrink: 0;
+}
+
+/* ─── Patient: health information form ────────────────────────────── */
+.pd-form-section + .pd-form-section {
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-health-border);
+}
+
+.pd-form-section-title {
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-health-text-2);
+  margin-bottom: var(--space-3);
+}
+
+.pd-cond {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  text-align: left;
+  cursor: pointer;
+}
+
+.pd-cond-active {
+  border-color: var(--color-health-teal);
+  background: var(--color-health-teal-soft);
+}
+
+.pd-cond-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-health-text);
+}
+
+.pd-allergy-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: var(--space-2);
+}
+
+/* ─── Safety summary (risk) ───────────────────────────────────────── */
+.risk-summary-body {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+}
+
+.risk-summary-main {
+  flex: 1;
+  min-width: 250px;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.pd-count-chips {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+}
+
+.pd-count-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-health-border);
+  background: var(--color-health-elevated);
+  color: var(--color-health-text-2);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.pd-count-chip b {
+  font-weight: 800;
+  color: var(--color-health-text);
+}
+
+.pd-count-chip--high {
+  border-color: var(--color-health-error-border);
+  background: var(--color-health-error-soft);
+  color: var(--color-health-error);
+}
+
+.pd-count-chip--high b {
+  color: var(--color-health-error);
+}
+
+.pd-count-chip--moderate {
+  border-color: var(--color-health-warning-border);
+  background: var(--color-health-warning-soft);
+  color: var(--color-health-warning);
+}
+
+.pd-count-chip--moderate b {
+  color: var(--color-health-warning);
+}
+
+/* Risk-level text colours (used by gauge / summary values) */
+.risk-text-high {
+  color: var(--color-health-error);
+}
+.risk-text-moderate,
+.risk-text-low {
+  color: var(--color-health-warning);
+}
+.risk-text-none {
+  color: var(--color-health-success);
+}
+
+/* ─── QR pass ─────────────────────────────────────────────────────── */
+.pd-qr-frame {
+  background: #ffffff;
+  border: 1px solid var(--color-health-border);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* ─── Clinician: patient context strip ────────────────────────────── */
+.dd-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-health-surface);
+}
+
+.dd-strip-id {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.dd-strip-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--color-health-teal-soft);
+  border: 1px solid var(--color-health-border);
+  color: var(--color-health-teal);
+}
+
+.dd-strip-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  margin: 0;
+}
+
+.dd-strip-fact {
+  min-width: 0;
+}
+
+.dd-strip-fact dt {
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--color-health-text-2);
+}
+
+.dd-strip-fact dd {
+  margin: 1px 0 0;
+  font-size: var(--text-small);
+  font-weight: 700;
+  color: var(--color-health-text);
+  overflow-wrap: anywhere;
+}
+
+.dd-strip-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.dd-strip-actions {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+/* ─── Clinician: QR-load toggle row (onboarding) ──────────────────── */
+.dd-or-pad {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.dd-or-copy {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  min-width: 0;
+  flex: 1;
+}
+
+.dd-or-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--color-health-teal-soft);
+  border: 1px solid var(--color-health-border);
+  color: var(--color-health-teal);
+}
+
+.dd-or-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-health-text);
+}
+
+.dd-or-text {
+  margin-top: 2px;
+  font-size: var(--text-small);
+  line-height: 1.5;
+  color: var(--color-health-text-2);
+}
+
+/* ─── Clinician: summary report + QR pass side by side ────────────── */
+.dd-outputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr));
+  gap: var(--space-4);
+  align-items: start;
+}
+
+/* ─── Responsive ──────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .app-header-inner {
+    padding: var(--space-2) 0;
+  }
+
+  .app-brand-sub {
+    display: none;
+  }
+
+  .pd-empty-pad {
+    padding: var(--space-6) var(--space-4);
+  }
+
+  .pd-strip {
+    padding: var(--space-4);
+  }
+
+  .dd-strip {
+    padding: var(--space-4);
+  }
+
+  .dd-outputs {
+    grid-template-columns: 1fr;
+  }
+
+  .pd-cta-pad {
+    padding: var(--space-5) var(--space-4);
+  }
+
+  .pd-med {
+    padding: var(--space-3);
+  }
+
+  .risk-summary-body {
+    gap: var(--space-4);
+  }
+}
+
+@media (max-width: 480px) {
+  .app-brand-tag {
+    display: none;
+  }
+
+  .dd-or-pad .btn {
+    width: 100%;
+  }
+
+  .dd-strip-actions .btn {
+    width: 100%;
+  }
+
+  .pd-empty-actions .btn {
+    width: 100%;
+  }
+
+  .pd-med-action {
+    width: 100%;
+  }
+
+  .pd-med-action .btn {
+    width: 100%;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   PATIENT DASHBOARD REDESIGN — SCOPED under .pd-root / .pd-*.
+   Visual-first, large readable text, generous touch targets.
+   Nothing here applies outside the patient dashboard tree, so the
+   Doctor Dashboard and shared primitives are unaffected.
+   ═══════════════════════════════════════════════════════════════════ */
+
+.pd-root {
+  font-size: 1.0625rem;
+}
+
+/* Readable body text for elderly patients (scoped — shared classes stay
+   at their default size everywhere else). */
+.pd-root .card-sub,
+.pd-root .notice,
+.pd-root .med-field,
+.pd-root .small {
+  font-size: 1rem;
+}
+
+.pd-root .eyebrow,
+.pd-root .section-label {
+  font-size: 0.75rem;
+}
+
+/* Large, easy-to-select buttons. */
+.pd-root .btn:not(.btn-sm) {
+  min-height: 48px;
+  font-size: 1rem;
+}
+
+.pd-root .btn-sm {
+  min-height: 40px;
+  font-size: 0.875rem;
+  padding: var(--space-2) var(--space-3);
+}
+
+.pd-root .field {
+  font-size: 1rem;
+  padding: var(--space-3);
+}
+
+/* ─── Welcome ─────────────────────────────────────────────────────── */
+.pd-welcome {
+  max-width: 720px;
+}
+
+.pd-welcome-title {
+  margin-top: 3px;
+  font-size: var(--text-h1);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--color-health-text);
+}
+
+.pd-lead {
+  margin-top: 5px;
+  font-size: 1.125rem;
+  line-height: 1.55;
+  color: var(--color-health-text-2);
+}
+
+/* ─── Onboarding (no record) ──────────────────────────────────────── */
+.pd-onboard {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: var(--space-4) var(--space-5);
+}
+
+.pd-onboard-copy {
+  flex: 1;
+  min-width: 240px;
+}
+
+.pd-onboard-copy .pd-lead {
+  margin-top: 4px;
+}
+
+.pd-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+/* ─── Health summary cards ────────────────────────────────────────── */
+.pd-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(235px, 1fr));
+  gap: var(--space-4);
+}
+
+.pd-stat {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--color-health-surface);
+  border: 1px solid var(--color-health-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  min-width: 0;
+}
+
+.pd-stat--warning {
+  border-color: var(--color-health-warning-border);
+  background: var(--color-health-warning-soft);
+}
+
+.pd-stat--danger {
+  border-color: var(--color-health-error-border);
+  background: var(--color-health-error-soft);
+}
+
+.pd-stat--info {
+  border-color: var(--color-health-accent-border);
+  background: var(--color-health-accent-soft);
+}
+
+.pd-stat-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--color-health-teal-soft);
+  color: var(--color-health-teal);
+}
+
+.pd-stat-icon--warning {
+  background: var(--color-health-warning-soft);
+  color: var(--color-health-warning);
+}
+
+.pd-stat--warning .pd-stat-icon--warning {
+  background: var(--color-health-surface);
+}
+
+.pd-stat-icon--danger {
+  background: var(--color-health-error-soft);
+  color: var(--color-health-error);
+}
+
+.pd-stat--danger .pd-stat-icon--danger {
+  background: var(--color-health-surface);
+}
+
+.pd-stat-icon--info {
+  background: var(--color-health-accent-soft);
+  color: var(--color-health-accent);
+}
+
+.pd-stat--info .pd-stat-icon--info {
+  background: var(--color-health-surface);
+}
+
+.pd-stat-body {
+  min-width: 0;
+}
+
+.pd-stat-label {
+  color: var(--color-health-text-2);
+}
+
+.pd-stat-value {
+  margin-top: 2px;
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--color-health-text);
+  overflow-wrap: anywhere;
+}
+
+.pd-stat--danger .pd-stat-value {
+  color: var(--color-health-error);
+}
+
+.pd-stat--warning .pd-stat-value {
+  color: var(--color-health-warning);
+}
+
+.pd-stat-sub {
+  margin-top: 3px;
+  font-size: 0.98rem;
+  line-height: 1.45;
+  color: var(--color-health-text-2);
+  overflow-wrap: anywhere;
+}
+
+/* ─── Quick actions ───────────────────────────────────────────────── */
+.pd-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+  gap: var(--space-3);
+}
+
+.pd-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  min-height: 68px;
+  background: var(--color-health-surface);
+  border-color: var(--color-health-border);
+  color: var(--color-health-text);
+  text-align: left;
+}
+
+.pd-action-btn:hover:not(:disabled) {
+  background: var(--color-health-teal-soft);
+  border-color: var(--color-health-teal);
+}
+
+.pd-action-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--color-health-teal-soft);
+  color: var(--color-health-teal);
+}
+
+.pd-action-btn:hover:not(:disabled) .pd-action-icon {
+  background: var(--color-health-surface);
+}
+
+.pd-action-copy {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.pd-action-title {
+  font-size: 1.02rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.pd-action-sub {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--color-health-text-2);
+  line-height: 1.35;
+}
+
+/* ─── Sections (scroll targets for quick actions) ─────────────────── */
+.pd-section {
+  scroll-margin-top: 88px;
+}
+
+.pd-section:focus {
+  outline: none;
+}
+
+.pd-head-copy {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.pd-head-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--color-health-teal-soft);
+  border: 1px solid var(--color-health-border);
+  color: var(--color-health-teal);
+}
+
+.pd-head-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+/* ─── Safety section ──────────────────────────────────────────────── */
+.pd-safety-body,
+.pd-food-body,
+.pd-info-body {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.pd-state-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--color-health-text-2);
+}
+
+.pd-state-row .pd-lead {
+  margin-top: 0;
+}
+
+.pd-risk-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.pd-risk-score {
+  font-size: 1rem;
+  color: var(--color-health-text-2);
+}
+
+.pd-risk-score b {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--color-health-text);
+}
+
+.pd-finding {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--color-health-border);
+  border-left: 4px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-health-surface);
+}
+
+.pd-finding-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.pd-finding-title {
+  text-transform: none;
+  overflow-wrap: anywhere;
+}
+
+.pd-finding-mech {
+  font-size: 1.02rem;
+  line-height: 1.5;
+  color: var(--color-health-text-2);
+}
+
+.pd-finding-next {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-health-text);
+  padding-top: var(--space-2);
+  border-top: 1px dashed var(--color-health-border);
+}
+
+.pd-finding-next b {
+  color: var(--color-health-teal);
+}
+
+.pd-disclaimer-line {
+  text-align: center;
+  font-style: italic;
+}
+
+/* ─── Medicines list tweaks ───────────────────────────────────────── */
+.pd-root .pd-med {
+  padding: var(--space-4);
+}
+
+.pd-root .pd-med-details {
+  font-size: 0.98rem;
+}
+
+/* ─── Health information ──────────────────────────────────────────── */
+.pd-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.pd-fact {
+  min-width: 0;
+}
+
+.pd-fact dt {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--color-health-text-2);
+}
+
+.pd-fact dd {
+  margin: 2px 0 0;
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--color-health-text);
+  overflow-wrap: anywhere;
+}
+
+.pd-info-group .eyebrow {
+  margin-bottom: var(--space-2);
+}
+
+.pd-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.pd-chips .badge {
+  font-size: 0.8rem;
+  padding: 6px 10px;
+}
+
+/* ─── Food guidance ───────────────────────────────────────────────── */
+.pd-food-item {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--color-health-warning-border);
+  border-radius: var(--radius-md);
+  background: var(--color-health-warning-soft);
+}
+
+.pd-food-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.pd-food-with {
+  font-size: 0.98rem;
+  color: var(--color-health-text-2);
+}
+
+.pd-food-warning {
+  font-size: 1.02rem;
+  line-height: 1.5;
+  color: var(--color-health-text);
+}
+
+/* ─── Patient-dashboard responsive ────────────────────────────────── */
+@media (max-width: 768px) {
+  .pd-onboard {
+    flex-direction: column;
+  }
+
+  .pd-onboard .pd-empty-actions {
+    width: 100%;
+  }
+
+  .pd-summary-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .pd-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .pd-head-actions {
+    width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .pd-summary-grid,
+  .pd-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .pd-action-btn {
+    width: 100%;
+  }
+}
+
+/* ─── Reduced motion ──────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .pd-root *,
+  .pd-root *::before,
+  .pd-root *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   DOCTOR DASHBOARD REDESIGN (dd-) — clinical workspace hierarchy
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ─── Typography scope (~16px body, larger controls) ─────────────── */
+.dd-root {
+  font-size: 1rem;
+}
+
+.dd-root .card-sub,
+.dd-root .notice,
+.dd-root .small {
+  font-size: 1rem;
+}
+
+.dd-root .med-field {
+  font-size: 0.95rem;
+}
+
+.dd-root .eyebrow,
+.dd-root .section-label {
+  font-size: 0.75rem;
+}
+
+.dd-root .btn:not(.btn-sm) {
+  min-height: 44px;
+  font-size: 0.96875rem;
+}
+
+.dd-root .btn-sm {
+  min-height: 36px;
+  font-size: 0.875rem;
+}
+
+/* Visible focus for keyboard users across the workspace */
+.dd-root a:focus-visible,
+.dd-root button:focus-visible,
+.dd-root input:focus-visible,
+.dd-root select:focus-visible,
+.dd-root textarea:focus-visible,
+.dd-root [tabindex]:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* ─── Review overview (record & backend status at a glance) ──────── */
+.dd-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+  gap: var(--space-4);
+}
+
+.dd-stat {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-health-surface);
+  border: 1px solid var(--color-health-border);
+  border-radius: var(--radius-md);
+  box-shadow: none;
+  min-width: 0;
+}
+
+.dd-stat-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--color-health-teal-soft);
+  border: 1px solid var(--color-health-border);
+  color: var(--color-health-teal);
+}
+
+.dd-stat-icon--info {
+  background: var(--color-health-accent-soft);
+  border-color: var(--color-health-accent-border);
+  color: var(--color-health-accent);
+}
+
+.dd-stat-icon--warning {
+  background: var(--color-health-warning-soft);
+  border-color: var(--color-health-warning-border);
+  color: var(--color-health-warning);
+}
+
+.dd-stat-icon--danger {
+  background: var(--color-health-error-soft);
+  border-color: var(--color-health-error-border);
+  color: var(--color-health-error);
+}
+
+.dd-stat--warning {
+  border-color: var(--color-health-warning-border);
+}
+
+.dd-stat--danger {
+  border-color: var(--color-health-error-border);
+}
+
+.dd-stat-body {
+  min-width: 0;
+}
+
+.dd-stat-label {
+  margin-bottom: 2px;
+}
+
+.dd-stat-value {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--color-health-text);
+  overflow-wrap: anywhere;
+}
+
+.dd-stat--warning .dd-stat-value {
+  color: var(--color-health-warning);
+}
+
+.dd-stat--danger .dd-stat-value {
+  color: var(--color-health-error);
+}
+
+.dd-stat-sub {
+  margin: 4px 0 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--color-health-text-2);
+}
+
+/* ─── Safety workflow (CTA + results) ────────────────────────────── */
+.dd-safety {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.dd-cta {
+  border-color: var(--color-health-border-2);
+}
+
+.dd-cta-pad {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-5);
+}
+
+.dd-cta-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--color-health-teal-soft);
+  border: 1px solid var(--color-health-border);
+  color: var(--color-health-teal);
+}
+
+.dd-cta-icon--loading {
+  background: var(--color-health-accent-soft);
+  border-color: var(--color-health-accent-border);
+  color: var(--color-health-accent);
+}
+
+.dd-cta-copy {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.dd-cta-title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--color-health-text);
+}
+
+.dd-cta-text {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-health-text-2);
+}
+
+.dd-cta-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  margin: 2px 0 0;
+  padding: 0;
+}
+
+.dd-cta-action {
+  display: grid;
+  gap: var(--space-2);
+  justify-items: stretch;
+  min-width: 220px;
+  flex-shrink: 0;
+}
+
+.dd-cta-btn {
+  width: 100%;
+}
+
+.dd-cta-count {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--color-health-text-2);
+  text-align: center;
+}
+
+/* ─── Priority findings (major / contraindicated) ─────────────────── */
+.dd-priority {
+  border-color: var(--color-health-error-border);
+}
+
+.dd-head {
+  align-items: flex-start;
+}
+
+.dd-head-copy {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.dd-head-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--color-health-teal-soft);
+  border: 1px solid var(--color-health-border);
+  color: var(--color-health-teal);
+}
+
+.dd-head-icon--danger {
+  background: var(--color-health-error-soft);
+  border-color: var(--color-health-error-border);
+  color: var(--color-health-error);
+}
+
+.dd-priority-list {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.dd-priority-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--color-health-error-border);
+  border-left: 4px solid var(--color-health-error);
+  border-radius: var(--radius-md);
+  background: var(--color-health-error-soft);
+}
+
+.dd-priority-body {
+  min-width: 0;
+  flex: 1;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.dd-priority-title {
+  text-transform: none;
+  font-size: 1rem;
+  overflow-wrap: anywhere;
+}
+
+.dd-priority-mech {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-health-text-2);
+}
+
+.dd-priority-next {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: var(--color-health-text);
+  padding-top: var(--space-2);
+  border-top: 1px dashed var(--color-health-error-border);
+}
+
+.dd-priority-next b {
+  color: var(--color-health-error);
+}
+
+/* ─── Food summary rows + disclosure (doctor) ────────────────────── */
+.dd-food-list {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.dd-food-item {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-health-warning-border);
+  border-radius: var(--radius-md);
+  background: var(--color-health-warning-soft);
+}
+
+.dd-food-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.dd-food-med {
+  font-size: 1rem;
+}
+
+.dd-food-with {
+  font-size: 0.95rem;
+  color: var(--color-health-text-2);
+}
+
+.dd-food-warn {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-health-text);
+}
+
+.dd-disclosure {
+  justify-self: start;
+}
+
+/* ─── Compact medication rows (PatientRecordPanel) ────────────────── */
+.dd-med-list {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.dd-med-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-health-border);
+  border-radius: var(--radius-md);
+  background: var(--color-health-surface);
+  min-width: 0;
+}
+
+.dd-med-row--review {
+  border-color: var(--color-health-warning-border);
+  background: var(--color-health-warning-soft);
+}
+
+.dd-med-icon {
+  color: var(--color-health-teal);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.dd-med-body {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.dd-med-title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.dd-med-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-2) var(--space-4);
+  font-size: 0.95rem;
+  color: var(--color-health-text-2);
+}
+
+.dd-med-meta b {
+  color: var(--color-health-text);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-right: 4px;
+}
+
+.dd-med-empty {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  text-align: center;
+  padding: var(--space-6);
+}
+
+.dd-med-empty svg {
+  color: var(--color-health-text-2);
+}
+
+.dd-med-empty-title {
+  font-weight: 600;
+  color: var(--color-health-text);
+}
+
+.dd-disclaimer {
+  text-align: center;
+  font-style: italic;
+}
+
+/* ─── Doctor-dashboard responsive ─────────────────────────────────── */
+@media (max-width: 900px) {
+  .dd-cta-pad {
+    flex-wrap: wrap;
+  }
+
+  .dd-cta-action {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .dd-cta-pad {
+    padding: var(--space-4);
+  }
+
+  .dd-overview {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .dd-priority-item {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 560px) {
+  .dd-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .dd-stat {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .dd-cta-btn {
+    width: 100%;
+  }
+}
+
+/* ─── Doctor-dashboard reduced motion ────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .dd-root *,
+  .dd-root *::before,
+  .dd-root *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   MEDICATION OPTIMIZATION (mmo-) — compact simulation workspace
+   ══════════════════════════════════════════════════════════════════════ */
+.mmo-body {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.mmo-editor {
+  border: 1px solid var(--color-health-border);
+  background: var(--color-bg-surface);
+  border-radius: var(--radius-md);
+  min-width: 0;
+}
+
+.mmo-editor-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding: var(--space-3) var(--space-4) 0;
+}
+
+.mmo-editor-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--color-health-text);
+}
+
+.mmo-editor-body {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  min-width: 0;
+}
+
+.mmo-empty {
+  margin: 0;
+}
+
+/* Current vs proposed summary — one strip, no nested stat cards */
+.mmo-compare {
+  display: flex;
+  align-items: stretch;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-health-border);
+  border-radius: var(--radius-md);
+  background: var(--color-health-surface);
+  min-width: 0;
+}
+
+.mmo-side {
+  flex: 1;
+  min-width: 150px;
+  display: grid;
+  gap: 4px;
+  align-content: start;
+}
+
+.mmo-score {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--color-health-text);
+  overflow-wrap: anywhere;
+}
+
+.mmo-score-out {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-health-text-2);
+}
+
+.mmo-side-badges {
+  margin: 0;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.mmo-side-note {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--color-health-text-2);
+}
+
+.mmo-arrow {
+  align-self: center;
+  color: var(--color-health-text-2);
+  flex-shrink: 0;
+}
+
+.mmo-delta {
+  display: grid;
+  gap: 6px;
+  align-content: center;
+  justify-items: start;
+  padding-left: var(--space-3);
+  border-left: 1px dashed var(--color-health-border);
+  min-width: 110px;
+}
+
+.mmo-compare-note {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--color-health-text-2);
+}
+
+.mmo-results {
+  display: grid;
+  gap: var(--space-3);
+}
+
+/* Three compact comparison columns */
+.mmo-cols {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.mmo-col {
+  border: 1px solid var(--color-health-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-surface);
+  padding: var(--space-3) var(--space-4);
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+  min-width: 0;
+}
+
+.mmo-col-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.mmo-col-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 6px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.mmo-col-count--low {
+  background: var(--color-health-success-soft);
+  color: var(--color-health-success);
+}
+
+.mmo-col-count--moderate {
+  background: var(--color-health-warning-soft);
+  color: var(--color-health-warning);
+}
+
+.mmo-col-count--high {
+  background: var(--color-health-error-soft);
+  color: var(--color-health-error);
+}
+
+.mmo-col-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-health-text);
+}
+
+.mmo-col-hint {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--color-health-text-2);
+}
+
+/* ─── Medication-optimization responsive ─────────────────────────── */
+@media (max-width: 900px) {
+  .mmo-cols {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .mmo-delta {
+    border-left: none;
+    border-top: 1px dashed var(--color-health-border);
+    padding-left: 0;
+    padding-top: var(--space-2);
+    width: 100%;
+    justify-items: start;
+  }
+
+  .mmo-arrow {
+    display: none;
+  }
+}
+
+/* ─── Medication-optimization reduced motion ─────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .mmo-body *,
+  .mmo-editor *,
+  .mmo-compare *,
+  .mmo-col * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

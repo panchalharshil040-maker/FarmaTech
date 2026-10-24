@@ -23,7 +23,7 @@ export default function AiExplanation({ explain, loading, unavailable }: Props) 
     <section className="card" style={{ borderColor: 'var(--color-info-border)' }}>
       <div className="card-head" style={{ background: 'var(--color-brand-soft)', borderRadius: 'var(--radius-lg) var(--radius-lg) 0 0' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 9, flexWrap: 'wrap' }}>
-          <Sparkles size={18} style={{ color: 'var(--brand)' }} />
+          <Sparkles size={18} style={{ color: 'var(--color-health-teal)' }} />
           <div>
             <h2 className="card-title">AI Explanation — Plain-Language Summary</h2>
             <p className="card-sub">
@@ -38,16 +38,15 @@ export default function AiExplanation({ explain, loading, unavailable }: Props) 
 
       <div className="card-pad" style={{ display: 'grid', gap: 12 }}>
         <div className="notice notice-warn">
-          The verified findings above come from the deterministic medication-safety engine. The text below
-          only restates them — it does not introduce new medical facts, change a severity or risk score, or
-          prescribe treatment.
+          The AI text below only restates the verified findings — it never creates findings, changes
+          severities or risk scores, or prescribes treatment.
         </div>
 
         {loading && <p className="small muted">Generating plain-language explanation of the verified findings…</p>}
 
         {explain && !loading && (
           <>
-            <p style={{ fontSize: '0.9rem', color: 'var(--text-body)', lineHeight: 1.55 }}>{explain.summary}</p>
+            <p style={{ fontSize: '0.9rem', color: 'var(--color-health-text-2)', lineHeight: 1.55 }}>{explain.summary}</p>
             {explain.explanations.length > 0 && (
               <div style={{ display: 'grid', gap: 8 }}>
                 {explain.explanations.map((ex, i) => (
