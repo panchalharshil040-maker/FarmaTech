@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Check, Pill, Plus, Search } from 'lucide-react'
 import { searchDrugs } from '../api'
 import type { DrugSearchResult } from '../types'
+import { checkDuplicateWarning, type DuplicateWarningMatch } from '../lib/duplicateWarning'
 
 interface Props {
   onSelect: (name: string) => void
@@ -32,8 +33,18 @@ export default function MedicineSearch({
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<DrugSearchResult[]>([])
   const [open, setOpen] = useState(false)
+  const [duplicateWarning, setDuplicateWarning] = useState<DuplicateWarningMatch | null>(null)
   const wrapperRef = useRef<HTMLDivElement>(null)
   const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
+  const autoAddTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
+  const dismissTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(autoAddTimerRef.current)
+      clearTimeout(dismissTimerRef.current)
+    }
+  }, [])
 
   useEffect(() => {
     if (query.trim().length < 1) {
@@ -68,9 +79,25 @@ export default function MedicineSearch({
   const commit = (name: string) => {
     const value = name.trim()
     if (!value) return
-    onSelect(value)
     setQuery('')
     setOpen(false)
+
+    const warning = checkDuplicateWarning(exclude, value)
+    if (warning) {
+      setDuplicateWarning(warning)
+      clearTimeout(autoAddTimerRef.current)
+      clearTimeout(dismissTimerRef.current)
+
+      autoAddTimerRef.current = setTimeout(() => {
+        onSelect(value)
+      }, 1200)
+
+      dismissTimerRef.current = setTimeout(() => {
+        setDuplicateWarning(null)
+      }, 9000)
+    } else {
+      onSelect(value)
+    }
   }
 
   return (
@@ -79,6 +106,28 @@ export default function MedicineSearch({
         <label className="section-label" style={{ display: 'block', marginBottom: 6 }}>
           {label}
         </label>
+      )}
+      {duplicateWarning && (
+        <div
+          className="notice notice-warn"
+          role="alert"
+          style={{
+            marginBottom: 10,
+            padding: '12px 14px',
+            borderRadius: '8px',
+          }}
+        >
+          <div style={{ fontWeight: 700, fontSize: '0.95rem', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span>⚠️</span>
+            <span>Possible Duplicate Medicine Entry</span>
+          </div>
+          <div style={{ marginBottom: 6, lineHeight: 1.5 }}>
+            You have added <strong>{duplicateWarning.med1}</strong> using its {duplicateWarning.type1} name and are now adding <strong>{duplicateWarning.med2}</strong> using its {duplicateWarning.type2} name. Both may contain the same active ingredient, potentially resulting in unintended duplicate dosing.
+          </div>
+          <div style={{ fontWeight: 500 }}>
+            Please verify your medicines.
+          </div>
+        </div>
       )}
       <div style={{ display: 'flex', gap: 8 }}>
         <div style={{ position: 'relative', flex: 1 }}>
